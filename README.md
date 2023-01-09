@@ -27,7 +27,7 @@ Solutions in this repository are divided into two categories:
 |   Sentiment Analysis       |  MobileBERT     |  [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](https://github.qualcomm.com/storage/user/15164/files/d6d1f345-b1fa-4cda-bd3e-e9f913af7263)   |
 |   Object Detection       |   Mobilenet SSD V2    | [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution1-ObjectDetection/README.md) |   [Demo](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
 |   Image Super Resolution       |   SESR XL    | [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
-|   Image Enhancement       |   EnhancedGAN    | [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
+|   Image Enhancement       |   EnhancedGAN    | [ReadMe](./VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
 
 
 ###### *Qualcomm Neural Processing SDK, and Qualcomm Innovators Development Kit are products of Qualcomm Technologies, Inc. and/or its subsidiaries. AIMET is a product of Qualcomm Innovation Center, Inc.*
