@@ -23,10 +23,10 @@ Solutions in this repository are divided into two categories:
 
 |   Solution   |   Model   |   ReadMe |  Demo   |
 |    :---:     |    :---:  |   :---:  |  :---:  |
-|   Question Answering       |  Electra-small     |  [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/NLPSolution1-QuestionAnswering/README.md) |   [Demo](https://github.qualcomm.com/storage/user/15164/files/390d6fff-3f02-4494-a648-9dc21f5435ce)   |
-|   Sentiment Analysis       |  MobileBERT     |  [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](https://github.qualcomm.com/storage/user/15164/files/d6d1f345-b1fa-4cda-bd3e-e9f913af7263)   |
-|   Object Detection       |   Mobilenet SSD V2    | [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution1-ObjectDetection/README.md) |   [Demo](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
-|   Image Super Resolution       |   SESR XL    | [ReadMe](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](https://github.qualcomm.com/rneti/QIDK/blob/master/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
+|   Question Answering       |  Electra-small     |  [ReadMe](./NLPSolution1-QuestionAnswering/README.md) |   [Demo]()   |
+|   Sentiment Analysis       |  MobileBERT     |  [ReadMe](./NLPSolution2-SentimentAnalysis/README.md)  |   [Demo]()   |
+|   Object Detection       |   Mobilenet SSD V2    | [ReadMe](./VisionSolution1-ObjectDetection/README.md) |   [Demo](./VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
+|   Image Super Resolution       |   SESR XL    | [ReadMe](./VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
 |   Image Enhancement       |   EnhancedGAN    | [ReadMe](./VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
 
 
