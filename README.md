@@ -23,8 +23,8 @@ Solutions in this repository are divided into two categories:
 
 |   Solution   |   Model   |   ReadMe |  Demo   |
 |    :---:     |    :---:  |   :---:  |  :---:  |
-|   Question Answering       |  Electra-small     |  [ReadMe](./NLPSolution1-QuestionAnswering/README.md) |   [Demo]()   |
-|   Sentiment Analysis       |  MobileBERT     |  [ReadMe](./NLPSolution2-SentimentAnalysis/README.md)  |   [Demo]()   |
+|   Question Answering       |  Electra-small     |  [ReadMe](./NLPSolution1-QuestionAnswering/README.md) |   [Demo](./NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
+|   Sentiment Analysis       |  MobileBERT     |  [ReadMe](./NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
 |   Object Detection       |   Mobilenet SSD V2    | [ReadMe](./VisionSolution1-ObjectDetection/README.md) |   [Demo](./VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
 |   Image Super Resolution       |   SESR XL    | [ReadMe](./VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
 |   Image Enhancement       |   EnhancedGAN    | [ReadMe](./VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
