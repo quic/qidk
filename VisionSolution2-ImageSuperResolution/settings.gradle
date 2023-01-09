@@ -1,0 +1,3 @@
+include ':superresolution'
+include ':snpe-release'
+rootProject.name = "superresolution"
