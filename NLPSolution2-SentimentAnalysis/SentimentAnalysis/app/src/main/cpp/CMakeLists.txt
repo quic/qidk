@@ -51,7 +51,8 @@ target_link_libraries( # Specifies the target library.
         # Add path to dependent libSNPE.so
         ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/arm64-v8a/libSNPE.so
 
-        # If above path gives library duplication error, then please use following one:
+        # If above path gives library duplication error, then please use following one
+                # and delete libSnpe.so from 'jniLibs' directory:
         # ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so
 
         # Links the target library to the log library

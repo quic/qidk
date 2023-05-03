@@ -22,18 +22,18 @@ Question Answering (QA) is one of the common and challenging Natural Language Pr
 
 - In this project, we'll show how to efficiently convert, deploy and acclerate [Electra-small](https://huggingface.co/mrm8488/electra-small-finetuned-squadv2) model on Snapdragon® platforms to perform Ondevice Question Answering.
 
-
-https://github.qualcomm.com/storage/user/15164/files/01221861-cfdf-46ee-852a-0500eab377af
-
+<p align="center">
+<img src="readme_assets/QA.gif" width=35% height=35%>
+</p>
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Android NDK "r19c" or "r21b" to build native code in Android Studio
+* Android NDK "r19c" or "r21e" to build native code in Android Studio
 * Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
   ###### <i>(above mentioned Python packages version and Android Studio version is just a recommendation and is not a hard requirement. Please install SDK dependencies in Python 3.6 virtual environment) </i>
 
 * [Qualcomm® Neural Processing Engine for AI SDK](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) v2.x.x and its [dependencies](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html) to integrate and accelerate the network on Snapdragon<br>
-  ###### <i>(AI SDK recommends Python 3.6 version)</i>
+  ###### <i>(During developement of this tutorial, the AI SDK recommends Python 3.6 version and is subject to change with future SDK releases. Please refer SDK Release Notes.)</i>
   
 
 ## Quick Start
@@ -84,7 +84,14 @@ mkdir -p validation_set
 cd validation_set/
 python ../scripts/generate_representative_dataset_squadv2.py mrm8488/electra-small-finetuned-squadv2 50 384
 ```
-This script saves 50 samples from SQUAD-v2 validation dataset with Golden Answers, where each input has sequence length of 384
+This script saves 50 samples from SQUAD-v2 validation dataset with Golden Answers, where each input has sequence length of 384. <br>
+###### <i>(If you face "UnicodeEncodeError" with 'print' statement inside docker container or on terminal, </i>
+```
+import sys, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+```
+###### <i>then add/uncomment above snippet in python script.)</i>
+<br>
 
 ```
 python ../scripts/gen_raw_list.py 50
@@ -95,7 +102,7 @@ This script generates two text files `tf_raw_list.txt` and `snpe_raw_list.txt` c
 ```
 python ../scripts/batch_tf_inf.py ../frozen_models/electra_small_squad2.pb tf_raw_list.txt input_ids:0,attention_mask:0,token_type_ids:0 Identity:0,Identity_1:0
 ```
-This script runs inference on "electra_small_squad2.pb" and stores results at `tf_out` directory
+This script runs inference on "electra_small_squad2.pb" and stores results at `tf_out` directory. Please run this inference script from `validation_set` directory only, as tf_raw_list.txt contains relative path.
 
 ```
 python ../scripts/logits_to_F1_score.py --model_name mrm8488/electra-small-finetuned-squadv2 --sequence_len 384 --logits_dir tf_out --golden_answers_dir golden_answers --top_k 1
@@ -185,7 +192,7 @@ Make sure `SNPE_ROOT` env variable is set
 On opening the project, the Android Studio may ask you to download Android NDK which is needed for building the AI SDK C++ Native APIs.
 On sucessfull completion of project sync and build process, press the play icon to install and run the app on connected device.
 
-* If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `QuestionAnswering/bert/src/main/cpp/CMakeList.txt` under `target_link_libraries` section.
+* If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `QuestionAnswering/bert/src/main/cpp/CMakeList.txt` under `target_link_libraries` section and delete `libSnpe.so` from "jniLibs" directory.
 
 #### Manual APK Installation
 If Android Studio is not able to detect the device or if device is in remote location and copy the APK to current directory:

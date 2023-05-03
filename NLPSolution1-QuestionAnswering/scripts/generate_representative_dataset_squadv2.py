@@ -5,6 +5,11 @@ from typing import Tuple
 import os
 import json
 
+## Uncomment following if you face "UnicodeEncodeError" with 'print' statement inside docker container
+# import sys
+# import io
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 from transformers import TensorType
 from transformers.modeling_tf_outputs import TFQuestionAnsweringModelOutput
 from transformers import AutoTokenizer, TFAutoModelForQuestionAnswering

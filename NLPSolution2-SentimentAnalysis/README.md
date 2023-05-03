@@ -12,9 +12,9 @@
 - [References](#references)
 
 
-
-https://github.qualcomm.com/storage/user/15164/files/57754c35-aca3-45d2-8a0d-dee768aa6f7f
-
+<p align="center">
+<img src="readme_assets/SA.gif" width=35% height=35%>
+</p>
 
 
 ## Introduction
@@ -30,12 +30,12 @@ Sentiment Analysis(SA) is a [natural language processing](https://en.wikipedia.o
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Android NDK "r19c" or "r21b" to build native code in Android Studio
-* Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.01, Datasets 2.4.0 to prepare and validate the model<br>
+* Android NDK "r19c" or "r21e" to build native code in Android Studio
+* Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
     ###### <i>(above mentioned Python packages version and Android Studio version is just a recommendation and is not a hard requirement. Please install SDK dependencies in Python 3.6 virtual environment) </i>
 
 * [Qualcomm® Neural Processing Engine for AI SDK](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) v2.x.x and its [dependencies](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html) to integrate and accelerate the network on Snapdragon<br>
-  ###### <i>(AI SDK recommends Python 3.6 version)</i>
+  ###### <i>(During developement of this tutorial, the AI SDK recommends Python 3.6 version and is subject to change with future SDK releases. Please refer SDK Release Notes.)</i>
 
 ## Quick Start
 
@@ -97,7 +97,7 @@ Usage : python batch_tf_inf.py <Frozen_pb_file_name> <Input_raw_img_list.txt> <I
 
 python ../scripts/batch_tf_inf.py ../frozen_models/mobilebert_sst2.pb tf_raw_list.txt input_ids:0,attention_mask:0 Identity:0
 ```
-This script runs inference on "mobilebert_sst2.pb" and stores results at `tf_out` directory
+This script runs inference on "mobilebert_sst2.pb" and stores results at `tf_out` directory. Please run this inference script from `validation_set` directory only, as tf_raw_list.txt contains relative path.
 
 ```
  Usage : python qc_verify_accuracy_pred.py <K-samples> <tf | snpe> <logits_dir>
@@ -173,7 +173,7 @@ Make sure `SNPE_ROOT` env variable is set
 On opening the project, the Android Studio may ask you to download Android NDK which is needed for building the AI SDK C++ Native APIs.
 On sucessfull completion of project sync and build process, press the play icon to install and run the app on connected device.
 
-* If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `SentimentAnalysis/app/src/main/cpp/CMakeList.txt` under `target_link_libraries` section.
+* If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `SentimentAnalysis/app/src/main/cpp/CMakeList.txt` under `target_link_libraries` section and delete `libSnpe.so` from "jniLibs" directory.
 
 #### Manual APK Installation
 If Android Studio is not able to detect the device or if device is in remote location and copy the APK to current directory:
