@@ -46,7 +46,6 @@ Question Answering (QA) is one of the common and challenging Natural Language Pr
 python scripts/qa_model_gen.py
 ```
 Model will get generated at `./frozen_models` directory with name `electra_small_squad2.pb` having input Sequence_Length = `384` <br>
-<i>( This step can be skipped by using the pre-generated model from this repo : `frozen_models/electra_small_squad2.pb` )</i> <br>
 <br>
 #### 1.2 Setup the Qualcomm® Neural Processing SDK Environment:
 ```
