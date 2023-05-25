@@ -1,0 +1,2868 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pysnpe_utils.pysnpe API documentation</title>
+<meta name="description" content="Python API wrapper over SNPE Tools and APIs for Auto DLC Generation, its Execution, Easy Integration and On-Device Prototyping of your DNN project." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pysnpe_utils.pysnpe</code></h1>
+</header>
+<section id="section-intro">
+<p>Python API wrapper over SNPE Tools and APIs for Auto DLC Generation, its Execution, Easy Integration and On-Device Prototyping of your DNN project.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Python API wrapper over SNPE Tools and APIs for Auto DLC Generation, its Execution, Easy Integration and On-Device Prototyping of your DNN project.
+&#34;&#34;&#34;
+# @Author and Maintainer for this file : Shubham Patel (shubpate)
+
+
+from logging import log
+import os
+from datetime import datetime
+from typing import List, Dict, Tuple
+from icecream import ic
+import copy
+import getpass
+
+# Pysnpe Module imports
+from .logger_config import logger, set_logging_level
+from .dlc_generator import snpe_onnx_to_dlc, snpe_tensorflow_to_dlc, snpe_dlc_graph_prepare
+from .dlc_generator import snpe_pytorch_to_dlc, snpe_tflite_to_dlc
+from .dlc_generator import snpe_dlc_viewer, snpe_throughput_net_run
+from .dlc_executor import inference_on_device
+from .pysnpe_enums import *
+from .exec_utils import get_host_type
+from .env_setup_checker import get_snpe_version
+from .asset_manager import push_assets_on_target_device_via_adb, push_dlc_on_device_via_adb
+
+set_logging_level(&#34;DEBUG&#34;)
+
+# Give Warnings if TF, Torch and ONNX imports are not availble to their respective func
+try:
+    import numpy as np
+    import tensorflow as tf
+    from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
+    import torch
+    import onnx
+    import onnxruntime
+    from ppadb.client import Client as AdbClient
+except ImportError as ie:
+    logger.warning(f&#34;Not able to import package : {ie}&#34;)
+    logger.warning(&#34;Some of the functionalities will be affected \n&#34;)
+
+
+class TargetDevice:
+
+    def __init__(self, target_device_type: DeviceType = DeviceType.ARM64_ANDROID,
+                    device_host: str = &#34;localhost&#34;,
+                    target_device_adb_id: str = None,
+                    target_device_ip: str = None,
+                    send_root_access_request:bool = True):
+        &#34;&#34;&#34;
+        Description:
+            Target Device attributes required to prepare it for running inferences.
+            On instantiation, the DeviceProtocol is selected based on target-device type (architecture + os),
+            and subsequently the artifacts(binaries and libraries) are pushed onto the device.
+
+        Protocol Selection Order: 
+            ARM64_ANDROID = ADB                                 &lt;br&gt;
+            ARM64_UBUNTU = ADB | NATIVE_BINARY | PYBIND         &lt;br&gt;
+            ARM64_OELINUX = ADB                                 &lt;br&gt;
+            ARM64_WINDOWS = NATIVE_BINARY | PYBIND | TSHELL     &lt;br&gt;
+            X86_64_LINUX = NATIVE_BINARY | PYBIND               &lt;br&gt;
+            X86_64_WINDOWS = NATIVE_BINARY | PYBIND             &lt;br&gt;
+
+        If Protocol == NATIVE_BINARY | PYBIND , then no need for Pushing artifacts onto the device.
+        Artifacts will be fetched from &#34;SNPE_ROOT&#34; on device itself.
+
+        Args:
+            target_device_type (DeviceType, optional): Target device architecture and OS info. Defaults to DeviceType.ARM64_ANDROID.
+            
+            device_host (str, optional): Host Name/IP on which target device is connected. Defaults to &#34;localhost&#34;.
+            
+            target_device_adb_id (str, optional): ADB Serail ID of target device to uniquely identify when multiple devices are connected on Host machine. Serial ID can be found using `adb devices -l` command. Defaults to None.
+            
+            target_device_ip (str, optional): IP address of target device. If provided, this is help to make a wireless TCP/IP connection to the device using ADB or GRPC protocol. Defaults to None.
+            
+            send_root_access_request (bool, optional): Requests target device to run commands with root access.
+        &#34;&#34;&#34;
+        self.target_device_type = target_device_type
+        self.device_host = device_host
+        self.target_device_adb_id = target_device_adb_id
+        self.target_device_ip = target_device_ip
+
+        # Select Target Device communication protocol
+        self.setDeviceProtocol()
+
+        # Push artifacts (SNPE libs and bins) if needed:
+        self.device_storage_loc = self.prepareArtifactsOnsDevice(send_root_access_request=send_root_access_request)
+
+
+    def setDeviceProtocol(self, device_protocol:DeviceProtocol = None):
+        &#34;&#34;&#34;
+        Description:
+            Sets Protocol to be used for communication with Target device.
+        &#34;&#34;&#34;
+        if device_protocol:
+            self.device_protocol = device_protocol
+        else:
+            if self.target_device_type == DeviceType.ARM64_ANDROID:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_UBUNTU:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_OELINUX:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_WINDOWS:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            elif self.target_device_type == DeviceType.X86_64_LINUX:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            elif self.target_device_type == DeviceType.X86_64_WINDOWS:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            else:
+                logger.critical(f&#34;Unsupported Target Device type = {self.target_device_type}&#34;)
+
+
+    def prepareArtifactsOnsDevice(self, location_to_store:str = None,
+                                    send_root_access_request:bool = False) -&gt; str:
+        &#34;&#34;&#34;
+        Description:
+            Push artifacts (SNPE Libs and Bins) onto the Target Device, based on DeviceProtocol. 
+
+        Returns:
+            Storage location of the assets of Target Device.
+        &#34;&#34;&#34;
+        if location_to_store:
+            device_storage_loc = location_to_store
+        else:
+            # eg: /data/local/tmp/shubpate/v2.7.0.2048/ =&gt; bin ; lib ; dsp ; dlc
+            device_storage_loc = f&#34;/data/local/tmp/{getpass.getuser()}/{get_snpe_version()}&#34; 
+
+        if self.device_protocol == DeviceProtocol.ADB:
+            logger.debug(&#34;Querying for ADB devices:&#34;)
+            client = AdbClient(host=self.device_host, port=5037)
+            adb_devices = client.devices()
+            logger.debug(f&#34;Got {len(adb_devices)} ADB devices connected on {self.device_host}&#34;)
+            
+            if len(adb_devices) == 0:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+                self.target_device_type = get_host_type()
+                logger.warning(&#34;No ADB devices found. Will do Profiling and Execution on this Native machine&#34;)
+                return os.getcwd()
+
+            if not self.target_device_adb_id:
+                logger.debug(f&#34;Fetching Serial ID of Target Device&#34;)
+                for device_obj in adb_devices:
+                    self.target_device_adb_id = device_obj.get_serial_no()
+                    logger.debug(f&#34;Selected Device with serial id = {self.target_device_adb_id}&#34;)
+                    break
+                    
+                if not self.target_device_adb_id:
+                    raise RuntimeError(&#34;Not able to fetch Serail ID of device&#34;)
+
+            logger.debug(f&#34;Pushing assets on Device using {self.device_protocol}&#34;)
+            push_assets_on_target_device_via_adb(device_storage_loc, 
+                                        target_arch=self.target_device_type,
+                                        device_id=self.target_device_adb_id,
+                                        device_host=self.device_host, 
+                                        send_root_access_request=send_root_access_request)
+
+        elif self.device_protocol == DeviceProtocol.NATIVE_BINARY:
+            logger.info(f&#34;DeviceProtocol.NATIVE_BINARY searches for SNPE assets using $PATH and $LD_LIBRARY_PATH&#34;)
+            logger.info(&#34;It is assumed at SNPE SDK is available on this device&#34;)
+            device_storage_loc = os.getcwd()
+
+        return device_storage_loc
+
+
+    __pdoc__ = {&#39;__repr__&#39;: False}
+    def __repr__(self):
+        return f&#34;&#34;&#34;TargetDevice(target_device_type={self.target_device_type}, 
+                        device_protocol={self.device_protocol},
+                        device_host=&#39;{self.device_host}&#39;, 
+                        target_device_adb_id=&#39;{self.target_device_adb_id}&#39;, 
+                        target_device_ip=&#39;{self.target_device_ip}&#39;)&#34;&#34;&#34;
+
+class SnpeContext:
+
+    def __init__(self, model_path:str, 
+                    model_framework:ModelFramework,
+                    dlc_path:str,
+                    input_tensor_map: Dict[str, List[int]], 
+                    output_tensor_names: List[str],
+                    quant_encodings_path: str = None,
+                    target_device: TargetDevice = None,
+                    remote_session_name: str = None):
+        &#34;&#34;&#34;
+        Description:
+            Stores metadata needed to generate a DLC and for other DLC operations
+
+        Args:
+            model_path (str): Path of freezed graph which is to be converted to DLC
+            model_framework (ModelFramework): Specifies the Model framework : TF, ONNX, CAFFE, PYTORCH, TFLITE
+            dlc_path (str): Path to save generated DLC
+            input_tensor_map (Dict[str, List]): Dict of the model&#39;s input names and their shape
+            output_tensor_names (List[str]): List of the model&#39;s output names
+            quant_encodings_path (str): Path to quantization encodings file (mostly generate using AIMET)
+            target_device (TargetDevice): Target Device on which inference has to be executed.
+            remote_session_name (str): Represents path at Target Device, where DLC and input tensors will be pushed.
+        &#34;&#34;&#34;
+        self.model_path = model_path
+        self.model_framework = model_framework
+        self.dlc_path = dlc_path
+        self.quant_dlc_path = None
+        self.input_tensor_map = input_tensor_map
+        self.output_tensor_names = output_tensor_names
+        self.quant_encodings_path = quant_encodings_path
+        self.target_device = target_device
+        self.remote_session_name = remote_session_name
+
+        if not self.target_device:
+            self.target_device = self.set_target_device()
+
+
+    def set_target_device(self, target_device: TargetDevice = None):
+        &#34;&#34;&#34;
+        Description:
+            Adds Target Device into current SnpeContext, on which inference has to be done
+        &#34;&#34;&#34;
+        if target_device:
+            self.target_device = target_device
+        else:
+            logger.debug(&#34;Querying for ADB devices:&#34;)
+            client = AdbClient()
+            adb_devices = client.devices()
+            logger.debug(f&#34;Got {len(adb_devices)} ADB devices&#34;)
+            
+            if len(adb_devices) == 0:
+                self.target_device = TargetDevice(target_device_type=get_host_type())
+            else:
+                self.target_device = TargetDevice()
+
+        return self
+
+
+    def to_dlc(self):
+        &#34;&#34;&#34;
+        Description:
+            Converts freezed graph into DLC by invoking `SNPE Converter`
+        &#34;&#34;&#34;
+        if self.model_framework == ModelFramework.ONNX:
+            snpe_onnx_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.TF:
+            snpe_tensorflow_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.TFLITE:
+            snpe_tflite_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.PYTORCH:
+            snpe_pytorch_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.CAFFE:
+            raise NotImplementedError(f&#39;Support for CAFFE models is getting deprecated from SNPE&#39;)
+        else:
+            raise RuntimeError(f&#39;Got Unsupported Model Type: {self.model_type}&#39;)
+        
+        return self
+
+
+    def gen_dsp_graph_cache(self, dlc_type:DlcType,  chipsets:List[str] = [&#34;sm8550&#34;], 
+                            overwrite_cache_records:bool=True):
+        &#34;&#34;&#34;
+        Description:
+            Generates DSP Offline Cache (serialized graph) to save model initialization time, by invoking `snpe-dlc-graph-prepare` tool
+
+            On success, the `self.dlc_path` or `self.quant_dlc_path` will get updated with newly generated cached dlc path
+
+        Args:
+            dlc_type (DlcType): Type of DLC : FLOAT | QUANT . QUANT dlc is generated by SNPE Quantizer.
+            chipset (List[str], optional): List of chipsets for which Graph cache needs to generated [sm8350,sm8450,sm8550]. Defaults to [&#34;sm8550&#34;].
+            overwrite_cache_records (bool, optional): Overwrite previously generated Graph Cache. Defaults to True.
+        &#34;&#34;&#34;
+        is_fp16 = False
+        if dlc_type == DlcType.FLOAT:
+            is_fp16 = True
+            out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_fp16_cached.dlc&#34;)
+        else:
+            out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_cached.dlc&#34;)
+
+        exit_code = snpe_dlc_graph_prepare(self.dlc_path, chipsets, 
+                                out_dlc_path=out_dlc_path_name,
+                                output_tensor_names=self.output_tensor_names,
+                                is_fp16=is_fp16, overwrite_cache_records=overwrite_cache_records)
+
+        # Overwrites DLC name with newly generated DLC
+        if exit_code == 0:
+            if dlc_type == DlcType.FLOAT:
+                self.dlc_path = out_dlc_path_name
+            else:
+                self.quant_dlc_path = out_dlc_path_name
+
+        return self
+
+
+    def visualize_dlc(self, save_path: str = None):
+        &#34;&#34;&#34;
+        Description:
+            Saves DLC graph structure in HTML and Tabular textual format by invoking `snpe-dlc-viewer` and `snpe-dlc-info` tools
+
+        Args:
+            save_path (str, optional): Path to save visualization output. If None, then output is save with save DLC name as prefix and &#34;.html&#34; and &#34;.txt&#34; as suffix
+        &#34;&#34;&#34;
+        if not save_path:
+            save_path = self.dlc_path.replace(&#34;.dlc&#34;, &#34;.html&#34;)
+        snpe_dlc_viewer(self.dlc_path, save_path=save_path)
+        return self
+
+
+    __pdoc__ = {&#39;__set_remote_session_name&#39;: False}   
+    def __set_remote_session_name(self, dlc_path:str, target_device:TargetDevice):
+        if not self.remote_session_name:
+            timestamp = datetime.now()
+            unique_id = f&#34;{timestamp.strftime(&#39;%d_%B&#39;)}&#34;
+            # unique_id = f&#34;{timestamp.strftime(&#39;%d_%B&#39;)}_{timestamp.strftime(&#39;%I_%M_%S&#39;)}&#34;
+            self.remote_session_name = f&#34;{target_device.device_storage_loc}/{dlc_path.replace(&#39;.dlc&#39;,&#39;&#39;)}_{unique_id}&#34;
+            logger.debug(f&#34;Remote session name = {self.remote_session_name}&#34;)
+
+
+    def profile(self, runtime: Runtime = Runtime.CPU, 
+                        dlc_type: DlcType = DlcType.FLOAT,
+                        target_device: TargetDevice = None,
+                        num_threads: int = 1, 
+                        duration: int = 2, 
+                        cpu_fallback: bool = True):
+        &#34;&#34;&#34;
+        Description:
+            Profiles model execution time on provided runtime and gives metrics: Inference per second, Model Init and DeInit times
+
+        Args:
+            runtime (Runtime, optional): Runtime on which DLC will be executed [CPU, GPU, GPU_FP16, DSP, AIP]. Defaults to CPU runtime
+            target_device (TargetDevice, optional): Target device on which profiling for DLC is to be done. Defaults to None.
+            num_threads (int, optional): Number of threads to be used for DLC execution. Defaults to 1
+            duration (int, optional): Duration of time (in seconds) to run network execution. Defaults to 2 seconds.
+            cpu_fallback (bool, optional): Fallback unsupported layer to CPU, if any. Defaults to True.
+        &#34;&#34;&#34;
+
+        if target_device is None:
+            target_device = self.target_device
+        logger.debug(f&#34;Profiling will done on device : {target_device}&#34;)
+
+        if dlc_type == DlcType.QUANT:
+            dlc_path = self.quant_dlc_path
+        else:
+            dlc_path = self.dlc_path
+
+        # if remote_session_name is not provided, create a unique name
+        self.__set_remote_session_name(dlc_path, target_device)
+
+        # push DLC at session_name path (push will be skipped, if file exists at loc)
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            if self.quant_dlc_path:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            else:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            
+            print(&#34;=&#34;*35 + &#34; Througput Test &#34; + &#34;=&#34;*35 + &#34;\n&#34;)
+            snpe_throughput_net_run(remote_dlc_path, target_device.device_storage_loc, 
+                                    runtime.value, duration, num_threads, 
+                                    cpu_fallback=cpu_fallback, 
+                                    device_id=target_device.target_device_adb_id,
+                                    device_host=target_device.device_host, 
+                                    target_arch=target_device.target_device_type)
+            print(&#34;\n&#34; + &#34;=&#34;*80 + &#34;\n&#34;)
+        else:
+            logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+            
+        return self
+
+
+    def quantize(self, quant_scheme: List[QuantScheme]=[QuantScheme.AXIS_QUANT], 
+                    act_bw:ActBw=ActBw.INT8, 
+                    weight_bw:WeightBw=WeightBw.INT8, 
+                    override_quant_params=False):
+        &#34;&#34;&#34;
+        Description:
+            Quantizes DLC using provided quant_scheme, activation bitwidth and weight bitwidth
+
+        Args:
+            quant_scheme (List[QuantScheme]): List of SNPE provided quant schemes. Defaults to Axis Quantization
+            act_bw (ActBw, optional): Activation bitwidth (16 or 8). Defaults to 8.
+            weight_bw (int, optional): Weight bitwidth (8 or 4). Defaults to 8.
+            override_quant_params (bool, optional): Use quant encodings provided from encodings file. Defaults to False.
+        &#34;&#34;&#34;
+        logger.warning(&#34;This method is yet to implemented. Returning SNPE context as is ...&#34;)
+        # keep bias bw = 32 as default
+        return self
+
+
+    def execute_dlc(self, 
+                    input_tensor_map: Dict[str, np.ndarray],
+                    dlc_type: DlcType = DlcType.FLOAT,
+                    transpose_input_order: Dict[str, Tuple] = None,
+                    target_acclerator: Runtime = Runtime.CPU,
+                    target_device: TargetDevice = None,
+                    ) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Description:
+            Executes DLC on target device or x86/ARM64 host machine using &#39;snpe-net-run&#39; for ADB protocol
+            and using &#39;snpe python bindings&#39; for PYBIND and GRPC protocol.
+
+        Args:
+            input_tensor_map (Dict[str, np.ndarray]): Input tensor name and its tensor data in Numpy Nd-Array FP32 format.
+
+            dlc_type (DlcType): Whether the DLC is FLOAT type or QUANT type.
+
+            
+            transpose_input_order (Dict[str, Tuple]): SNPE expects the input tensor to be NHWC (Batch x Height x Width x Channel) format, whereas DNN Frameworks like Pytorch, ONNX uses NCHW (Batch x Channel x Height x Width) format. Providing transpose order will make the input tensor in format acceptable to SNPE. For example, ONNX input dim = (1,3,224,224) and SNPE DLC input dim = (1,224,224,3), then providing Dictionary {&#39;layer_name&#39;: (0,2,3,1)} will do the needful format conversion.
+            
+            target_acclerator (Runtime): Snapdragon DSP, CPU, GPU, GPU-FP16 and legacy AIP acclerator.
+
+            target_device (TargetDevice): Target device on which DLC is to be executed. Defaults to None.
+
+        Returns:
+            Dict[str, np.ndarray]: Output Tensor Name : its Output Tensor, generated after inference
+        &#34;&#34;&#34;
+
+        if not target_device:
+            target_device = self.target_device
+
+        if dlc_type == DlcType.QUANT:
+            dlc_path = self.quant_dlc_path
+        else:
+            dlc_path = self.dlc_path
+
+        # if remote_session_name is not provided/ not set, create a unique name
+        self.__set_remote_session_name(dlc_path, target_device)
+
+        # push DLC at remote_session_name path (push will be skipped, if file already exists at loc)
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            if self.quant_dlc_path:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            else:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+                
+        # Run inference
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            return inference_on_device(dlc_path, remote_dlc_path, target_device.device_storage_loc, input_tensor_map, output_layers=self.output_tensor_names, runtime=target_acclerator.value, device_id=target_device.target_device_adb_id, device_host=target_device.device_host, do_transpose=transpose_input_order)
+
+            # [TODO]: For ONNX : Instead of returning Dict of output tensors, validate if shapes are same,
+            # else Raise a warning that Transpose is needed
+        else:
+            logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+
+        return self
+
+
+    __pdoc__ = {&#39;__repr__&#39;: False}
+    def __repr__(self):
+        return f&#34;&#34;&#34;SnpeContext(model_path=&#39;{self.model_path}&#39;, 
+                model_framework={self.model_framework}, 
+                dlc_path=&#39;{self.dlc_path}&#39;, 
+                input_tensor_map={self.input_tensor_map}, 
+                output_tensor_names={self.output_tensor_names}, 
+                quant_encodings_path=&#39;{self.quant_encodings_path}&#39;, 
+                remote_session_name=&#39;{self.remote_session_name}&#39;
+                target_device={self.target_device})&#34;&#34;&#34;
+
+
+def export_to_onnx(model: torch.nn.Module,
+                    input_tensor_map: List[InputMap], 
+                    output_tensor_names: List[str], 
+                    onnx_file_name: str,
+                    opset_version: int = 11 ) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Description:
+        Exports Pytorch model (nn.Module) to ONNX format and saves it on disk.
+
+    Args:
+        model (torch.nn.Module): A PyTorch model (nn.Module) to export to ONNX format.
+        input_tensor_map (List[InputMap]): A list of `InputMap` object: (input_name, shape, dtype)
+        output_tensor_names (List[str]): List of output names for the ONNX model.
+        onnx_file_name (str): The filename for the exported ONNX model.
+        opset_version (int, optional): ONNX opset version to use. Defaults to 11.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+        from pysnpe_utils import pysnpe
+
+        # Create a PyTorch model and specify the input shape
+        model = MyModel()
+
+        input_map = InputMap(&#34;img_1&#34;, (1, 3, 224, 224), torch.float32)
+        output_tensor_names = [&#34;out_1&#34;]
+        onnx_file_name = &#39;model.onnx&#39;
+        
+        pysnpe.export_to_onnx(model, [input_map], output_tensor_names, onnx_file_name).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    logger.debug(&#34;Set the Pytorch model to evaluation mode&#34;)
+    model.eval()
+
+    logger.debug(&#34;Push the Pytorch model to CPU&#34;)
+    model.to(&#39;cpu&#39;)
+
+    input_names = [input_map.name for input_map in input_tensor_map]
+    input_shapes = [input_map.shape for input_map in input_tensor_map]
+
+    logger.debug(&#34;Create dummy input tensors for each input shape&#34;)
+    dummy_inputs = []
+    for input_map in input_tensor_map:
+        dummy_inputs.append(torch.zeros(input_map.shape, dtype=input_map.dtype))
+
+    logger.debug(&#34;Export the model to ONNX format&#34;)
+    with torch.no_grad():
+        try:
+            torch.onnx.export(model, 
+                            tuple(dummy_inputs), 
+                            onnx_file_name, 
+                            input_names=input_names, 
+                            output_names=output_tensor_names,
+                            opset_version=opset_version)
+        except Exception as e:
+            raise RuntimeError(f&#34;Error occurred during export: {e}&#34;) 
+
+    logger.info(&#34;Output ONNX model saved at : &#34; + onnx_file_name)
+    
+    logger.debug(&#34;Load the exported model and check its correctness with ONNX Checker&#34;)
+    onnx_model = onnx.load(onnx_file_name)
+    onnx.checker.check_model(onnx_model)
+
+    logger.debug(&#34;Simplifying/Optimizing ONNX model for inference with Static Shapes&#34;)
+    try:
+        from onnxsim import simplify
+        onnx_model, check = simplify(onnx_model)
+        onnx_file_name = onnx_file_name.replace(&#34;.onnx&#34;, &#34;-opt.onnx&#34;)
+        onnx.save(copy.deepcopy(onnx_model), onnx_file_name)
+    except ImportError as ie:
+        logger.warning(&#34;Not able to Simplify ONNX model with ONNXSIM pkg.&#34;)
+
+    logger.debug(&#34;Verify ONNX model correctness with ONNX Runtime&#34;)
+    ort_session = onnxruntime.InferenceSession(onnx_model.SerializeToString())
+
+    logger.debug(&#34;Test the exported ONNX model using the dummy inputs&#34;)
+    ort_inputs = {input_names[i] : dummy_inputs[i].numpy() for i in range(len(input_names))}
+    ort_outputs = ort_session.run(None, ort_inputs)
+
+    logger.debug(&#34;ONNX model&#39;s input shapes&#34;)
+    for i in range(len(input_names)):
+        logger.debug(f&#34;Input {i} := {input_names[i]} : {input_shapes[i]}&#34;)
+
+    logger.debug(&#34;ONNX model&#39;s output shapes&#34;)
+    for i, output_name in enumerate(output_tensor_names):
+        logger.debug(f&#34;Output {i} := {output_name} - Shape: {ort_outputs[i].shape}&#34;)
+
+    logger.info(&#34;Export the ONNX model to SNPE DLC&#34;)
+    return SnpeContext(onnx_file_name, 
+                    ModelFramework.ONNX,
+                    onnx_file_name.replace(&#34;.onnx&#34;, &#34;.dlc&#34;),
+                    {input_names[i] : input_shapes[i] for i in range(len(input_names))}, 
+                    output_tensor_names)
+
+
+def export_to_torchscript(model: torch.nn.Module, 
+                            input_shapes: List[Tuple[int]], 
+                            input_dtypes: List[torch.dtype], 
+                            output_file_path: str,
+                            enable_optimizations: bool = True,
+                            strict_tracing: bool = True) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Exports a PyTorch model to TorchScript format and saves it to disk.
+
+    Args:
+        model (torch.nn.Module): A PyTorch model (nn.Module) to export to TorchScript format.
+        input_shape (List[Tuple[int]]): A tuple specifying the shape of the input tensor for the model.
+        input_dtypes (List[torch.dtype]) : A tuple specifying the datatype of the input tensor for the model.
+        output_file_path (str): A string specifying the file path to which the exported TorchScript model will be saved.
+        enable_optimizations (bool): Flag to enable Graph optimizations, which are helpful for inference
+        strict_tracing (bool): Use &#39;strict&#39; model while tracing torch module
+
+    Returns:
+        None
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+        from pysnpe_utils import pysnpe
+
+        # Create a PyTorch model and specify the input shape
+        model = MyModel()
+        input_shapes = [(3, 224, 224)]
+        input_dtypes = [torch.float32]
+
+        # Export the model to TorchScript format
+        output_file_path = &#39;model.pt&#39;
+        pysnpe.export_to_torchscript(model, input_shape,input_dtypes, output_file_path).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    
+    logger.debug(&#34;Set the Pytorch model to evaluation mode&#34;)
+    model.eval()
+
+    logger.debug(&#34;Pushing the Pytorch model to CPU&#34;)
+    model.to(&#39;cpu&#39;)
+
+    logger.debug(&#34;Create an dummy input tensor&#34;)
+    example_inputs = []
+    for shape, dtype in zip(input_shapes, input_dtypes):
+        example_inputs.append(torch.zeros(shape, dtype=dtype))
+
+    logger.debug(&#34;Wrap the export process inside torch.no_grad context manager&#34;)
+    with torch.no_grad():
+        with torch.jit.optimized_execution(enable_optimizations):
+            logger.debug(&#34;Trace the model to create a TorchScript module&#34;)
+            traced_module = torch.jit.trace(model, tuple(example_inputs), strict=strict_tracing)
+
+        if enable_optimizations:
+            try:    
+                logger.debug(&#34;Optimizing the traced module using graph mode optimization for inference&#34;)
+                traced_module, _ = torch.jit.optimize_for_inference(traced_module)
+            except Exception as e:
+                logger.warning(f&#34;Error occurred during Model Optimization: {e}.\n Skipping optimizations...&#34;)
+
+    torch.jit.save(traced_module, output_file_path)
+    logger.debug(f&#34;Torchscript module saved at {output_file_path}&#34;)
+
+    import inspect
+    input_names = inspect.signature(model.forward).parameters.keys()
+
+    logger.debug(&#34;Fetch input names and dimensions&#34;)
+    input_dict = {}
+    for name, shape in zip(input_names, input_shapes):
+        input_dict[name] = shape
+    ic(input_dict)
+
+    output_list = []
+
+    logger.info(&#34;Export the Torchscript model to SNPE DLC&#34;)
+    return SnpeContext(output_file_path, 
+                    ModelFramework.PYTORCH,
+                    output_file_path.replace(&#34;.pt&#34;, &#34;.dlc&#34;),
+                    input_dict, 
+                    output_list)
+
+
+def export_to_tflite(keras_model: tf.keras.Model, tflite_file_name: str) -&gt; None:
+    &#34;&#34;&#34;
+    Description:
+        Converts a TensorFlow Keras model to TFLite format.
+
+    Args:
+        keras_model (tf.keras.Model): A TensorFlow Keras model.
+        tflite_file_name (str): A string indicating the name of the output TFLite file to be saved.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+            model = tf.keras.Sequential([
+                tf.keras.layers.Conv2D(32, (3,3), activation=&#39;relu&#39;, input_shape=(28,28,1)),
+                tf.keras.layers.MaxPooling2D((2,2)),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(10, activation=&#39;softmax&#39;)
+            ])
+            model.build()
+            model.summary()
+
+            # Convert and save the model
+            export_to_tflite(model, &#39;test_model.tflite&#39;).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    logger.debug(&#34;Creating a TFLITE converter object&#34;)
+    converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
+
+    # logger.debug(&#34;Setting input and output shapes of TFLITE model&#34;)
+    # for i, input_node in enumerate(keras_model.inputs):
+    #     converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    #     input_shape = input_node.shape.as_list()[1:]
+    #     converter.inference_input_type(i, tf.float32, input_shape)
+
+    # for i, output_node in enumerate(keras_model.outputs):
+    #     output_shape = output_node.shape.as_list()[1:]
+    #     converter.inference_output_type(i, tf.float32, output_shape)
+
+    logger.debug(&#34;Converting the model into TFLITE&#34;)
+    tflite_model = converter.convert()
+
+    logger.debug(f&#34;Saving the TFLite model with name : {tflite_file_name}&#34;)
+    with open(tflite_file_name, &#39;wb&#39;) as f:
+        f.write(tflite_model)
+
+    logger.debug(f&#34;Loading and Validate the TFLite model: {tflite_file_name}&#34;)
+    interpreter = tf.lite.Interpreter(model_path=tflite_file_name)
+    interpreter.allocate_tensors()
+
+    logger.debug(&#34;Fetching input and output tensors details&#34;)
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+
+    # Loop through input details and get input names and shapes.
+    input_dict = {}
+    for input_tensor in input_details:
+        input_dict[input_tensor[&#39;name&#39;]] = input_tensor[&#39;shape&#39;]
+    ic(input_dict)
+
+    # Loop through output details and print names and shapes.
+    output_list = []
+    for output_tensor in output_details:
+        output_list.append(output_tensor[&#39;name&#39;])
+    ic(output_list)
+
+    logger.info(&#34;Export the TFLITE model to SNPE DLC&#34;)
+    return SnpeContext(tflite_file_name, 
+                    ModelFramework.TFLITE,
+                    tflite_file_name.replace(&#34;.tflite&#34;, &#34;.dlc&#34;),
+                    input_dict, 
+                    output_list)
+
+
+def export_to_tf_keras_model(model: Union[tf.keras.Model, tf.function],
+                             input_tensor_map: List[InputMap],
+                             keras_model_path: str,
+                             skip_model_optimizations: bool = False,
+                             frozen_graph_path: str = None,
+                             tflite_path: str = None) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Description:
+        Optimizes and Saves a TensorFlow Keras model to disk, with fixed input shapes for each input layer.
+
+    Args:
+        model (tf.keras.Model | tf.function): A TensorFlow model to export, either a TensorFlow Keras model or a TensorFlow function.
+        input_tensor_map (List[InputMap]): A list of `InputMap` object: (input_name, shape, dtype)
+        keras_model_path (str): Path to save keras model.
+        skip_model_optimizations (bool, optional): Whether to skip optimization passes in the TensorFlow graph. Default is False.
+        frozen_graph_path (str, optional): Path to save optimized frozen graph. Defaults to None.
+        tflite_path: If provided, the function will convert the model to a TensorFlow Lite model and save it to the specified tflite_path.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+            model = tf.keras.Sequential([
+                tf.keras.layers.Conv2D(32, (3,3), activation=&#39;relu&#39;, input_shape=(28,28,1)),
+                tf.keras.layers.MaxPooling2D((2,2)),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(10, activation=&#39;softmax&#39;)
+            ])
+            model.build()
+            model.summary()
+
+            # Define the input tensor shapes
+            input_map = [ InputMap(&#39;input_1&#39;, (1,28,28,1), tf.float32) ]
+
+            # Optimize and save the model
+            export_to_tf_keras_model(model, 
+                                    input_map, 
+                                    &#39;test_keras_model&#39;,
+                                    skip_model_optimizations=False, 
+                                    frozen_graph_path=&#39;test_frozen_graph.pb&#39;)
+        ```
+    &#34;&#34;&#34;
+
+    logger.debug(&#34;Create the input signature from the input tensor map&#34;)
+    ic(input_tensor_map)
+
+    input_signature = []
+    dummy_input_tensors = []
+    keras_input_layers = []
+    for input_map in input_tensor_map:
+        input_signature.append(tf.TensorSpec(shape=input_map.shape, dtype=input_map.dtype,
+                             name=input_map.name.rsplit(&#39;:&#39;, 1)[0]))
+        
+        keras_input_layers.append(tf.keras.Input(batch_shape=input_map.shape,
+                                  name=input_map.name, dtype=input_map.dtype))
+        
+        dummy_input_tensors.append(tf.random.uniform(shape=input_map.shape, dtype=input_map.dtype, maxval=5))
+    ic(input_signature)
+    ic(keras_input_layers)
+
+    if isinstance(model, tf.keras.Model):
+        logger.debug(f&#34;Model of type {type(model)} is a tf.keras.Model instance&#34;)
+        outputs = model(*keras_input_layers)
+        keras_model = tf.keras.Model(inputs=keras_input_layers, outputs=outputs)
+        keras_model.summary()
+        tf.keras.models.save_model(keras_model, keras_model_path) #, signatures=input_signature)
+        logger.info(f&#34;Model sucessfully saved in tf keras format at: {keras_model_path}&#34;)
+        del keras_model
+
+        logger.info(&#34;Warping tf.keras.Model in tf.function with input signature&#34;)
+        concrete_function = tf.function(model, input_signature=input_signature).get_concrete_function()
+    else:
+        # Assume model is a function / tf.function, add the input signature to the function
+        concrete_function = model.get_concrete_function(*input_signature)
+        # tf.keras.models.save_model(concrete_function, keras_model_path, signatures=input_signature)
+        # logger.info(f&#34;Concrete Function saved in tf keras format at: {keras_model_path}&#34;)
+
+    logger.info(&#34;Ensuring that the given Model is compatible with given Input shapes&#34;)
+    # Build the Keras model to ensure all layers are built
+    concrete_function(*dummy_input_tensors)  
+    
+    # ================================TF FROZEN GRAPH GEN ================================ #
+    try:
+        logger.debug(&#34;Convert the ConcreteFunction to a TensorFlow graph&#34;)
+        from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
+    except ImportError as ie:
+        logger.warning(
+            f&#34;Failed to find necessary package for TF graph optimization: {str(ie)}&#34;)
+        logger.warning(
+            &#34;Skipping TF Frozen graph generation and optimizations ...&#34;)
+
+        # Fallback to TF Keras Saved Model for DLC generation and return
+        keras_model = tf.saved_model.load(keras_model_path)
+
+        # get first signatures of the model
+        input_signature = list(keras_model.signatures.keys())[0]
+
+        # input layer names and shapes
+        input_signature_dict = keras_model.signatures[input_signature].structured_input_signature[1]
+        input_layers_dict = {spec.name: spec.shape for spec in input_signature_dict.values()}
+        ic(input_layers_dict)
+
+        # output layer names
+        output_layers_name = list(keras_model.signatures[input_signature].output_dtypes.keys())
+        ic(output_layers_name)
+        
+        del keras_model
+        return SnpeContext(keras_model_path,
+                           ModelFramework.TF,
+                           keras_model_path + &#34;.dlc&#34;,
+                           input_layers_dict,
+                           output_layers_name)
+
+    frozen_func = convert_variables_to_constants_v2(concrete_function)
+    graph_def = frozen_func.graph.as_graph_def()
+    graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
+
+    layers = [op.name for op in frozen_func.graph.get_operations()]
+    logger.debug(&#34;-&#34; * 50)
+    logger.debug(&#34;NO. of Frozen model layers: {}&#34;.format(len(layers)))
+    logger.debug(&#34;-&#34; * 50)
+    logger.debug(f&#34;Frozen model inputs: \n{frozen_func.inputs}&#34;)
+    logger.debug(f&#34;Frozen model outputs: \n{frozen_func.outputs}&#34;)
+
+    # get inputs for snpe-tensorflow-to-dlc (name: shape)
+    input_layers_dict = {}
+    for input_tensor in frozen_func.inputs:
+        if input_tensor.dtype != tf.resource:
+            input_layers_dict[input_tensor.name] = input_tensor.shape.as_list()
+    ic(input_layers_dict)
+
+    # get outputs for snpe-tensorflow-to-dlc
+    output_layers_name = [output_tensor.name for output_tensor in frozen_func.outputs]
+    ic(output_layers_name)
+
+    if frozen_graph_path:
+        logger.debug(f&#34;Set Save path for TensorFlow frozen graph = {frozen_graph_path}&#34;)
+    else:
+        frozen_graph_path = keras_model_path + &#34;.pb&#34;
+        logger.debug(f&#34;Save path for TensorFlow frozen graph = {frozen_graph_path}&#34;)
+
+    if skip_model_optimizations:
+        logger.info(&#34;Skipping optimizations as requested&#34;)
+        with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+        return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)
+    else:
+        with tf.io.gfile.GFile(&#34;pre_optimization_&#34; + frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+    # ===================================TF GRAPH OPTIMIZATIONS ================================ #
+    try:
+        logger.debug(&#34;Optimize using Tensorflow Grappler&#34;)
+        from tensorflow.lite.python.util import run_graph_optimizations, get_grappler_config
+        from tensorflow.python.tools.optimize_for_inference_lib import optimize_for_inference
+    except ImportError as ie:
+        logger.warning(f&#34;Failed to find necessary package for TF graph optimization: {str(ie)}&#34;)
+
+        logger.warning(&#34;Returning and saving TF graph without optimizations ...&#34;)
+        with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+        return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)
+
+    # tsr: short of &#34;tensor&#34; (list of inputs type)
+    input_tensors = [tsr for tsr in frozen_func.inputs if tsr.dtype != tf.resource]
+    ic(input_tensors)
+
+    output_tensors = frozen_func.outputs
+    
+    input_tsr_names = [tsr.name for tsr in input_tensors] # name only
+    output_tsr_names = [tsr.name for tsr in output_tensors]
+    input_node_names = list(set([tsr_name.rsplit(&#39;:&#39;, 1)[0] for tsr_name in input_tsr_names]))
+    output_node_names = list(set([tsr_name.rsplit(&#39;:&#39;, 1)[0] for tsr_name in output_tsr_names]))
+
+    input_types = [spec.dtype.as_datatype_enum for spec in input_signature] # dtypes only
+
+    # this from TF Graph Transform
+    graph_def = optimize_for_inference(
+        graph_def, input_node_names, output_node_names, input_types)
+
+    # this is from TF-MOT
+    graph_def = run_graph_optimizations(graph_def, input_tensors, output_tensors,
+                                        config=get_grappler_config(
+                                            [
+                                                &#39;function&#39;,
+                                                &#39;inline&#39;,
+                                                &#39;arithmetic&#39;,
+                                                &#39;dependency&#39;,
+                                                &#39;constfold&#39;,
+                                                # &#39;layout&#39;,
+                                                # &#39;remap&#39;,
+                                                # &#39;loop_opt&#39;,
+                                                # &#39;memory&#39;,
+                                                # &#39;common_subgraph_elimination&#39;
+                                            ]),
+                                        graph=frozen_func.graph)
+
+    with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+        f.write(graph_def.SerializeToString())
+    logger.info(f&#34;Model successfully exoprted to TF-Frozen Graph format at : {frozen_graph_path}&#34;)
+
+    # Saves as tF-Lite if requested
+    if tflite_path:
+        converter = tf.lite.TFLiteConverter.from_concrete_functions(
+            [concrete_function])
+        tflite_model = converter.convert()
+        with open(tflite_path, &#39;wb&#39;) as f:
+            f.write(tflite_model)
+        logger.info(f&#34;Model successfully exoprted to TF-Lite format at : {tflite_model}&#34;)
+
+    logger.debug(&#34;Deleting Model and Graph Def instance&#34;)
+    del model
+    del graph_def
+
+    logger.debug(&#34;Clearing Keras backend Session&#34;)
+    tf.keras.backend.clear_session()
+
+    return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)
+
+
+def export_to_tf_frozen_graph(session: tf.compat.v1.Session,
+                                input_tensor_map: Dict[str, List],
+                                output_tensor_names: List,
+                                output_model_path: str) -&gt; SnpeContext:
+    &#34;&#34;&#34;Exports TF GraphDef to Frozen Graph (.pb) format
+
+    Args:
+        session (tf.compat.v1.Session): The TensorFlow Session containing the trained model.
+        input_tensor_map (Dict[str, List]): A dictionary of model input layer names with their dimensions. It can be found out by visualization of model.
+        output_tensor_names (List): A list of model output layer names. It can be found out by visualization of model.
+        output_model_path (str): The name and path of the model for saving as TF frozen graph with &#34;.pb&#34; extension.
+    &#34;&#34;&#34;
+    # Create a graph definition for the current session
+    graph_def = session.graph_def
+
+    # Create a list of input tensors from the input tensor map
+    input_tensors = {}
+    for input_name, input_shape in input_tensor_map.items():
+        input_tensor = tf.compat.v1.placeholder(dtype=tf.float32, shape=input_shape, name=input_name)
+        input_tensors[input_name] = input_tensor
+    ic(input_tensors)
+
+    # Create a list of output tensors from the output tensor names
+    output_tensors = []
+    for output_name in output_tensor_names:
+        output_tensor = session.graph.get_tensor_by_name(output_name + &#39;:0&#39;)
+        output_tensors.append(output_tensor)
+    ic(output_tensors)
+
+    # Freeze the graph
+    frozen_graph_def = tf.compat.v1.graph_util.convert_variables_to_constants(session, graph_def, [output.name[:-2] for output in output_tensors])
+
+    # Save the frozen graph to a file
+    with tf.io.gfile.GFile(output_model_path, &#39;wb&#39;) as f:
+        f.write(frozen_graph_def.SerializeToString())
+
+    logger.info(f&#39;MOdel saved as frozen graph at {output_model_path}&#39;)
+
+
+def visualize_tf_session_graph(session: tf.compat.v1.Session,
+                                model_name: str,
+                                output_dir: str):
+    &#34;&#34;&#34;
+    Description:
+        For visualization of TF Session graph with Netron Viewer. It is helpful for identifying model input and output layer names and understanding model topology.
+
+    Args:
+        session (tf.compat.v1.Session): The TF Session containing Graph.
+        model_name (str): Name for frozen graph to be saved with &#34;.pb&#34; extension.
+        output_dir (str): Directory where to write the graph.
+    &#34;&#34;&#34;
+    graph_def = session.graph_def
+    tf.io.write_graph(graph_or_graph_def=graph_def,
+                  logdir=output_dir,
+                  name=model_name,
+                  as_text=False)
+
+
+def visualize_tf_keras_model(model: tf.keras.Model, output_file_path: str):
+    &#34;&#34;&#34;
+    Description:
+        Visualizes a TensorFlow Keras model and saves the visualization to a file.
+
+    Args:
+        model: A TensorFlow Keras model or a TensorFlow function.
+        output_file_path: The path to save the visualization file.
+    &#34;&#34;&#34;
+    if isinstance(model, tf.keras.Model):
+        logger.warning(f&#34;Model must be a TensorFlow Keras model&#34;)
+        logger.warning(f&#34;Got Unexpected Model instance type : {type(model)}&#34;)
+        logger.warning(&#34;Visualization of graph may get failed.&#34;)
+        
+    tf.keras.utils.plot_model(model, to_file=output_file_path, 
+                                  show_shapes=True, show_dtype=True)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pysnpe_utils.pysnpe.export_to_onnx"><code class="name flex">
+<span>def <span class="ident">export_to_onnx</span></span>(<span>model: torch.nn.modules.module.Module, input_tensor_map: List[pysnpe_utils.pysnpe_enums.InputMap], output_tensor_names: List[str], onnx_file_name: str, opset_version: int = 11) ‑> <a title="pysnpe_utils.pysnpe.SnpeContext" href="#pysnpe_utils.pysnpe.SnpeContext">SnpeContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Exports Pytorch model (nn.Module) to ONNX format and saves it on disk.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>torch.nn.Module</code></dt>
+<dd>A PyTorch model (nn.Module) to export to ONNX format.</dd>
+<dt><strong><code>input_tensor_map</code></strong> :&ensp;<code>List[InputMap]</code></dt>
+<dd>A list of <code>InputMap</code> object: (input_name, shape, dtype)</dd>
+<dt><strong><code>output_tensor_names</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of output names for the ONNX model.</dd>
+<dt><strong><code>onnx_file_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The filename for the exported ONNX model.</dd>
+<dt><strong><code>opset_version</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>ONNX opset version to use. Defaults to 11.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>SnpeContext Class instance required to generate DLC and perform other DLC operations</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If an error occurs during the export process.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">from pysnpe_utils import pysnpe
+
+# Create a PyTorch model and specify the input shape
+model = MyModel()
+
+input_map = InputMap(&quot;img_1&quot;, (1, 3, 224, 224), torch.float32)
+output_tensor_names = [&quot;out_1&quot;]
+onnx_file_name = 'model.onnx'
+
+pysnpe.export_to_onnx(model, [input_map], output_tensor_names, onnx_file_name).to_dlc()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_to_onnx(model: torch.nn.Module,
+                    input_tensor_map: List[InputMap], 
+                    output_tensor_names: List[str], 
+                    onnx_file_name: str,
+                    opset_version: int = 11 ) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Description:
+        Exports Pytorch model (nn.Module) to ONNX format and saves it on disk.
+
+    Args:
+        model (torch.nn.Module): A PyTorch model (nn.Module) to export to ONNX format.
+        input_tensor_map (List[InputMap]): A list of `InputMap` object: (input_name, shape, dtype)
+        output_tensor_names (List[str]): List of output names for the ONNX model.
+        onnx_file_name (str): The filename for the exported ONNX model.
+        opset_version (int, optional): ONNX opset version to use. Defaults to 11.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+        from pysnpe_utils import pysnpe
+
+        # Create a PyTorch model and specify the input shape
+        model = MyModel()
+
+        input_map = InputMap(&#34;img_1&#34;, (1, 3, 224, 224), torch.float32)
+        output_tensor_names = [&#34;out_1&#34;]
+        onnx_file_name = &#39;model.onnx&#39;
+        
+        pysnpe.export_to_onnx(model, [input_map], output_tensor_names, onnx_file_name).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    logger.debug(&#34;Set the Pytorch model to evaluation mode&#34;)
+    model.eval()
+
+    logger.debug(&#34;Push the Pytorch model to CPU&#34;)
+    model.to(&#39;cpu&#39;)
+
+    input_names = [input_map.name for input_map in input_tensor_map]
+    input_shapes = [input_map.shape for input_map in input_tensor_map]
+
+    logger.debug(&#34;Create dummy input tensors for each input shape&#34;)
+    dummy_inputs = []
+    for input_map in input_tensor_map:
+        dummy_inputs.append(torch.zeros(input_map.shape, dtype=input_map.dtype))
+
+    logger.debug(&#34;Export the model to ONNX format&#34;)
+    with torch.no_grad():
+        try:
+            torch.onnx.export(model, 
+                            tuple(dummy_inputs), 
+                            onnx_file_name, 
+                            input_names=input_names, 
+                            output_names=output_tensor_names,
+                            opset_version=opset_version)
+        except Exception as e:
+            raise RuntimeError(f&#34;Error occurred during export: {e}&#34;) 
+
+    logger.info(&#34;Output ONNX model saved at : &#34; + onnx_file_name)
+    
+    logger.debug(&#34;Load the exported model and check its correctness with ONNX Checker&#34;)
+    onnx_model = onnx.load(onnx_file_name)
+    onnx.checker.check_model(onnx_model)
+
+    logger.debug(&#34;Simplifying/Optimizing ONNX model for inference with Static Shapes&#34;)
+    try:
+        from onnxsim import simplify
+        onnx_model, check = simplify(onnx_model)
+        onnx_file_name = onnx_file_name.replace(&#34;.onnx&#34;, &#34;-opt.onnx&#34;)
+        onnx.save(copy.deepcopy(onnx_model), onnx_file_name)
+    except ImportError as ie:
+        logger.warning(&#34;Not able to Simplify ONNX model with ONNXSIM pkg.&#34;)
+
+    logger.debug(&#34;Verify ONNX model correctness with ONNX Runtime&#34;)
+    ort_session = onnxruntime.InferenceSession(onnx_model.SerializeToString())
+
+    logger.debug(&#34;Test the exported ONNX model using the dummy inputs&#34;)
+    ort_inputs = {input_names[i] : dummy_inputs[i].numpy() for i in range(len(input_names))}
+    ort_outputs = ort_session.run(None, ort_inputs)
+
+    logger.debug(&#34;ONNX model&#39;s input shapes&#34;)
+    for i in range(len(input_names)):
+        logger.debug(f&#34;Input {i} := {input_names[i]} : {input_shapes[i]}&#34;)
+
+    logger.debug(&#34;ONNX model&#39;s output shapes&#34;)
+    for i, output_name in enumerate(output_tensor_names):
+        logger.debug(f&#34;Output {i} := {output_name} - Shape: {ort_outputs[i].shape}&#34;)
+
+    logger.info(&#34;Export the ONNX model to SNPE DLC&#34;)
+    return SnpeContext(onnx_file_name, 
+                    ModelFramework.ONNX,
+                    onnx_file_name.replace(&#34;.onnx&#34;, &#34;.dlc&#34;),
+                    {input_names[i] : input_shapes[i] for i in range(len(input_names))}, 
+                    output_tensor_names)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.export_to_tf_frozen_graph"><code class="name flex">
+<span>def <span class="ident">export_to_tf_frozen_graph</span></span>(<span>session: tensorflow.python.client.session.Session, input_tensor_map: Dict[str, List], output_tensor_names: List, output_model_path: str) ‑> <a title="pysnpe_utils.pysnpe.SnpeContext" href="#pysnpe_utils.pysnpe.SnpeContext">SnpeContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exports TF GraphDef to Frozen Graph (.pb) format</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>session</code></strong> :&ensp;<code>tf.compat.v1.Session</code></dt>
+<dd>The TensorFlow Session containing the trained model.</dd>
+<dt><strong><code>input_tensor_map</code></strong> :&ensp;<code>Dict[str, List]</code></dt>
+<dd>A dictionary of model input layer names with their dimensions. It can be found out by visualization of model.</dd>
+<dt><strong><code>output_tensor_names</code></strong> :&ensp;<code>List</code></dt>
+<dd>A list of model output layer names. It can be found out by visualization of model.</dd>
+<dt><strong><code>output_model_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name and path of the model for saving as TF frozen graph with ".pb" extension.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_to_tf_frozen_graph(session: tf.compat.v1.Session,
+                                input_tensor_map: Dict[str, List],
+                                output_tensor_names: List,
+                                output_model_path: str) -&gt; SnpeContext:
+    &#34;&#34;&#34;Exports TF GraphDef to Frozen Graph (.pb) format
+
+    Args:
+        session (tf.compat.v1.Session): The TensorFlow Session containing the trained model.
+        input_tensor_map (Dict[str, List]): A dictionary of model input layer names with their dimensions. It can be found out by visualization of model.
+        output_tensor_names (List): A list of model output layer names. It can be found out by visualization of model.
+        output_model_path (str): The name and path of the model for saving as TF frozen graph with &#34;.pb&#34; extension.
+    &#34;&#34;&#34;
+    # Create a graph definition for the current session
+    graph_def = session.graph_def
+
+    # Create a list of input tensors from the input tensor map
+    input_tensors = {}
+    for input_name, input_shape in input_tensor_map.items():
+        input_tensor = tf.compat.v1.placeholder(dtype=tf.float32, shape=input_shape, name=input_name)
+        input_tensors[input_name] = input_tensor
+    ic(input_tensors)
+
+    # Create a list of output tensors from the output tensor names
+    output_tensors = []
+    for output_name in output_tensor_names:
+        output_tensor = session.graph.get_tensor_by_name(output_name + &#39;:0&#39;)
+        output_tensors.append(output_tensor)
+    ic(output_tensors)
+
+    # Freeze the graph
+    frozen_graph_def = tf.compat.v1.graph_util.convert_variables_to_constants(session, graph_def, [output.name[:-2] for output in output_tensors])
+
+    # Save the frozen graph to a file
+    with tf.io.gfile.GFile(output_model_path, &#39;wb&#39;) as f:
+        f.write(frozen_graph_def.SerializeToString())
+
+    logger.info(f&#39;MOdel saved as frozen graph at {output_model_path}&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.export_to_tf_keras_model"><code class="name flex">
+<span>def <span class="ident">export_to_tf_keras_model</span></span>(<span>model: Union[keras.engine.training.Model, function], input_tensor_map: List[pysnpe_utils.pysnpe_enums.InputMap], keras_model_path: str, skip_model_optimizations: bool = False, frozen_graph_path: str = None, tflite_path: str = None) ‑> <a title="pysnpe_utils.pysnpe.SnpeContext" href="#pysnpe_utils.pysnpe.SnpeContext">SnpeContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Optimizes and Saves a TensorFlow Keras model to disk, with fixed input shapes for each input layer.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt>model (tf.keras.Model | tf.function): A TensorFlow model to export, either a TensorFlow Keras model or a TensorFlow function.</dt>
+<dt><strong><code>input_tensor_map</code></strong> :&ensp;<code>List[InputMap]</code></dt>
+<dd>A list of <code>InputMap</code> object: (input_name, shape, dtype)</dd>
+<dt><strong><code>keras_model_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to save keras model.</dd>
+<dt><strong><code>skip_model_optimizations</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to skip optimization passes in the TensorFlow graph. Default is False.</dd>
+<dt><strong><code>frozen_graph_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Path to save optimized frozen graph. Defaults to None.</dd>
+<dt><strong><code>tflite_path</code></strong></dt>
+<dd>If provided, the function will convert the model to a TensorFlow Lite model and save it to the specified tflite_path.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>SnpeContext Class instance required to generate DLC and perform other DLC operations</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If an error occurs during the export process.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">    model = tf.keras.Sequential([
+        tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(28,28,1)),
+        tf.keras.layers.MaxPooling2D((2,2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(10, activation='softmax')
+    ])
+    model.build()
+    model.summary()
+
+    # Define the input tensor shapes
+    input_map = [ InputMap('input_1', (1,28,28,1), tf.float32) ]
+
+    # Optimize and save the model
+    export_to_tf_keras_model(model, 
+                            input_map, 
+                            'test_keras_model',
+                            skip_model_optimizations=False, 
+                            frozen_graph_path='test_frozen_graph.pb')
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_to_tf_keras_model(model: Union[tf.keras.Model, tf.function],
+                             input_tensor_map: List[InputMap],
+                             keras_model_path: str,
+                             skip_model_optimizations: bool = False,
+                             frozen_graph_path: str = None,
+                             tflite_path: str = None) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Description:
+        Optimizes and Saves a TensorFlow Keras model to disk, with fixed input shapes for each input layer.
+
+    Args:
+        model (tf.keras.Model | tf.function): A TensorFlow model to export, either a TensorFlow Keras model or a TensorFlow function.
+        input_tensor_map (List[InputMap]): A list of `InputMap` object: (input_name, shape, dtype)
+        keras_model_path (str): Path to save keras model.
+        skip_model_optimizations (bool, optional): Whether to skip optimization passes in the TensorFlow graph. Default is False.
+        frozen_graph_path (str, optional): Path to save optimized frozen graph. Defaults to None.
+        tflite_path: If provided, the function will convert the model to a TensorFlow Lite model and save it to the specified tflite_path.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+            model = tf.keras.Sequential([
+                tf.keras.layers.Conv2D(32, (3,3), activation=&#39;relu&#39;, input_shape=(28,28,1)),
+                tf.keras.layers.MaxPooling2D((2,2)),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(10, activation=&#39;softmax&#39;)
+            ])
+            model.build()
+            model.summary()
+
+            # Define the input tensor shapes
+            input_map = [ InputMap(&#39;input_1&#39;, (1,28,28,1), tf.float32) ]
+
+            # Optimize and save the model
+            export_to_tf_keras_model(model, 
+                                    input_map, 
+                                    &#39;test_keras_model&#39;,
+                                    skip_model_optimizations=False, 
+                                    frozen_graph_path=&#39;test_frozen_graph.pb&#39;)
+        ```
+    &#34;&#34;&#34;
+
+    logger.debug(&#34;Create the input signature from the input tensor map&#34;)
+    ic(input_tensor_map)
+
+    input_signature = []
+    dummy_input_tensors = []
+    keras_input_layers = []
+    for input_map in input_tensor_map:
+        input_signature.append(tf.TensorSpec(shape=input_map.shape, dtype=input_map.dtype,
+                             name=input_map.name.rsplit(&#39;:&#39;, 1)[0]))
+        
+        keras_input_layers.append(tf.keras.Input(batch_shape=input_map.shape,
+                                  name=input_map.name, dtype=input_map.dtype))
+        
+        dummy_input_tensors.append(tf.random.uniform(shape=input_map.shape, dtype=input_map.dtype, maxval=5))
+    ic(input_signature)
+    ic(keras_input_layers)
+
+    if isinstance(model, tf.keras.Model):
+        logger.debug(f&#34;Model of type {type(model)} is a tf.keras.Model instance&#34;)
+        outputs = model(*keras_input_layers)
+        keras_model = tf.keras.Model(inputs=keras_input_layers, outputs=outputs)
+        keras_model.summary()
+        tf.keras.models.save_model(keras_model, keras_model_path) #, signatures=input_signature)
+        logger.info(f&#34;Model sucessfully saved in tf keras format at: {keras_model_path}&#34;)
+        del keras_model
+
+        logger.info(&#34;Warping tf.keras.Model in tf.function with input signature&#34;)
+        concrete_function = tf.function(model, input_signature=input_signature).get_concrete_function()
+    else:
+        # Assume model is a function / tf.function, add the input signature to the function
+        concrete_function = model.get_concrete_function(*input_signature)
+        # tf.keras.models.save_model(concrete_function, keras_model_path, signatures=input_signature)
+        # logger.info(f&#34;Concrete Function saved in tf keras format at: {keras_model_path}&#34;)
+
+    logger.info(&#34;Ensuring that the given Model is compatible with given Input shapes&#34;)
+    # Build the Keras model to ensure all layers are built
+    concrete_function(*dummy_input_tensors)  
+    
+    # ================================TF FROZEN GRAPH GEN ================================ #
+    try:
+        logger.debug(&#34;Convert the ConcreteFunction to a TensorFlow graph&#34;)
+        from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
+    except ImportError as ie:
+        logger.warning(
+            f&#34;Failed to find necessary package for TF graph optimization: {str(ie)}&#34;)
+        logger.warning(
+            &#34;Skipping TF Frozen graph generation and optimizations ...&#34;)
+
+        # Fallback to TF Keras Saved Model for DLC generation and return
+        keras_model = tf.saved_model.load(keras_model_path)
+
+        # get first signatures of the model
+        input_signature = list(keras_model.signatures.keys())[0]
+
+        # input layer names and shapes
+        input_signature_dict = keras_model.signatures[input_signature].structured_input_signature[1]
+        input_layers_dict = {spec.name: spec.shape for spec in input_signature_dict.values()}
+        ic(input_layers_dict)
+
+        # output layer names
+        output_layers_name = list(keras_model.signatures[input_signature].output_dtypes.keys())
+        ic(output_layers_name)
+        
+        del keras_model
+        return SnpeContext(keras_model_path,
+                           ModelFramework.TF,
+                           keras_model_path + &#34;.dlc&#34;,
+                           input_layers_dict,
+                           output_layers_name)
+
+    frozen_func = convert_variables_to_constants_v2(concrete_function)
+    graph_def = frozen_func.graph.as_graph_def()
+    graph_def = tf.compat.v1.graph_util.remove_training_nodes(graph_def)
+
+    layers = [op.name for op in frozen_func.graph.get_operations()]
+    logger.debug(&#34;-&#34; * 50)
+    logger.debug(&#34;NO. of Frozen model layers: {}&#34;.format(len(layers)))
+    logger.debug(&#34;-&#34; * 50)
+    logger.debug(f&#34;Frozen model inputs: \n{frozen_func.inputs}&#34;)
+    logger.debug(f&#34;Frozen model outputs: \n{frozen_func.outputs}&#34;)
+
+    # get inputs for snpe-tensorflow-to-dlc (name: shape)
+    input_layers_dict = {}
+    for input_tensor in frozen_func.inputs:
+        if input_tensor.dtype != tf.resource:
+            input_layers_dict[input_tensor.name] = input_tensor.shape.as_list()
+    ic(input_layers_dict)
+
+    # get outputs for snpe-tensorflow-to-dlc
+    output_layers_name = [output_tensor.name for output_tensor in frozen_func.outputs]
+    ic(output_layers_name)
+
+    if frozen_graph_path:
+        logger.debug(f&#34;Set Save path for TensorFlow frozen graph = {frozen_graph_path}&#34;)
+    else:
+        frozen_graph_path = keras_model_path + &#34;.pb&#34;
+        logger.debug(f&#34;Save path for TensorFlow frozen graph = {frozen_graph_path}&#34;)
+
+    if skip_model_optimizations:
+        logger.info(&#34;Skipping optimizations as requested&#34;)
+        with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+        return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)
+    else:
+        with tf.io.gfile.GFile(&#34;pre_optimization_&#34; + frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+    # ===================================TF GRAPH OPTIMIZATIONS ================================ #
+    try:
+        logger.debug(&#34;Optimize using Tensorflow Grappler&#34;)
+        from tensorflow.lite.python.util import run_graph_optimizations, get_grappler_config
+        from tensorflow.python.tools.optimize_for_inference_lib import optimize_for_inference
+    except ImportError as ie:
+        logger.warning(f&#34;Failed to find necessary package for TF graph optimization: {str(ie)}&#34;)
+
+        logger.warning(&#34;Returning and saving TF graph without optimizations ...&#34;)
+        with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+            f.write(graph_def.SerializeToString())
+
+        return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)
+
+    # tsr: short of &#34;tensor&#34; (list of inputs type)
+    input_tensors = [tsr for tsr in frozen_func.inputs if tsr.dtype != tf.resource]
+    ic(input_tensors)
+
+    output_tensors = frozen_func.outputs
+    
+    input_tsr_names = [tsr.name for tsr in input_tensors] # name only
+    output_tsr_names = [tsr.name for tsr in output_tensors]
+    input_node_names = list(set([tsr_name.rsplit(&#39;:&#39;, 1)[0] for tsr_name in input_tsr_names]))
+    output_node_names = list(set([tsr_name.rsplit(&#39;:&#39;, 1)[0] for tsr_name in output_tsr_names]))
+
+    input_types = [spec.dtype.as_datatype_enum for spec in input_signature] # dtypes only
+
+    # this from TF Graph Transform
+    graph_def = optimize_for_inference(
+        graph_def, input_node_names, output_node_names, input_types)
+
+    # this is from TF-MOT
+    graph_def = run_graph_optimizations(graph_def, input_tensors, output_tensors,
+                                        config=get_grappler_config(
+                                            [
+                                                &#39;function&#39;,
+                                                &#39;inline&#39;,
+                                                &#39;arithmetic&#39;,
+                                                &#39;dependency&#39;,
+                                                &#39;constfold&#39;,
+                                                # &#39;layout&#39;,
+                                                # &#39;remap&#39;,
+                                                # &#39;loop_opt&#39;,
+                                                # &#39;memory&#39;,
+                                                # &#39;common_subgraph_elimination&#39;
+                                            ]),
+                                        graph=frozen_func.graph)
+
+    with tf.io.gfile.GFile(frozen_graph_path, &#39;wb&#39;) as f:
+        f.write(graph_def.SerializeToString())
+    logger.info(f&#34;Model successfully exoprted to TF-Frozen Graph format at : {frozen_graph_path}&#34;)
+
+    # Saves as tF-Lite if requested
+    if tflite_path:
+        converter = tf.lite.TFLiteConverter.from_concrete_functions(
+            [concrete_function])
+        tflite_model = converter.convert()
+        with open(tflite_path, &#39;wb&#39;) as f:
+            f.write(tflite_model)
+        logger.info(f&#34;Model successfully exoprted to TF-Lite format at : {tflite_model}&#34;)
+
+    logger.debug(&#34;Deleting Model and Graph Def instance&#34;)
+    del model
+    del graph_def
+
+    logger.debug(&#34;Clearing Keras backend Session&#34;)
+    tf.keras.backend.clear_session()
+
+    return SnpeContext(frozen_graph_path,
+                           ModelFramework.TF,
+                           frozen_graph_path.replace(&#34;.pb&#34;, &#34;.dlc&#34;),
+                           input_layers_dict,
+                           output_layers_name)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.export_to_tflite"><code class="name flex">
+<span>def <span class="ident">export_to_tflite</span></span>(<span>keras_model: keras.engine.training.Model, tflite_file_name: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Converts a TensorFlow Keras model to TFLite format.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>keras_model</code></strong> :&ensp;<code>tf.keras.Model</code></dt>
+<dd>A TensorFlow Keras model.</dd>
+<dt><strong><code>tflite_file_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>A string indicating the name of the output TFLite file to be saved.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>SnpeContext Class instance required to generate DLC and perform other DLC operations</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If an error occurs during the export process.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">    model = tf.keras.Sequential([
+        tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(28,28,1)),
+        tf.keras.layers.MaxPooling2D((2,2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(10, activation='softmax')
+    ])
+    model.build()
+    model.summary()
+
+    # Convert and save the model
+    export_to_tflite(model, 'test_model.tflite').to_dlc()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_to_tflite(keras_model: tf.keras.Model, tflite_file_name: str) -&gt; None:
+    &#34;&#34;&#34;
+    Description:
+        Converts a TensorFlow Keras model to TFLite format.
+
+    Args:
+        keras_model (tf.keras.Model): A TensorFlow Keras model.
+        tflite_file_name (str): A string indicating the name of the output TFLite file to be saved.
+
+    Returns:
+        SnpeContext Class instance required to generate DLC and perform other DLC operations
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+            model = tf.keras.Sequential([
+                tf.keras.layers.Conv2D(32, (3,3), activation=&#39;relu&#39;, input_shape=(28,28,1)),
+                tf.keras.layers.MaxPooling2D((2,2)),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(10, activation=&#39;softmax&#39;)
+            ])
+            model.build()
+            model.summary()
+
+            # Convert and save the model
+            export_to_tflite(model, &#39;test_model.tflite&#39;).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    logger.debug(&#34;Creating a TFLITE converter object&#34;)
+    converter = tf.lite.TFLiteConverter.from_keras_model(keras_model)
+
+    # logger.debug(&#34;Setting input and output shapes of TFLITE model&#34;)
+    # for i, input_node in enumerate(keras_model.inputs):
+    #     converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    #     input_shape = input_node.shape.as_list()[1:]
+    #     converter.inference_input_type(i, tf.float32, input_shape)
+
+    # for i, output_node in enumerate(keras_model.outputs):
+    #     output_shape = output_node.shape.as_list()[1:]
+    #     converter.inference_output_type(i, tf.float32, output_shape)
+
+    logger.debug(&#34;Converting the model into TFLITE&#34;)
+    tflite_model = converter.convert()
+
+    logger.debug(f&#34;Saving the TFLite model with name : {tflite_file_name}&#34;)
+    with open(tflite_file_name, &#39;wb&#39;) as f:
+        f.write(tflite_model)
+
+    logger.debug(f&#34;Loading and Validate the TFLite model: {tflite_file_name}&#34;)
+    interpreter = tf.lite.Interpreter(model_path=tflite_file_name)
+    interpreter.allocate_tensors()
+
+    logger.debug(&#34;Fetching input and output tensors details&#34;)
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+
+    # Loop through input details and get input names and shapes.
+    input_dict = {}
+    for input_tensor in input_details:
+        input_dict[input_tensor[&#39;name&#39;]] = input_tensor[&#39;shape&#39;]
+    ic(input_dict)
+
+    # Loop through output details and print names and shapes.
+    output_list = []
+    for output_tensor in output_details:
+        output_list.append(output_tensor[&#39;name&#39;])
+    ic(output_list)
+
+    logger.info(&#34;Export the TFLITE model to SNPE DLC&#34;)
+    return SnpeContext(tflite_file_name, 
+                    ModelFramework.TFLITE,
+                    tflite_file_name.replace(&#34;.tflite&#34;, &#34;.dlc&#34;),
+                    input_dict, 
+                    output_list)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.export_to_torchscript"><code class="name flex">
+<span>def <span class="ident">export_to_torchscript</span></span>(<span>model: torch.nn.modules.module.Module, input_shapes: List[Tuple[int]], input_dtypes: List[torch.dtype], output_file_path: str, enable_optimizations: bool = True, strict_tracing: bool = True) ‑> <a title="pysnpe_utils.pysnpe.SnpeContext" href="#pysnpe_utils.pysnpe.SnpeContext">SnpeContext</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exports a PyTorch model to TorchScript format and saves it to disk.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>torch.nn.Module</code></dt>
+<dd>A PyTorch model (nn.Module) to export to TorchScript format.</dd>
+<dt><strong><code>input_shape</code></strong> :&ensp;<code>List[Tuple[int]]</code></dt>
+<dd>A tuple specifying the shape of the input tensor for the model.</dd>
+<dt>input_dtypes (List[torch.dtype]) : A tuple specifying the datatype of the input tensor for the model.</dt>
+<dt><strong><code>output_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>A string specifying the file path to which the exported TorchScript model will be saved.</dd>
+<dt><strong><code>enable_optimizations</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag to enable Graph optimizations, which are helpful for inference</dd>
+<dt><strong><code>strict_tracing</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Use 'strict' model while tracing torch module</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If an error occurs during the export process.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">from pysnpe_utils import pysnpe
+
+# Create a PyTorch model and specify the input shape
+model = MyModel()
+input_shapes = [(3, 224, 224)]
+input_dtypes = [torch.float32]
+
+# Export the model to TorchScript format
+output_file_path = 'model.pt'
+pysnpe.export_to_torchscript(model, input_shape,input_dtypes, output_file_path).to_dlc()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_to_torchscript(model: torch.nn.Module, 
+                            input_shapes: List[Tuple[int]], 
+                            input_dtypes: List[torch.dtype], 
+                            output_file_path: str,
+                            enable_optimizations: bool = True,
+                            strict_tracing: bool = True) -&gt; SnpeContext:
+    &#34;&#34;&#34;
+    Exports a PyTorch model to TorchScript format and saves it to disk.
+
+    Args:
+        model (torch.nn.Module): A PyTorch model (nn.Module) to export to TorchScript format.
+        input_shape (List[Tuple[int]]): A tuple specifying the shape of the input tensor for the model.
+        input_dtypes (List[torch.dtype]) : A tuple specifying the datatype of the input tensor for the model.
+        output_file_path (str): A string specifying the file path to which the exported TorchScript model will be saved.
+        enable_optimizations (bool): Flag to enable Graph optimizations, which are helpful for inference
+        strict_tracing (bool): Use &#39;strict&#39; model while tracing torch module
+
+    Returns:
+        None
+
+    Raises:
+        RuntimeError: If an error occurs during the export process.
+
+    Example:
+        ```python
+        from pysnpe_utils import pysnpe
+
+        # Create a PyTorch model and specify the input shape
+        model = MyModel()
+        input_shapes = [(3, 224, 224)]
+        input_dtypes = [torch.float32]
+
+        # Export the model to TorchScript format
+        output_file_path = &#39;model.pt&#39;
+        pysnpe.export_to_torchscript(model, input_shape,input_dtypes, output_file_path).to_dlc()
+        ```
+    &#34;&#34;&#34;
+    
+    logger.debug(&#34;Set the Pytorch model to evaluation mode&#34;)
+    model.eval()
+
+    logger.debug(&#34;Pushing the Pytorch model to CPU&#34;)
+    model.to(&#39;cpu&#39;)
+
+    logger.debug(&#34;Create an dummy input tensor&#34;)
+    example_inputs = []
+    for shape, dtype in zip(input_shapes, input_dtypes):
+        example_inputs.append(torch.zeros(shape, dtype=dtype))
+
+    logger.debug(&#34;Wrap the export process inside torch.no_grad context manager&#34;)
+    with torch.no_grad():
+        with torch.jit.optimized_execution(enable_optimizations):
+            logger.debug(&#34;Trace the model to create a TorchScript module&#34;)
+            traced_module = torch.jit.trace(model, tuple(example_inputs), strict=strict_tracing)
+
+        if enable_optimizations:
+            try:    
+                logger.debug(&#34;Optimizing the traced module using graph mode optimization for inference&#34;)
+                traced_module, _ = torch.jit.optimize_for_inference(traced_module)
+            except Exception as e:
+                logger.warning(f&#34;Error occurred during Model Optimization: {e}.\n Skipping optimizations...&#34;)
+
+    torch.jit.save(traced_module, output_file_path)
+    logger.debug(f&#34;Torchscript module saved at {output_file_path}&#34;)
+
+    import inspect
+    input_names = inspect.signature(model.forward).parameters.keys()
+
+    logger.debug(&#34;Fetch input names and dimensions&#34;)
+    input_dict = {}
+    for name, shape in zip(input_names, input_shapes):
+        input_dict[name] = shape
+    ic(input_dict)
+
+    output_list = []
+
+    logger.info(&#34;Export the Torchscript model to SNPE DLC&#34;)
+    return SnpeContext(output_file_path, 
+                    ModelFramework.PYTORCH,
+                    output_file_path.replace(&#34;.pt&#34;, &#34;.dlc&#34;),
+                    input_dict, 
+                    output_list)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.visualize_tf_keras_model"><code class="name flex">
+<span>def <span class="ident">visualize_tf_keras_model</span></span>(<span>model: keras.engine.training.Model, output_file_path: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Visualizes a TensorFlow Keras model and saves the visualization to a file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong></dt>
+<dd>A TensorFlow Keras model or a TensorFlow function.</dd>
+<dt><strong><code>output_file_path</code></strong></dt>
+<dd>The path to save the visualization file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize_tf_keras_model(model: tf.keras.Model, output_file_path: str):
+    &#34;&#34;&#34;
+    Description:
+        Visualizes a TensorFlow Keras model and saves the visualization to a file.
+
+    Args:
+        model: A TensorFlow Keras model or a TensorFlow function.
+        output_file_path: The path to save the visualization file.
+    &#34;&#34;&#34;
+    if isinstance(model, tf.keras.Model):
+        logger.warning(f&#34;Model must be a TensorFlow Keras model&#34;)
+        logger.warning(f&#34;Got Unexpected Model instance type : {type(model)}&#34;)
+        logger.warning(&#34;Visualization of graph may get failed.&#34;)
+        
+    tf.keras.utils.plot_model(model, to_file=output_file_path, 
+                                  show_shapes=True, show_dtype=True)</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.visualize_tf_session_graph"><code class="name flex">
+<span>def <span class="ident">visualize_tf_session_graph</span></span>(<span>session: tensorflow.python.client.session.Session, model_name: str, output_dir: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>For visualization of TF Session graph with Netron Viewer. It is helpful for identifying model input and output layer names and understanding model topology.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>session</code></strong> :&ensp;<code>tf.compat.v1.Session</code></dt>
+<dd>The TF Session containing Graph.</dd>
+<dt><strong><code>model_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name for frozen graph to be saved with ".pb" extension.</dd>
+<dt><strong><code>output_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Directory where to write the graph.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize_tf_session_graph(session: tf.compat.v1.Session,
+                                model_name: str,
+                                output_dir: str):
+    &#34;&#34;&#34;
+    Description:
+        For visualization of TF Session graph with Netron Viewer. It is helpful for identifying model input and output layer names and understanding model topology.
+
+    Args:
+        session (tf.compat.v1.Session): The TF Session containing Graph.
+        model_name (str): Name for frozen graph to be saved with &#34;.pb&#34; extension.
+        output_dir (str): Directory where to write the graph.
+    &#34;&#34;&#34;
+    graph_def = session.graph_def
+    tf.io.write_graph(graph_or_graph_def=graph_def,
+                  logdir=output_dir,
+                  name=model_name,
+                  as_text=False)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pysnpe_utils.pysnpe.SnpeContext"><code class="flex name class">
+<span>class <span class="ident">SnpeContext</span></span>
+<span>(</span><span>model_path: str, model_framework: pysnpe_utils.pysnpe_enums.ModelFramework, dlc_path: str, input_tensor_map: Dict[str, List[int]], output_tensor_names: List[str], quant_encodings_path: str = None, target_device: <a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a> = None, remote_session_name: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Stores metadata needed to generate a DLC and for other DLC operations</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path of freezed graph which is to be converted to DLC</dd>
+<dt><strong><code>model_framework</code></strong> :&ensp;<code>ModelFramework</code></dt>
+<dd>Specifies the Model framework : TF, ONNX, CAFFE, PYTORCH, TFLITE</dd>
+<dt><strong><code>dlc_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to save generated DLC</dd>
+<dt><strong><code>input_tensor_map</code></strong> :&ensp;<code>Dict[str, List]</code></dt>
+<dd>Dict of the model's input names and their shape</dd>
+<dt><strong><code>output_tensor_names</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of the model's output names</dd>
+<dt><strong><code>quant_encodings_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to quantization encodings file (mostly generate using AIMET)</dd>
+<dt><strong><code>target_device</code></strong> :&ensp;<code><a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a></code></dt>
+<dd>Target Device on which inference has to be executed.</dd>
+<dt><strong><code>remote_session_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Represents path at Target Device, where DLC and input tensors will be pushed.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SnpeContext:
+
+    def __init__(self, model_path:str, 
+                    model_framework:ModelFramework,
+                    dlc_path:str,
+                    input_tensor_map: Dict[str, List[int]], 
+                    output_tensor_names: List[str],
+                    quant_encodings_path: str = None,
+                    target_device: TargetDevice = None,
+                    remote_session_name: str = None):
+        &#34;&#34;&#34;
+        Description:
+            Stores metadata needed to generate a DLC and for other DLC operations
+
+        Args:
+            model_path (str): Path of freezed graph which is to be converted to DLC
+            model_framework (ModelFramework): Specifies the Model framework : TF, ONNX, CAFFE, PYTORCH, TFLITE
+            dlc_path (str): Path to save generated DLC
+            input_tensor_map (Dict[str, List]): Dict of the model&#39;s input names and their shape
+            output_tensor_names (List[str]): List of the model&#39;s output names
+            quant_encodings_path (str): Path to quantization encodings file (mostly generate using AIMET)
+            target_device (TargetDevice): Target Device on which inference has to be executed.
+            remote_session_name (str): Represents path at Target Device, where DLC and input tensors will be pushed.
+        &#34;&#34;&#34;
+        self.model_path = model_path
+        self.model_framework = model_framework
+        self.dlc_path = dlc_path
+        self.quant_dlc_path = None
+        self.input_tensor_map = input_tensor_map
+        self.output_tensor_names = output_tensor_names
+        self.quant_encodings_path = quant_encodings_path
+        self.target_device = target_device
+        self.remote_session_name = remote_session_name
+
+        if not self.target_device:
+            self.target_device = self.set_target_device()
+
+
+    def set_target_device(self, target_device: TargetDevice = None):
+        &#34;&#34;&#34;
+        Description:
+            Adds Target Device into current SnpeContext, on which inference has to be done
+        &#34;&#34;&#34;
+        if target_device:
+            self.target_device = target_device
+        else:
+            logger.debug(&#34;Querying for ADB devices:&#34;)
+            client = AdbClient()
+            adb_devices = client.devices()
+            logger.debug(f&#34;Got {len(adb_devices)} ADB devices&#34;)
+            
+            if len(adb_devices) == 0:
+                self.target_device = TargetDevice(target_device_type=get_host_type())
+            else:
+                self.target_device = TargetDevice()
+
+        return self
+
+
+    def to_dlc(self):
+        &#34;&#34;&#34;
+        Description:
+            Converts freezed graph into DLC by invoking `SNPE Converter`
+        &#34;&#34;&#34;
+        if self.model_framework == ModelFramework.ONNX:
+            snpe_onnx_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.TF:
+            snpe_tensorflow_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.TFLITE:
+            snpe_tflite_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.PYTORCH:
+            snpe_pytorch_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                            self.output_tensor_names, self.quant_encodings_path)
+        elif self.model_framework == ModelFramework.CAFFE:
+            raise NotImplementedError(f&#39;Support for CAFFE models is getting deprecated from SNPE&#39;)
+        else:
+            raise RuntimeError(f&#39;Got Unsupported Model Type: {self.model_type}&#39;)
+        
+        return self
+
+
+    def gen_dsp_graph_cache(self, dlc_type:DlcType,  chipsets:List[str] = [&#34;sm8550&#34;], 
+                            overwrite_cache_records:bool=True):
+        &#34;&#34;&#34;
+        Description:
+            Generates DSP Offline Cache (serialized graph) to save model initialization time, by invoking `snpe-dlc-graph-prepare` tool
+
+            On success, the `self.dlc_path` or `self.quant_dlc_path` will get updated with newly generated cached dlc path
+
+        Args:
+            dlc_type (DlcType): Type of DLC : FLOAT | QUANT . QUANT dlc is generated by SNPE Quantizer.
+            chipset (List[str], optional): List of chipsets for which Graph cache needs to generated [sm8350,sm8450,sm8550]. Defaults to [&#34;sm8550&#34;].
+            overwrite_cache_records (bool, optional): Overwrite previously generated Graph Cache. Defaults to True.
+        &#34;&#34;&#34;
+        is_fp16 = False
+        if dlc_type == DlcType.FLOAT:
+            is_fp16 = True
+            out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_fp16_cached.dlc&#34;)
+        else:
+            out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_cached.dlc&#34;)
+
+        exit_code = snpe_dlc_graph_prepare(self.dlc_path, chipsets, 
+                                out_dlc_path=out_dlc_path_name,
+                                output_tensor_names=self.output_tensor_names,
+                                is_fp16=is_fp16, overwrite_cache_records=overwrite_cache_records)
+
+        # Overwrites DLC name with newly generated DLC
+        if exit_code == 0:
+            if dlc_type == DlcType.FLOAT:
+                self.dlc_path = out_dlc_path_name
+            else:
+                self.quant_dlc_path = out_dlc_path_name
+
+        return self
+
+
+    def visualize_dlc(self, save_path: str = None):
+        &#34;&#34;&#34;
+        Description:
+            Saves DLC graph structure in HTML and Tabular textual format by invoking `snpe-dlc-viewer` and `snpe-dlc-info` tools
+
+        Args:
+            save_path (str, optional): Path to save visualization output. If None, then output is save with save DLC name as prefix and &#34;.html&#34; and &#34;.txt&#34; as suffix
+        &#34;&#34;&#34;
+        if not save_path:
+            save_path = self.dlc_path.replace(&#34;.dlc&#34;, &#34;.html&#34;)
+        snpe_dlc_viewer(self.dlc_path, save_path=save_path)
+        return self
+
+
+    __pdoc__ = {&#39;__set_remote_session_name&#39;: False}   
+    def __set_remote_session_name(self, dlc_path:str, target_device:TargetDevice):
+        if not self.remote_session_name:
+            timestamp = datetime.now()
+            unique_id = f&#34;{timestamp.strftime(&#39;%d_%B&#39;)}&#34;
+            # unique_id = f&#34;{timestamp.strftime(&#39;%d_%B&#39;)}_{timestamp.strftime(&#39;%I_%M_%S&#39;)}&#34;
+            self.remote_session_name = f&#34;{target_device.device_storage_loc}/{dlc_path.replace(&#39;.dlc&#39;,&#39;&#39;)}_{unique_id}&#34;
+            logger.debug(f&#34;Remote session name = {self.remote_session_name}&#34;)
+
+
+    def profile(self, runtime: Runtime = Runtime.CPU, 
+                        dlc_type: DlcType = DlcType.FLOAT,
+                        target_device: TargetDevice = None,
+                        num_threads: int = 1, 
+                        duration: int = 2, 
+                        cpu_fallback: bool = True):
+        &#34;&#34;&#34;
+        Description:
+            Profiles model execution time on provided runtime and gives metrics: Inference per second, Model Init and DeInit times
+
+        Args:
+            runtime (Runtime, optional): Runtime on which DLC will be executed [CPU, GPU, GPU_FP16, DSP, AIP]. Defaults to CPU runtime
+            target_device (TargetDevice, optional): Target device on which profiling for DLC is to be done. Defaults to None.
+            num_threads (int, optional): Number of threads to be used for DLC execution. Defaults to 1
+            duration (int, optional): Duration of time (in seconds) to run network execution. Defaults to 2 seconds.
+            cpu_fallback (bool, optional): Fallback unsupported layer to CPU, if any. Defaults to True.
+        &#34;&#34;&#34;
+
+        if target_device is None:
+            target_device = self.target_device
+        logger.debug(f&#34;Profiling will done on device : {target_device}&#34;)
+
+        if dlc_type == DlcType.QUANT:
+            dlc_path = self.quant_dlc_path
+        else:
+            dlc_path = self.dlc_path
+
+        # if remote_session_name is not provided, create a unique name
+        self.__set_remote_session_name(dlc_path, target_device)
+
+        # push DLC at session_name path (push will be skipped, if file exists at loc)
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            if self.quant_dlc_path:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            else:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            
+            print(&#34;=&#34;*35 + &#34; Througput Test &#34; + &#34;=&#34;*35 + &#34;\n&#34;)
+            snpe_throughput_net_run(remote_dlc_path, target_device.device_storage_loc, 
+                                    runtime.value, duration, num_threads, 
+                                    cpu_fallback=cpu_fallback, 
+                                    device_id=target_device.target_device_adb_id,
+                                    device_host=target_device.device_host, 
+                                    target_arch=target_device.target_device_type)
+            print(&#34;\n&#34; + &#34;=&#34;*80 + &#34;\n&#34;)
+        else:
+            logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+            
+        return self
+
+
+    def quantize(self, quant_scheme: List[QuantScheme]=[QuantScheme.AXIS_QUANT], 
+                    act_bw:ActBw=ActBw.INT8, 
+                    weight_bw:WeightBw=WeightBw.INT8, 
+                    override_quant_params=False):
+        &#34;&#34;&#34;
+        Description:
+            Quantizes DLC using provided quant_scheme, activation bitwidth and weight bitwidth
+
+        Args:
+            quant_scheme (List[QuantScheme]): List of SNPE provided quant schemes. Defaults to Axis Quantization
+            act_bw (ActBw, optional): Activation bitwidth (16 or 8). Defaults to 8.
+            weight_bw (int, optional): Weight bitwidth (8 or 4). Defaults to 8.
+            override_quant_params (bool, optional): Use quant encodings provided from encodings file. Defaults to False.
+        &#34;&#34;&#34;
+        logger.warning(&#34;This method is yet to implemented. Returning SNPE context as is ...&#34;)
+        # keep bias bw = 32 as default
+        return self
+
+
+    def execute_dlc(self, 
+                    input_tensor_map: Dict[str, np.ndarray],
+                    dlc_type: DlcType = DlcType.FLOAT,
+                    transpose_input_order: Dict[str, Tuple] = None,
+                    target_acclerator: Runtime = Runtime.CPU,
+                    target_device: TargetDevice = None,
+                    ) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Description:
+            Executes DLC on target device or x86/ARM64 host machine using &#39;snpe-net-run&#39; for ADB protocol
+            and using &#39;snpe python bindings&#39; for PYBIND and GRPC protocol.
+
+        Args:
+            input_tensor_map (Dict[str, np.ndarray]): Input tensor name and its tensor data in Numpy Nd-Array FP32 format.
+
+            dlc_type (DlcType): Whether the DLC is FLOAT type or QUANT type.
+
+            
+            transpose_input_order (Dict[str, Tuple]): SNPE expects the input tensor to be NHWC (Batch x Height x Width x Channel) format, whereas DNN Frameworks like Pytorch, ONNX uses NCHW (Batch x Channel x Height x Width) format. Providing transpose order will make the input tensor in format acceptable to SNPE. For example, ONNX input dim = (1,3,224,224) and SNPE DLC input dim = (1,224,224,3), then providing Dictionary {&#39;layer_name&#39;: (0,2,3,1)} will do the needful format conversion.
+            
+            target_acclerator (Runtime): Snapdragon DSP, CPU, GPU, GPU-FP16 and legacy AIP acclerator.
+
+            target_device (TargetDevice): Target device on which DLC is to be executed. Defaults to None.
+
+        Returns:
+            Dict[str, np.ndarray]: Output Tensor Name : its Output Tensor, generated after inference
+        &#34;&#34;&#34;
+
+        if not target_device:
+            target_device = self.target_device
+
+        if dlc_type == DlcType.QUANT:
+            dlc_path = self.quant_dlc_path
+        else:
+            dlc_path = self.dlc_path
+
+        # if remote_session_name is not provided/ not set, create a unique name
+        self.__set_remote_session_name(dlc_path, target_device)
+
+        # push DLC at remote_session_name path (push will be skipped, if file already exists at loc)
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            if self.quant_dlc_path:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            else:
+                remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+                
+        # Run inference
+        if target_device.device_protocol == DeviceProtocol.ADB:
+            return inference_on_device(dlc_path, remote_dlc_path, target_device.device_storage_loc, input_tensor_map, output_layers=self.output_tensor_names, runtime=target_acclerator.value, device_id=target_device.target_device_adb_id, device_host=target_device.device_host, do_transpose=transpose_input_order)
+
+            # [TODO]: For ONNX : Instead of returning Dict of output tensors, validate if shapes are same,
+            # else Raise a warning that Transpose is needed
+        else:
+            logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+
+        return self
+
+
+    __pdoc__ = {&#39;__repr__&#39;: False}
+    def __repr__(self):
+        return f&#34;&#34;&#34;SnpeContext(model_path=&#39;{self.model_path}&#39;, 
+                model_framework={self.model_framework}, 
+                dlc_path=&#39;{self.dlc_path}&#39;, 
+                input_tensor_map={self.input_tensor_map}, 
+                output_tensor_names={self.output_tensor_names}, 
+                quant_encodings_path=&#39;{self.quant_encodings_path}&#39;, 
+                remote_session_name=&#39;{self.remote_session_name}&#39;
+                target_device={self.target_device})&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.execute_dlc"><code class="name flex">
+<span>def <span class="ident">execute_dlc</span></span>(<span>self, input_tensor_map: Dict[str, numpy.ndarray], dlc_type: pysnpe_utils.pysnpe_enums.DlcType = DlcType.FLOAT, transpose_input_order: Dict[str, Tuple] = None, target_acclerator: pysnpe_utils.pysnpe_enums.Runtime = Runtime.CPU, target_device: <a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a> = None) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Executes DLC on target device or x86/ARM64 host machine using 'snpe-net-run' for ADB protocol
+and using 'snpe python bindings' for PYBIND and GRPC protocol.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_tensor_map</code></strong> :&ensp;<code>Dict[str, np.ndarray]</code></dt>
+<dd>Input tensor name and its tensor data in Numpy Nd-Array FP32 format.</dd>
+<dt><strong><code>dlc_type</code></strong> :&ensp;<code>DlcType</code></dt>
+<dd>Whether the DLC is FLOAT type or QUANT type.</dd>
+<dt><strong><code>transpose_input_order</code></strong> :&ensp;<code>Dict[str, Tuple]</code></dt>
+<dd>SNPE expects the input tensor to be NHWC (Batch x Height x Width x Channel) format, whereas DNN Frameworks like Pytorch, ONNX uses NCHW (Batch x Channel x Height x Width) format. Providing transpose order will make the input tensor in format acceptable to SNPE. For example, ONNX input dim = (1,3,224,224) and SNPE DLC input dim = (1,224,224,3), then providing Dictionary {'layer_name': (0,2,3,1)} will do the needful format conversion.</dd>
+<dt><strong><code>target_acclerator</code></strong> :&ensp;<code>Runtime</code></dt>
+<dd>Snapdragon DSP, CPU, GPU, GPU-FP16 and legacy AIP acclerator.</dd>
+<dt><strong><code>target_device</code></strong> :&ensp;<code><a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a></code></dt>
+<dd>Target device on which DLC is to be executed. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict[str, np.ndarray]</code></dt>
+<dd>Output Tensor Name : its Output Tensor, generated after inference</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_dlc(self, 
+                input_tensor_map: Dict[str, np.ndarray],
+                dlc_type: DlcType = DlcType.FLOAT,
+                transpose_input_order: Dict[str, Tuple] = None,
+                target_acclerator: Runtime = Runtime.CPU,
+                target_device: TargetDevice = None,
+                ) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Description:
+        Executes DLC on target device or x86/ARM64 host machine using &#39;snpe-net-run&#39; for ADB protocol
+        and using &#39;snpe python bindings&#39; for PYBIND and GRPC protocol.
+
+    Args:
+        input_tensor_map (Dict[str, np.ndarray]): Input tensor name and its tensor data in Numpy Nd-Array FP32 format.
+
+        dlc_type (DlcType): Whether the DLC is FLOAT type or QUANT type.
+
+        
+        transpose_input_order (Dict[str, Tuple]): SNPE expects the input tensor to be NHWC (Batch x Height x Width x Channel) format, whereas DNN Frameworks like Pytorch, ONNX uses NCHW (Batch x Channel x Height x Width) format. Providing transpose order will make the input tensor in format acceptable to SNPE. For example, ONNX input dim = (1,3,224,224) and SNPE DLC input dim = (1,224,224,3), then providing Dictionary {&#39;layer_name&#39;: (0,2,3,1)} will do the needful format conversion.
+        
+        target_acclerator (Runtime): Snapdragon DSP, CPU, GPU, GPU-FP16 and legacy AIP acclerator.
+
+        target_device (TargetDevice): Target device on which DLC is to be executed. Defaults to None.
+
+    Returns:
+        Dict[str, np.ndarray]: Output Tensor Name : its Output Tensor, generated after inference
+    &#34;&#34;&#34;
+
+    if not target_device:
+        target_device = self.target_device
+
+    if dlc_type == DlcType.QUANT:
+        dlc_path = self.quant_dlc_path
+    else:
+        dlc_path = self.dlc_path
+
+    # if remote_session_name is not provided/ not set, create a unique name
+    self.__set_remote_session_name(dlc_path, target_device)
+
+    # push DLC at remote_session_name path (push will be skipped, if file already exists at loc)
+    if target_device.device_protocol == DeviceProtocol.ADB:
+        if self.quant_dlc_path:
+            remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+        else:
+            remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+            
+    # Run inference
+    if target_device.device_protocol == DeviceProtocol.ADB:
+        return inference_on_device(dlc_path, remote_dlc_path, target_device.device_storage_loc, input_tensor_map, output_layers=self.output_tensor_names, runtime=target_acclerator.value, device_id=target_device.target_device_adb_id, device_host=target_device.device_host, do_transpose=transpose_input_order)
+
+        # [TODO]: For ONNX : Instead of returning Dict of output tensors, validate if shapes are same,
+        # else Raise a warning that Transpose is needed
+    else:
+        logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.gen_dsp_graph_cache"><code class="name flex">
+<span>def <span class="ident">gen_dsp_graph_cache</span></span>(<span>self, dlc_type: pysnpe_utils.pysnpe_enums.DlcType, chipsets: List[str] = ['sm8550'], overwrite_cache_records: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Generates DSP Offline Cache (serialized graph) to save model initialization time, by invoking <code>snpe-dlc-graph-prepare</code> tool</p>
+<p>On success, the <code>self.dlc_path</code> or <code>self.quant_dlc_path</code> will get updated with newly generated cached dlc path</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dlc_type</code></strong> :&ensp;<code>DlcType</code></dt>
+<dd>Type of DLC : FLOAT | QUANT . QUANT dlc is generated by SNPE Quantizer.</dd>
+<dt><strong><code>chipset</code></strong> :&ensp;<code>List[str]</code>, optional</dt>
+<dd>List of chipsets for which Graph cache needs to generated [sm8350,sm8450,sm8550]. Defaults to ["sm8550"].</dd>
+<dt><strong><code>overwrite_cache_records</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite previously generated Graph Cache. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gen_dsp_graph_cache(self, dlc_type:DlcType,  chipsets:List[str] = [&#34;sm8550&#34;], 
+                        overwrite_cache_records:bool=True):
+    &#34;&#34;&#34;
+    Description:
+        Generates DSP Offline Cache (serialized graph) to save model initialization time, by invoking `snpe-dlc-graph-prepare` tool
+
+        On success, the `self.dlc_path` or `self.quant_dlc_path` will get updated with newly generated cached dlc path
+
+    Args:
+        dlc_type (DlcType): Type of DLC : FLOAT | QUANT . QUANT dlc is generated by SNPE Quantizer.
+        chipset (List[str], optional): List of chipsets for which Graph cache needs to generated [sm8350,sm8450,sm8550]. Defaults to [&#34;sm8550&#34;].
+        overwrite_cache_records (bool, optional): Overwrite previously generated Graph Cache. Defaults to True.
+    &#34;&#34;&#34;
+    is_fp16 = False
+    if dlc_type == DlcType.FLOAT:
+        is_fp16 = True
+        out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_fp16_cached.dlc&#34;)
+    else:
+        out_dlc_path_name = self.dlc_path.replace(&#34;.dlc&#34;, &#34;_dsp_cached.dlc&#34;)
+
+    exit_code = snpe_dlc_graph_prepare(self.dlc_path, chipsets, 
+                            out_dlc_path=out_dlc_path_name,
+                            output_tensor_names=self.output_tensor_names,
+                            is_fp16=is_fp16, overwrite_cache_records=overwrite_cache_records)
+
+    # Overwrites DLC name with newly generated DLC
+    if exit_code == 0:
+        if dlc_type == DlcType.FLOAT:
+            self.dlc_path = out_dlc_path_name
+        else:
+            self.quant_dlc_path = out_dlc_path_name
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.profile"><code class="name flex">
+<span>def <span class="ident">profile</span></span>(<span>self, runtime: pysnpe_utils.pysnpe_enums.Runtime = Runtime.CPU, dlc_type: pysnpe_utils.pysnpe_enums.DlcType = DlcType.FLOAT, target_device: <a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a> = None, num_threads: int = 1, duration: int = 2, cpu_fallback: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Profiles model execution time on provided runtime and gives metrics: Inference per second, Model Init and DeInit times</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>runtime</code></strong> :&ensp;<code>Runtime</code>, optional</dt>
+<dd>Runtime on which DLC will be executed [CPU, GPU, GPU_FP16, DSP, AIP]. Defaults to CPU runtime</dd>
+<dt><strong><code>target_device</code></strong> :&ensp;<code><a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a></code>, optional</dt>
+<dd>Target device on which profiling for DLC is to be done. Defaults to None.</dd>
+<dt><strong><code>num_threads</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of threads to be used for DLC execution. Defaults to 1</dd>
+<dt><strong><code>duration</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Duration of time (in seconds) to run network execution. Defaults to 2 seconds.</dd>
+<dt><strong><code>cpu_fallback</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Fallback unsupported layer to CPU, if any. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def profile(self, runtime: Runtime = Runtime.CPU, 
+                    dlc_type: DlcType = DlcType.FLOAT,
+                    target_device: TargetDevice = None,
+                    num_threads: int = 1, 
+                    duration: int = 2, 
+                    cpu_fallback: bool = True):
+    &#34;&#34;&#34;
+    Description:
+        Profiles model execution time on provided runtime and gives metrics: Inference per second, Model Init and DeInit times
+
+    Args:
+        runtime (Runtime, optional): Runtime on which DLC will be executed [CPU, GPU, GPU_FP16, DSP, AIP]. Defaults to CPU runtime
+        target_device (TargetDevice, optional): Target device on which profiling for DLC is to be done. Defaults to None.
+        num_threads (int, optional): Number of threads to be used for DLC execution. Defaults to 1
+        duration (int, optional): Duration of time (in seconds) to run network execution. Defaults to 2 seconds.
+        cpu_fallback (bool, optional): Fallback unsupported layer to CPU, if any. Defaults to True.
+    &#34;&#34;&#34;
+
+    if target_device is None:
+        target_device = self.target_device
+    logger.debug(f&#34;Profiling will done on device : {target_device}&#34;)
+
+    if dlc_type == DlcType.QUANT:
+        dlc_path = self.quant_dlc_path
+    else:
+        dlc_path = self.dlc_path
+
+    # if remote_session_name is not provided, create a unique name
+    self.__set_remote_session_name(dlc_path, target_device)
+
+    # push DLC at session_name path (push will be skipped, if file exists at loc)
+    if target_device.device_protocol == DeviceProtocol.ADB:
+        if self.quant_dlc_path:
+            remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.quant_dlc_path, target_device.target_device_adb_id, target_device.device_host)
+        else:
+            remote_dlc_path = push_dlc_on_device_via_adb(self.remote_session_name, self.dlc_path, target_device.target_device_adb_id, target_device.device_host)
+        
+        print(&#34;=&#34;*35 + &#34; Througput Test &#34; + &#34;=&#34;*35 + &#34;\n&#34;)
+        snpe_throughput_net_run(remote_dlc_path, target_device.device_storage_loc, 
+                                runtime.value, duration, num_threads, 
+                                cpu_fallback=cpu_fallback, 
+                                device_id=target_device.target_device_adb_id,
+                                device_host=target_device.device_host, 
+                                target_arch=target_device.target_device_type)
+        print(&#34;\n&#34; + &#34;=&#34;*80 + &#34;\n&#34;)
+    else:
+        logger.critical(&#34;\n\nUnimplement Protocol : &#34;, target_device.device_protocol)
+        
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.quantize"><code class="name flex">
+<span>def <span class="ident">quantize</span></span>(<span>self, quant_scheme: List[pysnpe_utils.pysnpe_enums.QuantScheme] = [&lt;QuantScheme.AXIS_QUANT: &#x27; --axis_quant &#x27;&gt;], act_bw: pysnpe_utils.pysnpe_enums.ActBw = ActBw.INT8, weight_bw: pysnpe_utils.pysnpe_enums.WeightBw = WeightBw.INT8, override_quant_params=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Quantizes DLC using provided quant_scheme, activation bitwidth and weight bitwidth</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>quant_scheme</code></strong> :&ensp;<code>List[QuantScheme]</code></dt>
+<dd>List of SNPE provided quant schemes. Defaults to Axis Quantization</dd>
+<dt><strong><code>act_bw</code></strong> :&ensp;<code>ActBw</code>, optional</dt>
+<dd>Activation bitwidth (16 or 8). Defaults to 8.</dd>
+<dt><strong><code>weight_bw</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Weight bitwidth (8 or 4). Defaults to 8.</dd>
+<dt><strong><code>override_quant_params</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Use quant encodings provided from encodings file. Defaults to False.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def quantize(self, quant_scheme: List[QuantScheme]=[QuantScheme.AXIS_QUANT], 
+                act_bw:ActBw=ActBw.INT8, 
+                weight_bw:WeightBw=WeightBw.INT8, 
+                override_quant_params=False):
+    &#34;&#34;&#34;
+    Description:
+        Quantizes DLC using provided quant_scheme, activation bitwidth and weight bitwidth
+
+    Args:
+        quant_scheme (List[QuantScheme]): List of SNPE provided quant schemes. Defaults to Axis Quantization
+        act_bw (ActBw, optional): Activation bitwidth (16 or 8). Defaults to 8.
+        weight_bw (int, optional): Weight bitwidth (8 or 4). Defaults to 8.
+        override_quant_params (bool, optional): Use quant encodings provided from encodings file. Defaults to False.
+    &#34;&#34;&#34;
+    logger.warning(&#34;This method is yet to implemented. Returning SNPE context as is ...&#34;)
+    # keep bias bw = 32 as default
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.set_target_device"><code class="name flex">
+<span>def <span class="ident">set_target_device</span></span>(<span>self, target_device: <a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a> = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Adds Target Device into current SnpeContext, on which inference has to be done</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_target_device(self, target_device: TargetDevice = None):
+    &#34;&#34;&#34;
+    Description:
+        Adds Target Device into current SnpeContext, on which inference has to be done
+    &#34;&#34;&#34;
+    if target_device:
+        self.target_device = target_device
+    else:
+        logger.debug(&#34;Querying for ADB devices:&#34;)
+        client = AdbClient()
+        adb_devices = client.devices()
+        logger.debug(f&#34;Got {len(adb_devices)} ADB devices&#34;)
+        
+        if len(adb_devices) == 0:
+            self.target_device = TargetDevice(target_device_type=get_host_type())
+        else:
+            self.target_device = TargetDevice()
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.to_dlc"><code class="name flex">
+<span>def <span class="ident">to_dlc</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Converts freezed graph into DLC by invoking <code>SNPE Converter</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dlc(self):
+    &#34;&#34;&#34;
+    Description:
+        Converts freezed graph into DLC by invoking `SNPE Converter`
+    &#34;&#34;&#34;
+    if self.model_framework == ModelFramework.ONNX:
+        snpe_onnx_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                        self.output_tensor_names, self.quant_encodings_path)
+    elif self.model_framework == ModelFramework.TF:
+        snpe_tensorflow_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                        self.output_tensor_names, self.quant_encodings_path)
+    elif self.model_framework == ModelFramework.TFLITE:
+        snpe_tflite_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                        self.output_tensor_names, self.quant_encodings_path)
+    elif self.model_framework == ModelFramework.PYTORCH:
+        snpe_pytorch_to_dlc(self.model_path, self.dlc_path, self.input_tensor_map, 
+                        self.output_tensor_names, self.quant_encodings_path)
+    elif self.model_framework == ModelFramework.CAFFE:
+        raise NotImplementedError(f&#39;Support for CAFFE models is getting deprecated from SNPE&#39;)
+    else:
+        raise RuntimeError(f&#39;Got Unsupported Model Type: {self.model_type}&#39;)
+    
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.SnpeContext.visualize_dlc"><code class="name flex">
+<span>def <span class="ident">visualize_dlc</span></span>(<span>self, save_path: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Saves DLC graph structure in HTML and Tabular textual format by invoking <code>snpe-dlc-viewer</code> and <code>snpe-dlc-info</code> tools</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Path to save visualization output. If None, then output is save with save DLC name as prefix and ".html" and ".txt" as suffix</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize_dlc(self, save_path: str = None):
+    &#34;&#34;&#34;
+    Description:
+        Saves DLC graph structure in HTML and Tabular textual format by invoking `snpe-dlc-viewer` and `snpe-dlc-info` tools
+
+    Args:
+        save_path (str, optional): Path to save visualization output. If None, then output is save with save DLC name as prefix and &#34;.html&#34; and &#34;.txt&#34; as suffix
+    &#34;&#34;&#34;
+    if not save_path:
+        save_path = self.dlc_path.replace(&#34;.dlc&#34;, &#34;.html&#34;)
+    snpe_dlc_viewer(self.dlc_path, save_path=save_path)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pysnpe_utils.pysnpe.TargetDevice"><code class="flex name class">
+<span>class <span class="ident">TargetDevice</span></span>
+<span>(</span><span>target_device_type: pysnpe_utils.pysnpe_enums.DeviceType = DeviceType.ARM64_ANDROID, device_host: str = 'localhost', target_device_adb_id: str = None, target_device_ip: str = None, send_root_access_request: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Target Device attributes required to prepare it for running inferences.
+On instantiation, the DeviceProtocol is selected based on target-device type (architecture + os),
+and subsequently the artifacts(binaries and libraries) are pushed onto the device.</p>
+<p>Protocol Selection Order:
+ARM64_ANDROID = ADB
+<br>
+ARM64_UBUNTU = ADB | NATIVE_BINARY | PYBIND
+<br>
+ARM64_OELINUX = ADB
+<br>
+ARM64_WINDOWS = NATIVE_BINARY | PYBIND | TSHELL
+<br>
+X86_64_LINUX = NATIVE_BINARY | PYBIND
+<br>
+X86_64_WINDOWS = NATIVE_BINARY | PYBIND
+<br></p>
+<p>If Protocol == NATIVE_BINARY | PYBIND , then no need for Pushing artifacts onto the device.
+Artifacts will be fetched from "SNPE_ROOT" on device itself.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>target_device_type</code></strong> :&ensp;<code>DeviceType</code>, optional</dt>
+<dd>Target device architecture and OS info. Defaults to DeviceType.ARM64_ANDROID.</dd>
+<dt><strong><code>device_host</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Host Name/IP on which target device is connected. Defaults to "localhost".</dd>
+<dt><strong><code>target_device_adb_id</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>ADB Serail ID of target device to uniquely identify when multiple devices are connected on Host machine. Serial ID can be found using <code>adb devices -l</code> command. Defaults to None.</dd>
+<dt><strong><code>target_device_ip</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>IP address of target device. If provided, this is help to make a wireless TCP/IP connection to the device using ADB or GRPC protocol. Defaults to None.</dd>
+<dt><strong><code>send_root_access_request</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Requests target device to run commands with root access.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TargetDevice:
+
+    def __init__(self, target_device_type: DeviceType = DeviceType.ARM64_ANDROID,
+                    device_host: str = &#34;localhost&#34;,
+                    target_device_adb_id: str = None,
+                    target_device_ip: str = None,
+                    send_root_access_request:bool = True):
+        &#34;&#34;&#34;
+        Description:
+            Target Device attributes required to prepare it for running inferences.
+            On instantiation, the DeviceProtocol is selected based on target-device type (architecture + os),
+            and subsequently the artifacts(binaries and libraries) are pushed onto the device.
+
+        Protocol Selection Order: 
+            ARM64_ANDROID = ADB                                 &lt;br&gt;
+            ARM64_UBUNTU = ADB | NATIVE_BINARY | PYBIND         &lt;br&gt;
+            ARM64_OELINUX = ADB                                 &lt;br&gt;
+            ARM64_WINDOWS = NATIVE_BINARY | PYBIND | TSHELL     &lt;br&gt;
+            X86_64_LINUX = NATIVE_BINARY | PYBIND               &lt;br&gt;
+            X86_64_WINDOWS = NATIVE_BINARY | PYBIND             &lt;br&gt;
+
+        If Protocol == NATIVE_BINARY | PYBIND , then no need for Pushing artifacts onto the device.
+        Artifacts will be fetched from &#34;SNPE_ROOT&#34; on device itself.
+
+        Args:
+            target_device_type (DeviceType, optional): Target device architecture and OS info. Defaults to DeviceType.ARM64_ANDROID.
+            
+            device_host (str, optional): Host Name/IP on which target device is connected. Defaults to &#34;localhost&#34;.
+            
+            target_device_adb_id (str, optional): ADB Serail ID of target device to uniquely identify when multiple devices are connected on Host machine. Serial ID can be found using `adb devices -l` command. Defaults to None.
+            
+            target_device_ip (str, optional): IP address of target device. If provided, this is help to make a wireless TCP/IP connection to the device using ADB or GRPC protocol. Defaults to None.
+            
+            send_root_access_request (bool, optional): Requests target device to run commands with root access.
+        &#34;&#34;&#34;
+        self.target_device_type = target_device_type
+        self.device_host = device_host
+        self.target_device_adb_id = target_device_adb_id
+        self.target_device_ip = target_device_ip
+
+        # Select Target Device communication protocol
+        self.setDeviceProtocol()
+
+        # Push artifacts (SNPE libs and bins) if needed:
+        self.device_storage_loc = self.prepareArtifactsOnsDevice(send_root_access_request=send_root_access_request)
+
+
+    def setDeviceProtocol(self, device_protocol:DeviceProtocol = None):
+        &#34;&#34;&#34;
+        Description:
+            Sets Protocol to be used for communication with Target device.
+        &#34;&#34;&#34;
+        if device_protocol:
+            self.device_protocol = device_protocol
+        else:
+            if self.target_device_type == DeviceType.ARM64_ANDROID:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_UBUNTU:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_OELINUX:
+                self.device_protocol = DeviceProtocol.ADB
+            elif self.target_device_type == DeviceType.ARM64_WINDOWS:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            elif self.target_device_type == DeviceType.X86_64_LINUX:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            elif self.target_device_type == DeviceType.X86_64_WINDOWS:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            else:
+                logger.critical(f&#34;Unsupported Target Device type = {self.target_device_type}&#34;)
+
+
+    def prepareArtifactsOnsDevice(self, location_to_store:str = None,
+                                    send_root_access_request:bool = False) -&gt; str:
+        &#34;&#34;&#34;
+        Description:
+            Push artifacts (SNPE Libs and Bins) onto the Target Device, based on DeviceProtocol. 
+
+        Returns:
+            Storage location of the assets of Target Device.
+        &#34;&#34;&#34;
+        if location_to_store:
+            device_storage_loc = location_to_store
+        else:
+            # eg: /data/local/tmp/shubpate/v2.7.0.2048/ =&gt; bin ; lib ; dsp ; dlc
+            device_storage_loc = f&#34;/data/local/tmp/{getpass.getuser()}/{get_snpe_version()}&#34; 
+
+        if self.device_protocol == DeviceProtocol.ADB:
+            logger.debug(&#34;Querying for ADB devices:&#34;)
+            client = AdbClient(host=self.device_host, port=5037)
+            adb_devices = client.devices()
+            logger.debug(f&#34;Got {len(adb_devices)} ADB devices connected on {self.device_host}&#34;)
+            
+            if len(adb_devices) == 0:
+                self.device_protocol = DeviceProtocol.NATIVE_BINARY
+                self.target_device_type = get_host_type()
+                logger.warning(&#34;No ADB devices found. Will do Profiling and Execution on this Native machine&#34;)
+                return os.getcwd()
+
+            if not self.target_device_adb_id:
+                logger.debug(f&#34;Fetching Serial ID of Target Device&#34;)
+                for device_obj in adb_devices:
+                    self.target_device_adb_id = device_obj.get_serial_no()
+                    logger.debug(f&#34;Selected Device with serial id = {self.target_device_adb_id}&#34;)
+                    break
+                    
+                if not self.target_device_adb_id:
+                    raise RuntimeError(&#34;Not able to fetch Serail ID of device&#34;)
+
+            logger.debug(f&#34;Pushing assets on Device using {self.device_protocol}&#34;)
+            push_assets_on_target_device_via_adb(device_storage_loc, 
+                                        target_arch=self.target_device_type,
+                                        device_id=self.target_device_adb_id,
+                                        device_host=self.device_host, 
+                                        send_root_access_request=send_root_access_request)
+
+        elif self.device_protocol == DeviceProtocol.NATIVE_BINARY:
+            logger.info(f&#34;DeviceProtocol.NATIVE_BINARY searches for SNPE assets using $PATH and $LD_LIBRARY_PATH&#34;)
+            logger.info(&#34;It is assumed at SNPE SDK is available on this device&#34;)
+            device_storage_loc = os.getcwd()
+
+        return device_storage_loc
+
+
+    __pdoc__ = {&#39;__repr__&#39;: False}
+    def __repr__(self):
+        return f&#34;&#34;&#34;TargetDevice(target_device_type={self.target_device_type}, 
+                        device_protocol={self.device_protocol},
+                        device_host=&#39;{self.device_host}&#39;, 
+                        target_device_adb_id=&#39;{self.target_device_adb_id}&#39;, 
+                        target_device_ip=&#39;{self.target_device_ip}&#39;)&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pysnpe_utils.pysnpe.TargetDevice.prepareArtifactsOnsDevice"><code class="name flex">
+<span>def <span class="ident">prepareArtifactsOnsDevice</span></span>(<span>self, location_to_store: str = None, send_root_access_request: bool = False) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Push artifacts (SNPE Libs and Bins) onto the Target Device, based on DeviceProtocol. </p>
+<h2 id="returns">Returns</h2>
+<p>Storage location of the assets of Target Device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prepareArtifactsOnsDevice(self, location_to_store:str = None,
+                                send_root_access_request:bool = False) -&gt; str:
+    &#34;&#34;&#34;
+    Description:
+        Push artifacts (SNPE Libs and Bins) onto the Target Device, based on DeviceProtocol. 
+
+    Returns:
+        Storage location of the assets of Target Device.
+    &#34;&#34;&#34;
+    if location_to_store:
+        device_storage_loc = location_to_store
+    else:
+        # eg: /data/local/tmp/shubpate/v2.7.0.2048/ =&gt; bin ; lib ; dsp ; dlc
+        device_storage_loc = f&#34;/data/local/tmp/{getpass.getuser()}/{get_snpe_version()}&#34; 
+
+    if self.device_protocol == DeviceProtocol.ADB:
+        logger.debug(&#34;Querying for ADB devices:&#34;)
+        client = AdbClient(host=self.device_host, port=5037)
+        adb_devices = client.devices()
+        logger.debug(f&#34;Got {len(adb_devices)} ADB devices connected on {self.device_host}&#34;)
+        
+        if len(adb_devices) == 0:
+            self.device_protocol = DeviceProtocol.NATIVE_BINARY
+            self.target_device_type = get_host_type()
+            logger.warning(&#34;No ADB devices found. Will do Profiling and Execution on this Native machine&#34;)
+            return os.getcwd()
+
+        if not self.target_device_adb_id:
+            logger.debug(f&#34;Fetching Serial ID of Target Device&#34;)
+            for device_obj in adb_devices:
+                self.target_device_adb_id = device_obj.get_serial_no()
+                logger.debug(f&#34;Selected Device with serial id = {self.target_device_adb_id}&#34;)
+                break
+                
+            if not self.target_device_adb_id:
+                raise RuntimeError(&#34;Not able to fetch Serail ID of device&#34;)
+
+        logger.debug(f&#34;Pushing assets on Device using {self.device_protocol}&#34;)
+        push_assets_on_target_device_via_adb(device_storage_loc, 
+                                    target_arch=self.target_device_type,
+                                    device_id=self.target_device_adb_id,
+                                    device_host=self.device_host, 
+                                    send_root_access_request=send_root_access_request)
+
+    elif self.device_protocol == DeviceProtocol.NATIVE_BINARY:
+        logger.info(f&#34;DeviceProtocol.NATIVE_BINARY searches for SNPE assets using $PATH and $LD_LIBRARY_PATH&#34;)
+        logger.info(&#34;It is assumed at SNPE SDK is available on this device&#34;)
+        device_storage_loc = os.getcwd()
+
+    return device_storage_loc</code></pre>
+</details>
+</dd>
+<dt id="pysnpe_utils.pysnpe.TargetDevice.setDeviceProtocol"><code class="name flex">
+<span>def <span class="ident">setDeviceProtocol</span></span>(<span>self, device_protocol: pysnpe_utils.pysnpe_enums.DeviceProtocol = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="description">Description</h2>
+<p>Sets Protocol to be used for communication with Target device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setDeviceProtocol(self, device_protocol:DeviceProtocol = None):
+    &#34;&#34;&#34;
+    Description:
+        Sets Protocol to be used for communication with Target device.
+    &#34;&#34;&#34;
+    if device_protocol:
+        self.device_protocol = device_protocol
+    else:
+        if self.target_device_type == DeviceType.ARM64_ANDROID:
+            self.device_protocol = DeviceProtocol.ADB
+        elif self.target_device_type == DeviceType.ARM64_UBUNTU:
+            self.device_protocol = DeviceProtocol.ADB
+        elif self.target_device_type == DeviceType.ARM64_OELINUX:
+            self.device_protocol = DeviceProtocol.ADB
+        elif self.target_device_type == DeviceType.ARM64_WINDOWS:
+            self.device_protocol = DeviceProtocol.NATIVE_BINARY
+        elif self.target_device_type == DeviceType.X86_64_LINUX:
+            self.device_protocol = DeviceProtocol.NATIVE_BINARY
+        elif self.target_device_type == DeviceType.X86_64_WINDOWS:
+            self.device_protocol = DeviceProtocol.NATIVE_BINARY
+        else:
+            logger.critical(f&#34;Unsupported Target Device type = {self.target_device_type}&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pysnpe_utils.pysnpe.export_to_onnx" href="#pysnpe_utils.pysnpe.export_to_onnx">export_to_onnx</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.export_to_tf_frozen_graph" href="#pysnpe_utils.pysnpe.export_to_tf_frozen_graph">export_to_tf_frozen_graph</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.export_to_tf_keras_model" href="#pysnpe_utils.pysnpe.export_to_tf_keras_model">export_to_tf_keras_model</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.export_to_tflite" href="#pysnpe_utils.pysnpe.export_to_tflite">export_to_tflite</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.export_to_torchscript" href="#pysnpe_utils.pysnpe.export_to_torchscript">export_to_torchscript</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.visualize_tf_keras_model" href="#pysnpe_utils.pysnpe.visualize_tf_keras_model">visualize_tf_keras_model</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.visualize_tf_session_graph" href="#pysnpe_utils.pysnpe.visualize_tf_session_graph">visualize_tf_session_graph</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pysnpe_utils.pysnpe.SnpeContext" href="#pysnpe_utils.pysnpe.SnpeContext">SnpeContext</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.execute_dlc" href="#pysnpe_utils.pysnpe.SnpeContext.execute_dlc">execute_dlc</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.gen_dsp_graph_cache" href="#pysnpe_utils.pysnpe.SnpeContext.gen_dsp_graph_cache">gen_dsp_graph_cache</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.profile" href="#pysnpe_utils.pysnpe.SnpeContext.profile">profile</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.quantize" href="#pysnpe_utils.pysnpe.SnpeContext.quantize">quantize</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.set_target_device" href="#pysnpe_utils.pysnpe.SnpeContext.set_target_device">set_target_device</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.to_dlc" href="#pysnpe_utils.pysnpe.SnpeContext.to_dlc">to_dlc</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.SnpeContext.visualize_dlc" href="#pysnpe_utils.pysnpe.SnpeContext.visualize_dlc">visualize_dlc</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pysnpe_utils.pysnpe.TargetDevice" href="#pysnpe_utils.pysnpe.TargetDevice">TargetDevice</a></code></h4>
+<ul class="">
+<li><code><a title="pysnpe_utils.pysnpe.TargetDevice.prepareArtifactsOnsDevice" href="#pysnpe_utils.pysnpe.TargetDevice.prepareArtifactsOnsDevice">prepareArtifactsOnsDevice</a></code></li>
+<li><code><a title="pysnpe_utils.pysnpe.TargetDevice.setDeviceProtocol" href="#pysnpe_utils.pysnpe.TargetDevice.setDeviceProtocol">setDeviceProtocol</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
