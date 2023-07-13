@@ -4,12 +4,20 @@ SNPE-DOCKER make the complete env setup instantly ready for snpe.<br>
 * All set-up for "Qualcomm Neural Processing SDK for AI" are done.
 * ADB support is present within the docker.
 * Many other python dependencies are installed in the docker.
-* This docker file is verified for version - 2.9.0.4462 of _Snapdragon Neural Processing SDK for AI_
+* This docker file is verified for version - 2.12.* of _Snapdragon Neural Processing SDK for AI_
 
 ### Docker Installation
 * --update-later-- https://docs.docker.com/engine/install/ubuntu/
 
 ### Directory structure
+
+Please maintain below directory structure, while building, and loading docker container. 
+
+1. Download SNPE SDK
+2. Rename SNPE SDK to just 'snpe' (small case), and place in the docker directory. 
+3. Dockerfile - to be cloned from open-source repository.
+4. snpe-docker.zip - will get generated, once below steps are complete. 
+
 ├── snpe-docker<br>
 │   │── snpe  (unziped snpe sdk folder) <br>
 │   │── Dockerfile<br>
