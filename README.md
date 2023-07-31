@@ -23,6 +23,9 @@ Contain examples to use features of above SDKs
 |  :---:    |    :---:   |    :---:  |   :---:  |
 |  Model    | QNN - 2.10.40.4  |  Model - EnhancementGAN | [ReadMe](./Examples/QNN-Model-Example-EnhancementGAN/README.md) |
 |  Model    | QNN - 2.10.40.4  |  Model - SESR | [ReadMe](./Examples/QNN-Model-Example-SESR/README.md) |
+| Model Conversion Guide | SNPE-2.12 | Model-Accuracy-Mixed-Precision | [ReadMe](./Examples/Model-Accuracy-Mixed-Precision/README.md)|
+| Model Conversion Guide | SNPE-2.12 | Model-Conversion-Layer-Replacement | [ReadMe](./Examples/Model-Conversion-Layer-Replacement/README.md)|
+| Model Conversion Guide | SNPE-2.12 | Model-Conversion-UDO-SELU | [ReadMe](./Examples/Model-Conversion-UDO-SELU/README.md)|
 
 ## Solutions
 
@@ -30,11 +33,13 @@ Contain end-to-end ready-to-run solutions
 
 |   Type     | Solution   |   SDK   |   API   | Model   |   ReadMe |  Demo   |
 |  :---:     |    :---:   |    :---:  |    :---:  |    :---:  |   :---:  |  :---:  |
-|  NLP       | Question Answering       |  SNPE - 2.7 | Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
-|  NLP       | Sentiment Analysis       |  SNPE - 2.7 | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
-|  Vision    | Object Detection       |  SNPE - 2.7 |   Java API  | Mobilenet SSD V2    | [ReadMe](./Solutions/VisionSolution1-ObjectDetection/README.md) |   [Demo](./Solutions/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
-|  Vision    | Image Super Resolution       |SNPE - 2.7 |   Java API | SESR XL    | [ReadMe](./Solutions/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./Solutions/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
-|  Vision    | Image Enhancement       |   SNPE - 2.7 |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
+|  NLP       | Question Answering       |  SNPE-2.7 | Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
+|  NLP       | Sentiment Analysis       |  SNPE-2.7 | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
+|  Vision    | Object Detection       |  SNPE-2.7 |   Java API  | Mobilenet SSD V2    | [ReadMe](./Solutions/VisionSolution1-ObjectDetection/README.md) |   [Demo](./Solutions/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
+|  Vision    | Object Detection YoloNAS | SNPE-2.12 | Native API | YoloNAS| [ReadMe](./Solutions/VisionSolution1-ObjectDetection-YoloNas/README.md)| [Demo]](./Solutions/VisionSolution1-ObjectDetection-YoloNas/demo/ObjectDetectYoloNAS.gif)|
+|  Vision    | Image Super Resolution       |SNPE-2.7 |   Java API | SESR XL    | [ReadMe](./Solutions/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./Solutions/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
+|  Vision    | Image Enhancement       |SNPE-2.7 |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
+|  Vision    | Pose Estimation |SNPE-2-12| Native API|YoloNAS + HRNet| [ReadMe](./Solutions/VisionSolution4-PoseEstimation/README.md)|[Demo](./Solutions/VisionSolution4-PoseEstimation/demo/PoseDetectionYoloNas.gif)|
 
 ## Tools
 

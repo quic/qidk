@@ -1,0 +1,18 @@
+{
+    "UdoPackage_0":
+    {
+        "Operators": [
+            {
+            "type": "Selu",
+                "inputs":[
+                    {"name":"Placeholder", "data_type": "FLOAT_32"}
+                ],
+                "outputs":[
+                    {"name":"Output","data_type": "FLOAT_32"}
+                ],
+                "core_types": ["CPU"]
+            }
+        ],
+        "UDO_PACKAGE_NAME": "SeluUdoPackage"
+    }
+}
