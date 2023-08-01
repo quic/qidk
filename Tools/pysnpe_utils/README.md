@@ -31,7 +31,8 @@ sudo apt install graphviz
 
 A. Fresh Install:
 ```
-git clone https://github.qualcomm.com/aicatalog/pysnpe_utils.git
+git clone https://github.com/quic/qidk.git
+cd qidk/Tools
 cd pysnpe_utils && pip install .
 ```
 
