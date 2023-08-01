@@ -1,6 +1,8 @@
 """
 Python Helper Snippets over SNPE-CONVERTER, QUANTIZER and GRAPH-PREPARE Tool and APIs for Auto DLC Generation, Quantization and DSP caching
 """
+# @Author and Maintainer for this file : Shubham Patel (shubpate)
+
 
 from enum import Flag
 from typing import Dict, List, Tuple

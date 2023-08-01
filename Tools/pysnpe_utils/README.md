@@ -1,10 +1,11 @@
-# pysnpe_utils
-Python API wrapper over [SNPE](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) Tools and APIs for Auto DLC Generation, Quantization, Execution, Easier Integration and On-Device Prototyping of your DNN project.
+# pysnpe_utils  ([go/pysnpe](http://go/pysnpe))
+Python API wrapper over [SNPE](https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html) Tools and APIs for Auto DLC Generation, Quantization, Execution, Easier Integration and On-Device Prototyping of your DNN project.
 <br>
 
-#### >> [Tutorials](tutorials/), [How to use](tutorials/README.md) and [Quick Start Guide](tutorials#quick-start)
-#### >> [API Documentation in HTML](docs/html/pysnpe_utils/pysnpe.html)
+#### >> [API Documentation](https://github.qualcomm.com/pages/aicatalog/pysnpe_utils/) or ([go/pysnpe-docs](http://go/pysnpe-docs))
 #### >> [API Documentation in Markdown](docs/md/pysnpe_utils/pysnpe.md) (suitable for PDF / Printing / Github README)
+
+#### >> [Tutorials](tutorials/), [How to use](tutorials/README.md) and [Quick Start Guide](tutorials#quick-start)
 
 
 ## Index:
@@ -21,7 +22,7 @@ Python API wrapper over [SNPE](https://developer.qualcomm.com/software/qualcomm-
 ```
 pip install setuptools
 ```
-- <b>(Optional)<b> [Downlaod Graphviz](https://graphviz.gitlab.io/download/) for `Model Visualization` purpose only. For Ubuntu/Debian, please run : 
+- (Optional) [Downlaod Graphviz](https://graphviz.gitlab.io/download/) for `Model Visualization` purpose only. For Ubuntu/Debian, please run : 
 ```
 sudo apt install graphviz 
 ```
@@ -31,8 +32,8 @@ sudo apt install graphviz
 
 A. Fresh Install:
 ```
-git clone https://github.com/quic/qidk.git
-cd qidk/Tools/pysnpe_utils && pip install .
+git clone https://github.qualcomm.com/aicatalog/pysnpe_utils.git
+cd pysnpe_utils && pip install .
 ```
 
 B. Upgrade / Reinstall existing package, go to `pysnpe_utils` root dir and run:

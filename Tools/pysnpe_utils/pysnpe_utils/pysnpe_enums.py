@@ -96,12 +96,12 @@ class DeviceType(Enum):
     DeviceType:
         Type of Device Architecture and OS
     """
-    ARM64_ANDROID = "aarch64-android-clang8.0"
+    ARM64_ANDROID = "aarch64-android"
     ARM64_UBUNTU = "aarch64-ubuntu-gcc7.5"
     ARM64_OELINUX = "aarch64-oe-linux-gcc9.3"
-    ARM64_WINDOWS = "aarch64-windows-vc19"
+    ARM64_WINDOWS = "aarch64-windows-msvc"
     X86_64_LINUX = "x86_64-linux-clang"
-    X86_64_WINDOWS = "x86_64-windows-vc19"
+    X86_64_WINDOWS = "x86_64-windows-msvc"
 
 
 def check_dtype(dtype):

@@ -58,8 +58,8 @@ from pysnpe_utils import pysnpe
 from pysnpe_utils.pysnpe_enums import *
 
 # Select target device
-target_device = pysnpe.TargetDevice(device_host="10.206.64.253", 
-                                    target_device_adb_id="728b7a92")
+target_device = pysnpe.TargetDevice(device_host="localhost", 
+                                    target_device_adb_id="1c7dec76")
 
 # Convert Torch model to TorchScript => DLC
 pysnpe.export_to_torchscript(model, [(1, 3, 224, 224)], [torch.float32], "squeezenet.pt").to_dlc()

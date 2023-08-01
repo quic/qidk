@@ -1,3 +1,4 @@
+from logging import raiseExceptions
 import os
 import hashlib
 import subprocess
@@ -64,26 +65,26 @@ def push_assets_on_target_device_via_adb(device_storage_location: str,
     logger.debug(f"Pushing SNPE {SNPE_TARGET_ARCH} Binaries: ")
     # adb -H $HOST push $SNPE_ROOT/bin/$SNPE_TARGET_ARCH/. {device_storage_location}/bin/.
     exec_shell_cmd_in_batch(
-        [adb_prefix + f" push {SNPE_ROOT}/bin/{SNPE_TARGET_ARCH}/* {device_storage_location}/bin/."]
+        [adb_prefix + f" push {SNPE_ROOT}/bin/{SNPE_TARGET_ARCH}*/* {device_storage_location}/bin/."]
     )
 
     logger.debug(f"Pushing SNPE {SNPE_TARGET_ARCH} Libraries: ")
     # adb -H $HOST push $SNPE_ROOT/lib/$SNPE_TARGET_ARCH/. {device_storage_location}/lib/.
     exec_shell_cmd_in_batch(
-        [adb_prefix + f" push {SNPE_ROOT}/lib/{SNPE_TARGET_ARCH}/* {device_storage_location}/lib/." ]
+        [adb_prefix + f" push {SNPE_ROOT}/lib/{SNPE_TARGET_ARCH}*/* {device_storage_location}/lib/." ]
     )
 
     logger.debug(f"Pushing SNPE DSP Libraries: ")
     # adb -H $HOST push $SNPE_ROOT/lib/dsp/. {device_storage_location}/dsp/.
-    exec_shell_cmd_in_batch(
-        [adb_prefix + f" push {SNPE_ROOT}/lib/dsp/* {device_storage_location}/dsp/." ]
-    )
+    # adb -H $HOST push $SNPE_ROOT/lib/hexagonV*/unsigned/*kel.so. {device_storage_location}/dsp/.
+    status_a = exec_shell_cmd(adb_prefix + f" push {SNPE_ROOT}/lib/dsp/* {device_storage_location}/dsp/.")
+    status_b = exec_shell_cmd(adb_prefix + f" push {SNPE_ROOT}/lib/*/*/*kel.so {device_storage_location}/dsp/.")
+    if status_a != 0 and status_b != 0 :
+        raise RuntimeError(f"Failed to push DSP libs on device")
 
     logger.debug("Changing File permissions: ")
     # adb -H $HOST shell 'chmod -R 777 /data/local/tmp/pysnpe_bench'
-    exec_shell_cmd_in_batch(
-        [adb_prefix + f" shell 'chmod -R 777 {device_storage_location}'"]
-    )
+    exec_shell_cmd( adb_prefix + f" shell 'chmod -R 777 {device_storage_location}'" )
 
 
 def is_file_pushed_via_adb(remote_file_location: str, 

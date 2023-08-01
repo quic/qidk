@@ -1,6 +1,8 @@
 """
 Python API wrapper over SNPE Tools and APIs for Auto DLC Generation, its Execution, Easy Integration and On-Device Prototyping of your DNN project.
 """
+# @Author and Maintainer for this file : Shubham Patel (shubpate)
+
 
 from logging import log
 import os
@@ -30,6 +32,7 @@ try:
     from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
     import torch
     import onnx
+    from onnx import version_converter
     import onnxruntime
     from ppadb.client import Client as AdbClient
 except ImportError as ie:
@@ -468,7 +471,9 @@ def export_to_onnx(model: torch.nn.Module,
                     input_tensor_map: List[InputMap], 
                     output_tensor_names: List[str], 
                     onnx_file_name: str,
-                    opset_version: int = 11 ) -> SnpeContext:
+                    opset_version: int = 11,
+                    optimization_level: int = 1,
+                    keep_flexible_opset: bool = True ) -> SnpeContext:
     """
     Description:
         Exports Pytorch model (nn.Module) to ONNX format and saves it on disk.
@@ -479,6 +484,8 @@ def export_to_onnx(model: torch.nn.Module,
         output_tensor_names (List[str]): List of output names for the ONNX model.
         onnx_file_name (str): The filename for the exported ONNX model.
         opset_version (int, optional): ONNX opset version to use. Defaults to 11.
+        optimization_level (int, optional): ONNX Graph Optimization {0 = ORT_DISABLE_ALL; 1 = ORT_ENABLE_BASIC; 2 = ORT_ENABLE_EXTENDED ; 3 = ORT_ENABLE_ALL }
+        keep_flexible_opset (bool, optional): Let Onnx Runtime decide the best suitable opset version
 
     Returns:
         SnpeContext Class instance required to generate DLC and perform other DLC operations
@@ -535,16 +542,35 @@ def export_to_onnx(model: torch.nn.Module,
     logger.debug("Simplifying/Optimizing ONNX model for inference with Static Shapes")
     try:
         from onnxsim import simplify
-        onnx_model, check = simplify(onnx_model)
-        onnx_file_name = onnx_file_name.replace(".onnx", "-opt.onnx")
-        onnx.save(copy.deepcopy(onnx_model), onnx_file_name)
+        sim_onnx_model, check = simplify(onnx_model)
+        sim_onnx_file_name = onnx_file_name.replace(".onnx", "-simplified.onnx")
+        logger.debug(f"Saving simplified ONNX model : {onnx_file_name}")
+        onnx.save(copy.deepcopy(sim_onnx_model), sim_onnx_file_name)
     except ImportError as ie:
         logger.warning("Not able to Simplify ONNX model with ONNXSIM pkg.")
 
-    logger.debug("Verify ONNX model correctness with ONNX Runtime")
-    ort_session = onnxruntime.InferenceSession(onnx_model.SerializeToString())
+    logger.debug(f"Create ONNX Runtime Session with optimization level = {optimization_level}")
+    sess_options = onnxruntime.SessionOptions()
+    
+    ort_optimization_levels = {
+        0: onnxruntime.GraphOptimizationLevel.ORT_DISABLE_ALL,
+        1: onnxruntime.GraphOptimizationLevel.ORT_ENABLE_BASIC,
+        2: onnxruntime.GraphOptimizationLevel.ORT_ENABLE_EXTENDED,
+        3: onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
+    }
+    # Set graph optimization level
+    sess_options.graph_optimization_level = ort_optimization_levels.get(optimization_level, 1)
 
-    logger.debug("Test the exported ONNX model using the dummy inputs")
+    opt_onnx_file_name = sim_onnx_file_name.replace(
+                                            ".onnx", 
+                                            f"-opt_{optimization_level}.onnx"
+                                        )
+    sess_options.optimized_model_filepath = opt_onnx_file_name
+    logger.info(f"Saving optimized ONNX model : {opt_onnx_file_name}")
+    
+    ort_session = onnxruntime.InferenceSession(sim_onnx_model.SerializeToString(), sess_options)
+
+    logger.debug("Verify ONNX model functional correctness with dummy inputs")
     ort_inputs = {input_names[i] : dummy_inputs[i].numpy() for i in range(len(input_names))}
     ort_outputs = ort_session.run(None, ort_inputs)
 
@@ -556,8 +582,27 @@ def export_to_onnx(model: torch.nn.Module,
     for i, output_name in enumerate(output_tensor_names):
         logger.debug(f"Output {i} := {output_name} - Shape: {ort_outputs[i].shape}")
 
-    logger.info("Export the ONNX model to SNPE DLC")
-    return SnpeContext(onnx_file_name, 
+    # if optimized onnx file exists else 
+    if os.path.isfile(opt_onnx_file_name):
+        if os.path.getsize(opt_onnx_file_name) > 0:
+            onnx_file_reference = opt_onnx_file_name
+
+            # Make Opset Corrections, if not flexible_opset:
+            if not keep_flexible_opset:
+                opt_onnx_model = onnx.load(onnx_file_reference)
+                converted_model = version_converter.convert_version(opt_onnx_model, opset_version)
+                onnx_file_reference = onnx_file_reference.replace(".onnx", 
+                                                            f"-opset_{opset_version}.onnx")
+                onnx.save(copy.deepcopy(converted_model), onnx_file_reference)
+
+    elif os.path.isfile(sim_onnx_file_name):
+        if os.path.getsize(sim_onnx_file_name) > 0:
+            onnx_file_reference = sim_onnx_file_name
+    else:
+        onnx_file_reference = onnx_file_name
+
+    logger.info(f"the ONNX model := {onnx_file_reference}, can be used for exporting to SNPE DLC")
+    return SnpeContext(onnx_file_reference, 
                     ModelFramework.ONNX,
                     onnx_file_name.replace(".onnx", ".dlc"),
                     {input_names[i] : input_shapes[i] for i in range(len(input_names))}, 

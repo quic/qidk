@@ -1,6 +1,8 @@
 """
 Python Helper Snippets over SNPE-NET_RUN Tool and APIs for Auto DLC Execution
 """
+# @Author and Maintainer for this file : Pradeep Pant
+
 
 import os
 import numpy as np
@@ -16,7 +18,7 @@ from .pysnpe_enums import *
 
 try:
     from qti.aisw.dlc_utils import snpe_dlc_utils
-    from snpe.dlc_utils import modeltools
+    from qti.aisw.dlc_utils import modeltools
 except ImportError as ie:
     logger.error("Failed to find necessary package:")
     logger.error(str(ie))

@@ -17,10 +17,10 @@ setup(
     python_requires='>=3.6',
     install_requires=['icecream',
                       'numpy>=1.19.0',
-                      'torch>=1.4.0',
-                      'onnx>=1.6.0',
+                      'torch>=1.8.1',
+                      'onnx>=1.11.0',
                       'onnxsim',
-                      'onnxruntime>=1.10.0',
+                      'onnxruntime==1.10.0',
                       'pytest>=7.0.1',
                       'pure-python-adb>=0.3.0.dev0',
                       'pydot>=1.4.2'
@@ -33,7 +33,7 @@ setup(
         # Use tensorflow-aarch64 on arm64 architecture with Python 3.7 or later
         ('aarch64 and python_version>="3.8"', ['tensorflow-aarch64']),
         # Use regular tensorflow on all other architectures or Python versions
-        ('*', ['tensorflow>=2.3.0']),
+        ('*', ['tensorflow>=2.6.0']),
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
