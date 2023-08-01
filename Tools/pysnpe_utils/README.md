@@ -1,8 +1,7 @@
-# pysnpe_utils  ([go/pysnpe](http://go/pysnpe))
+# pysnpe_utils  
 Python API wrapper over [SNPE](https://developer.qualcomm.com/sites/default/files/docs/snpe/overview.html) Tools and APIs for Auto DLC Generation, Quantization, Execution, Easier Integration and On-Device Prototyping of your DNN project.
 <br>
 
-#### >> [API Documentation](https://github.qualcomm.com/pages/aicatalog/pysnpe_utils/) or ([go/pysnpe-docs](http://go/pysnpe-docs))
 #### >> [API Documentation in Markdown](docs/md/pysnpe_utils/pysnpe.md) (suitable for PDF / Printing / Github README)
 
 #### >> [Tutorials](tutorials/), [How to use](tutorials/README.md) and [Quick Start Guide](tutorials#quick-start)
