@@ -49,7 +49,6 @@ ENV SNPE_ROOT=/workspace/snpe
 ENV PYTHONPATH="${SNPE_ROOT}/lib/python:${PYTHONPATH}" \
 LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:${SNPE_ROOT}/lib/x86_64-linux-clang:${LD_LIBRARY_PATH}" \
 PATH="${SNPE_ROOT}/bin/x86_64-linux-clang:${PATH}" \
-TENSORFLOW_ROOT="/usr/local/lib/python3.8/site-packages/tensorflow" \
 SNPE_UDO_ROOT="${SNPE_ROOT}/share/SnpeUdo"
 WORKDIR /workspace
 CMD ["/bin/bash"]
