@@ -23,9 +23,19 @@ Contain examples to use features of above SDKs
 |  :---:    |    :---:   |    :---:  |   :---:  |
 |  Model    | QNN - 2.10.40.4  |  Model - EnhancementGAN | [ReadMe](./Examples/QNN-Model-Example-EnhancementGAN/README.md) |
 |  Model    | QNN - 2.10.40.4  |  Model - SESR | [ReadMe](./Examples/QNN-Model-Example-SESR/README.md) |
-| Model Conversion Guide | SNPE-2.12 | Model-Accuracy-Mixed-Precision | [ReadMe](./Examples/Model-Accuracy-Mixed-Precision/README.md)|
-| Model Conversion Guide | SNPE-2.12 | Model-Conversion-Layer-Replacement | [ReadMe](./Examples/Model-Conversion-Layer-Replacement/README.md)|
-| Model Conversion Guide | SNPE-2.12 | Model-Conversion-UDO-SELU | [ReadMe](./Examples/Model-Conversion-UDO-SELU/README.md)|
+
+## Model Enablement
+
+Contains examples for : 
+
+1. Using models, that are not directly supported with AI SDK
+2. Debug Quantizatin accuracy loss
+
+|   Type    | SDK   |   Details   |   Link |
+|  :---:    |    :---:   |    :---:  |   :---:  |
+| Model Conversion Guide | SNPE-2.12 | Model-Accuracy-Mixed-Precision | [ReadMe](./Model-Enablement/Model-Accuracy-Mixed-Precision/README.md)|
+| Model Conversion Guide | SNPE-2.12 | Model-Conversion-Layer-Replacement | [ReadMe](./Model-Enablement/Model-Conversion-Layer-Replacement/README.md)|
+| Model Conversion Guide | SNPE-2.12 | Model-Conversion-UDO-SELU | [ReadMe](./Model-Enablement/Model-Conversion-UDO-SELU/README.md)|
 
 ## Solutions
 
@@ -47,8 +57,8 @@ Contain tools to simplify workflow
 
 |   Tool    | SDK   |   Details   |   Link |
 |  :---:    |    :---:   |    :---:  |   :---:  |
-|  PySNPE   | SNPE - 2.10  |  Python Interface to SNPE tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
-|  snpe-docker    | SNPE - 2.10  |  Docker container for SNPE | [ReadMe](./Tools/snpe-docker/README.md) |
+|  PySNPE   | SNPE - 2.10  |  Python Interface to 'Qualcomm Neural Processing SDK for AI' tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
+|  snpe-docker    | SNPE - 2.10  |  Docker container for 'Qualcomm Neural Processing SDK for AI' | [ReadMe](./Tools/snpe-docker/README.md) |
 
 Pls write to qidk@qti.qualcomm.com for any questions/suggestions
 
