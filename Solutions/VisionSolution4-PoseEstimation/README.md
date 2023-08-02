@@ -76,7 +76,7 @@ snpe = snpeBuilder.setOutputLayers({})
 The bitmap image is passed as openCV Mat to native and then converted to BGR Mat of size 320x320x3. Basic image processing depends on the kind of input shape required by the model, then writing that processed image into application buffer. Object Detection post processing
 ```java
     cv::Mat img320;
-    cv::resize(img,img320,cv::Size(320,320),cv::INTER_LINEAR);  //TODO get the size from model itself
+    cv::resize(img,img320,cv::Size(320,320),cv::INTER_LINEAR);  
 
     float inputScale = 0.00392156862745f;    //normalization value, this is 1/255
 
@@ -94,7 +94,7 @@ The bitmap image is passed as openCV Mat to native and then converted to BGR Mat
 
 This included getting the class with highest confidence for each 2100 boxes and applying Non-Max Suppression to remove overlapping boxes.
 ```python
-for(int i =0;i<(2100);i++)  //TODO change value of 2100 to soft value
+for(int i =0;i<(2100);i++)  
    {
        int start = i*80;
        int end = (i+1)*80;
