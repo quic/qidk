@@ -22,7 +22,7 @@ demo : Contains demo GIF
 
 app : Contains source files in standard Android app format
 
-app\src\main\assets : Contains Model binary DLC - TODO(check if can be changed to res/raw)
+app\src\main\assets : Contains Model binary DLC 
 
 app\src\main\java\com\qc\objectdetectionYoloNas : Application java source code 
 
@@ -90,7 +90,7 @@ The bitmap image is passed as openCV Mat to native and then converted to BGR Mat
  This included getting the class with highest confidence for each 2100 boxes and applying Non-Max Suppression to remove overlapping boxes.
  
  ```python
- for(int i =0;i<(2100);i++)  //TODO change value of 2100 to soft value
+ for(int i =0;i<(2100);i++)  
     {
         int start = i*80;
         int end = (i+1)*80;
