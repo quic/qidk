@@ -5,8 +5,8 @@ UDO stands for User Defined Operations. UDO allows users to implement the layer/
 
 # Pre-requisites
 
-* Required QNN-2.6.x
-	* Download QNN-2.6.x, un-zip the package and 
+* Requires Qualcomm AI Engine Direct SDK
+	* Download Qualcomm AI Engine Direct SDK, un-zip the package and 
 	* Run ```export QNN_SDK_ROOT=/complete/path/till/qnn-v2.6.x```
 
 * Required SNPE-2.6.x
