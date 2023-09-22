@@ -15,6 +15,16 @@ This repository contains sample android applications, which are designed to use 
 
 This Repository is divided into following categories
 
+## QWA Course - AI on Qualcomm Innovators Development Kit 
+
+Qualcomm Wireless Academy has a free course on "AI on Qualcomm Innovators Development Kit".<br><br>
+Course Link : https://qwa.qualcomm.com/course-catalog/AI-on-QIDK
+
+This course is geared toward AI application developers, university students, and AI enthusiasts.
+This course is applicable, even if a developer is AI SDK on Qualcomm platforms other than QIDK. 
+
+All QIDK deliverables are covered in this course in detail with hands-on lab sessions. 
+
 ## Examples
 
 Contain examples to use features of above SDKs
