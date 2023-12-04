@@ -25,6 +25,17 @@ This course is applicable, even if a developer is AI SDK on Qualcomm platforms o
 
 All QIDK deliverables are covered in this course in detail with hands-on lab sessions. 
 
+## QHCI (Qualcomm HTP Customized Interface)
+
+QHCI aims to provide examples for CV algo and QNN UDO implementation based on HVX programming.
+
+QHCI is targetted towards any external developers, starting on Qualcomm platform with QNN and HVX programming. 
+QHCI will help with necessary resources, tools to accelerate their workflow. 
+
+QHCI is also targetted to create an open-source HVX development ecosystem.
+
+Link to QHCI public repository : [QHCI](./QHCI/)
+
 ## Examples
 
 Contain examples to use features of above SDKs
@@ -69,6 +80,9 @@ Contain tools to simplify workflow
 |  :---:    |    :---:   |    :---:  |   :---:  |
 |  PySNPE   | SNPE - 2.10  |  Python Interface to 'Qualcomm Neural Processing SDK for AI' tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
 |  snpe-docker    | SNPE - 2.10  |  Docker container for 'Qualcomm Neural Processing SDK for AI' | [ReadMe](./Tools/snpe-docker/README.md) |
+
+
+
 
 Pls write to qidk@qti.qualcomm.com for any questions/suggestions
 
