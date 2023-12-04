@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OpDefCollection PackageName="RandomNormalLike" Domain="" Version="1.0.0">
+  <OpDefList>
+    <OpDef>
+      <Name>RandomNormalLike</Name>
+      <Description>
+        <Content>Consumes an input activation and computes the rectified linear units (RandomNormalLike) values</Content>
+      </Description>
+      <Input>
+        <Name>In</Name>
+        <Description>
+          <Content>Data input to a RandomNormalLike operation</Content>
+        </Description>
+        <Mandatory>true</Mandatory>
+        <Datatype>QNN_DATATYPE_FLOAT_32</Datatype>
+        <Shape>
+          <Rank>4D</Rank>
+          <Layout>NHWC</Layout>
+        </Shape>
+      </Input>
+      <Output>
+        <Name>Out</Name>
+        <Description>
+          <Content>The output of the RandomNormalLike operation</Content>
+        </Description>
+        <Mandatory>true</Mandatory>
+        <Datatype>QNN_DATATYPE_FLOAT_32</Datatype>
+        <Shape>
+          <Rank>4D</Rank>
+          <Layout>NHWC</Layout>
+        </Shape>
+      </Output>
+    <SupportedBackend>HTP</SupportedBackend>
+    </OpDef>
+  </OpDefList>
+</OpDefCollection>

@@ -1,0 +1,36 @@
+INCDIRS += src/base/cpu
+
+# binary names
+EXE_NAME=qhci_test
+DLL_NAME=libqhci
+
+#libqhci.so
+# Contains dspqueue and FastRPC methods of DSP access
+BUILD_DLLS += $(DLL_NAME)
+$(DLL_NAME)_QAICIDLS += inc/qhci
+$(DLL_NAME)_DLLS += $(LIB_DSPRPC)
+$(DLL_NAME)_C_SRCS += $(OBJ_DIR)/qhci_stub
+
+# stand-alone benchmark executable
+BUILD_EXES+=$(EXE_NAME)
+$(EXE_NAME)_QAICIDLS += inc/qhci
+$(EXE_NAME)_CPP_SRCS += src/main \
+                        src/base/cpu/QhciBase \
+                        src/uyvy2bgr/cpu/uyvy2bgr
+$(EXE_NAME)_CPP_SRCS += src/rgb2yuv/cpu/rgb2yuv
+$(EXE_NAME)_CPP_SRCS += src/gaussian5x5/cpu/gaussian5x5
+$(EXE_NAME)_CPP_SRCS += src/FFT16_16/cpu/FFT16_16
+$(EXE_NAME)_CPP_SRCS += src/IFFT32_32/cpu/IFFT32_32
+$(EXE_NAME)_CPP_SRCS += src/IFFT64_64/cpu/IFFT64_64
+$(EXE_NAME)_CPP_SRCS += src/sInt32Division/cpu/sInt32Division
+$(EXE_NAME)_CPP_SRCS += src/div16/cpu/div16
+$(EXE_NAME)_DEFINES += VERIFY_PRINT_ERROR
+$(EXE_NAME)_DLLS += $(LIB_DSPRPC) \
+                    $(DLL_NAME)
+
+# copy final build products to the ship directory
+BUILD_COPIES += \
+   $(DLLS) \
+   $(EXES) \
+   $(LIBS) \
+   $(SHIP_DIR)/ ;

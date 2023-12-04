@@ -1,0 +1,34 @@
+# This file defines the project library dependencies, their paths, and indications to use
+# pre-built or source versions.
+#
+# For each library dependency <LIB_NAME> listed in DEPENDENCIES, the user may define one of
+# the two following variables to point to the location of the dependency library:
+# * <LIB_NAME>_DIR, which instructs the build system to build it from source.
+# * <LIB_NAME>_PREBUILT_DIR, which instructs the build system to directly use the binaries
+# available in that library's /prebuilt folder.
+#
+# If these variables are not defined locally, a <LIB_NAME>_PREBUILT_DIR_DEFAULT or
+# <LIB_NAME>_DIR_DEFAULT variable must be defined in default_deps.min instead to instruct
+# the build system where to find the default location of the dependency library and whether
+# to build it from source or use the provided binaries.
+
+# Define prebuilt libraries delivered with the Hexagon SDK
+include $(HEXAGON_SDK_ROOT)/build/default_deps.min
+
+# Define variants supported by this project
+SUPPORTED_VS = $(default_VS)
+
+# must list all the dependencies of this project
+DEPENDENCIES = \
+  WORKER_POOL
+
+# Define paths to any dependency libraries not delivered with the SDK, and optionally override
+# default paths and/or source/prebuilt selections for dependency libraries delivered with the SDK
+# For example, the following would override the path defined for ATOMIC in default_deps.min, and
+# build it from source at the below path.
+# ATOMIC_DIR = $(HEXAGON_SDK_ROOT)/libs/atomic
+# Or, the following line would override the path defined for ATOMIC in default_deps.min, and take
+# it from the /prebuilt folder at the below path
+# ATOMIC_PREBUILT_DIR = $(HEXAGON_SDK_ROOT)/libs/atomic
+#
+WORKER_POOL_DIR = $(HEXAGON_SDK_ROOT)/libs/worker_pool/

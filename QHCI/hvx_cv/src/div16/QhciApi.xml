@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2020 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+<FeatureDefCollection>
+  <FeatureDef>
+    <Name>div16</Name>
+    <Description>
+      <Content></Content>
+    </Description>
+    <ApiDefList>
+      <ApiDef>
+        <Name>div16_integer_unsigned</Name>
+        <Type>asm</Type>
+        <Description>
+          <Content>16-bit unsigned integer division</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>srcDividend</Name>
+            <Description>
+              <Content>Input point buffer of unsigned 16-bit dividend</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+          <Input>
+            <Name>srcDivisor</Name>
+            <Description>
+              <Content>Input point buffer of unsigned 16-bit divisor</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>dst</Name>
+            <Description>
+              <Content>Pointer to the output</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+      <ApiDef>
+        <Name>div16_integer_signed</Name>
+        <Type>asm</Type>
+        <Description>
+          <Content>16-bit signed integer division</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>srcDividend</Name>
+            <Description>
+              <Content>Input point buffer of signed 16-bit dividend</Content>
+            </Description>
+            <Datatype>int16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+          <Input>
+            <Name>srcDivisor</Name>
+            <Description>
+              <Content>Input point buffer of signed 16-bit divisor</Content>
+            </Description>
+            <Datatype>int16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>dst</Name>
+            <Description>
+              <Content>Pointer to the output</Content>
+            </Description>
+            <Datatype>int16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+      <ApiDef>
+        <Name>div16_fractional</Name>
+        <Type>asm</Type>
+        <Description>
+          <Content>16-bit unsigned fractional division</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>srcDividend</Name>
+            <Description>
+              <Content>Input point buffer of unsigned 16-bit dividend</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+          <Input>
+            <Name>srcDivisor</Name>
+            <Description>
+              <Content>Input point buffer of unsigned 16-bit divisor</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>dst</Name>
+            <Description>
+              <Content>Pointer to the output</Content>
+            </Description>
+            <Datatype>uint16_t*</Datatype>
+            <TestSize>12800</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+    </ApiDefList>
+  </FeatureDef>
+</FeatureDefCollection>

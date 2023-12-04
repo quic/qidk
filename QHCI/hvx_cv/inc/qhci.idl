@@ -1,0 +1,130 @@
+#ifndef QHCI_IDL
+#define QHCI_IDL
+
+#include "AEEStdDef.idl"
+#include "remote.idl"
+
+interface qhci : remote_handle64{
+    AEEResult setClocks(
+        in int32 power_level,            // sets the clocks for a given voltage level
+        in int32 latency,               // latency tolerance for low-power states
+        in int32 dcvs_enable             // flag for enabling DCVS
+    );
+    AEEResult uyvy2bgr(
+        in sequence<uint8> src,
+        in uint32 srcWidth, 
+        in uint32 srcHeight,
+        in uint32 srcStride,
+        in uint32 dst_stride,
+        rout sequence<uint8> dst
+    );
+    
+    AEEResult gaussian5x5(
+        in sequence<uint16_t> src, //source buffer
+        in uint32_t srcWidth, //source width
+        in uint32_t srcHeight, //source height
+        in uint32_t srcStride, //source stride
+        in uint32_t dstStride, //dst stride
+        rout sequence<uint16_t> dst //output dst buffer
+    );
+    AEEResult rgb2nv12(
+        in sequence<uint8_t> imgSrc, //input buffer of unsigned 8-bit values
+        in uint32_t srcWidth, //source width
+        in uint32_t srcHeight, //source height
+        in uint32_t srcStride, //source stride
+        in uint32_t dstWidth, //dst width
+        in uint32_t dstHeight, //dst height
+        in uint32_t dstStride, //dst stride
+        rout sequence<uint8_t> imgDst //output dst buffer
+    );
+    AEEResult rgb2nv21(
+        in sequence<uint8_t> imgSrc, //input buffer of unsigned 8-bit values
+        in uint32_t srcWidth, //src width
+        in uint32_t srcHeight, // src height
+        in uint32_t srcStride, //src stride
+        in uint32_t dstWidth, //dst width
+        in uint32_t dstHeight, //dst height
+        in uint32_t dstStride, //dst stride
+        rout sequence<uint8_t> imgDst //output buffer of unsigned 8-bit values
+    );
+    AEEResult nv12Torgb(
+        in sequence<uint8_t> imgSrc, //
+        in uint32_t srcWidth, //src width
+        in uint32_t srcHeight, //src height
+        in uint32_t srcStride, //src stride
+        in uint32_t dstWidth, //dst width
+        in uint32_t dstHeight, //dst height
+        in uint32_t dstStride, //dst stride
+        rout sequence<uint8_t> imgDst //output buffer of unsigned 8-bit values
+    );
+    AEEResult nv21Torgb(
+        in sequence<uint8_t> imgSrc, //input buffer of unsigned 8-bit values
+        in uint32_t srcWidth, //src width
+        in uint32_t srcHeight, //src height
+        in uint32_t srcStride, //src stride
+        in uint32_t dstWidth, //dst width
+        in uint32_t dstHeight, //dst height
+        in uint32_t dstStride, //dst stride
+        rout sequence<uint8_t> imgDst //output buffer of unsigned 8-bit values
+    );
+    AEEResult FFT16_16(
+        in sequence<int16_t> pRawImg, //Input point buffer of unsigned 16-bit values
+        in int32_t stride_i, //Stride of src
+        in int32_t width, //Width of src
+        in int32_t height, //Height of src
+        in int32_t outstride, //Stride of output
+        rout sequence<int16_t> FFT_out //Pointer to the FFT output
+    );
+    AEEResult IFFT32_32(
+        in sequence<uint16_t> pRawImg, //Input point buffer of unsigned 16-bit values
+        in int32_t stride_i, //Stride of src
+        in int32_t width, //Width of src
+        in int32_t height, //Height of src
+        in int32_t outstride, //Stride of output
+        rout sequence<int16_t> FFT_out, //Pointer to the FFT output
+        rout sequence<int16_t> IFFT_out //Pointer to the IFFT32X32 output
+    );
+    AEEResult IFFT64_64(
+        in sequence<uint16_t> pRawImg, //Input point buffer of unsigned 16-bit values
+        in int32_t stride_i, //Stride of src
+        in int32_t width, //Width of src
+        in int32_t height, //Height of src
+        in int32_t outstride, //Stride of output
+        rout sequence<int16_t> IFFT_out //Pointer to the IFFT64x64 output image
+    );
+    AEEResult HAP_mem_get_stats(
+        rout sequence<uint64> status
+    );
+    AEEResult HAP_core_clock_limit_set(
+        in uint32_t clkMHz //Clock limit in MHz
+    );
+    AEEResult HAP_core_clock_limit_query(
+        rout sequence<uint32_t> limit_info //Pointer to limit information, including limit_status and core_clock
+    );
+    AEEResult sInt32Division(
+        in int32_t width, //Width of the  input image in pixel. The number of pixels in a row
+        in int32_t height, //Height of the  input image in pixel
+        in int32_t istride, //Input stride
+        in sequence<int32_t> srcDividend, //The int32 pointer to the dividend
+        in sequence<int32_t> srcDivisor, //The int32 pointer to the divisor
+        in int32_t thread_num, //Thread number
+        rout sequence<int32_t> dst //The int32 pointer to the output
+    );
+    AEEResult div16_integer_unsigned(
+        in sequence<uint16_t> srcDividend, //Input point buffer of unsigned 16-bit dividend
+        in sequence<uint16_t> srcDivisor, //Input point buffer of unsigned 16-bit divisor
+        rout sequence<uint16_t> dst //Pointer to the output
+    );
+    AEEResult div16_integer_signed(
+        in sequence<int16_t> srcDividend, //Input point buffer of signed 16-bit dividend
+        in sequence<int16_t> srcDivisor, //Input point buffer of signed 16-bit divisor
+        rout sequence<int16_t> dst //Pointer to the output
+    );
+    AEEResult div16_fractional(
+        in sequence<uint16_t> srcDividend, //Input point buffer of unsigned 16-bit dividend
+        in sequence<uint16_t> srcDivisor, //Input point buffer of unsigned 16-bit divisor
+        rout sequence<uint16_t> dst //Pointer to the output
+    );    
+};
+
+#endif QHCI_IDL

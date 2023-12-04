@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OpDefCollection PackageName="qhci" Domain="" Version="1.0.0">
+  <OpDefList>
+    <OpDef>
+      <Name>InputPack</Name>
+      <Description>
+        <Content>reorder inputs with mask</Content>
+      </Description>
+      <Input>
+        <Name>data</Name>
+        <Description>
+          <Content>Data to be reorder </Content>
+        </Description>
+        <Mandatory>true</Mandatory>
+        <Datatype>QNN_DATATYPE_FLOAT_32</Datatype>
+        <Datatype>QNN_DATATYPE_UFIXED_POINT_8</Datatype>
+        <Shape>
+          <Rank>4D</Rank>
+          <Layout>NHWC</Layout>
+        </Shape>
+      </Input>
+      <Input>
+        <Name>mask</Name>
+        <Description>
+          <Content>Data mask</Content>
+        </Description>
+        <Mandatory>true</Mandatory>
+        <Datatype>QNN_DATATYPE_FLOAT_32</Datatype>
+        <Datatype>QNN_DATATYPE_UFIXED_POINT_8</Datatype>
+        <Shape>
+          <Rank>2D</Rank>
+          <Layout>NHWC</Layout>
+        </Shape>
+      </Input>
+      <Output>
+        <Name>output</Name>
+        <Description>
+          <Content>The output of the correlation2d operation</Content>
+        </Description>
+        <Mandatory>true</Mandatory>
+        <Datatype>QNN_DATATYPE_FLOAT_32</Datatype>
+        <Datatype>QNN_DATATYPE_UFIXED_POINT_8</Datatype>
+        <Shape>
+          <Rank>4D</Rank>
+          <Layout>NHWC</Layout>
+        </Shape>
+      </Output>
+      <SupportedBackend>HTP</SupportedBackend>
+    </OpDef>
+  </OpDefList>
+</OpDefCollection>

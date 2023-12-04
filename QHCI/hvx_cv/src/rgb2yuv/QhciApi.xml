@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2020 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+<FeatureDefCollection>
+  <FeatureDef>
+    <Name>rgb2yuv</Name>
+    <Description>
+      <Content>Convert between rgb and yuv based on HVX</Content>
+    </Description>
+    <ApiDefList>
+      <ApiDef>
+        <Name>rgb2nv12</Name>
+        <Type>intrinsic</Type>
+        <Description>
+          <Content>Convert rgb to nv12</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>imgSrc</Name>
+            <Description>
+              <Content>input buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*3*1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcWidth</Name>
+            <Description>
+              <Content>source width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>srcHeight</Name>
+            <Description>
+              <Content>source height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcStride</Name>
+            <Description>
+              <Content>source stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600*3</TestSize>
+          </Input>
+          <Input>
+            <Name>dstWidth</Name>
+            <Description>
+              <Content>dst width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstHeight</Name>
+            <Description>
+              <Content>dst height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>dstStride</Name>
+            <Description>
+              <Content>dst stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>imgDst</Name>
+            <Description>
+              <Content>output dst buffer</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*1300*3/2</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+      <ApiDef>
+        <Name>rgb2nv21</Name>
+        <Type>intrinsic</Type>
+        <Description>
+          <Content>Convert rgb to nv21</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>imgSrc</Name>
+            <Description>
+              <Content>input buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*3*1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcWidth</Name>
+            <Description>
+              <Content>src width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>srcHeight</Name>
+            <Description>
+              <Content></Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcStride</Name>
+            <Description>
+              <Content>src stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600*3</TestSize>
+          </Input>
+          <Input>
+            <Name>dstWidth</Name>
+            <Description>
+              <Content>dst width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstHeight</Name>
+            <Description>
+              <Content>dst height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>dstStride</Name>
+            <Description>
+              <Content>dst stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>imgDst</Name>
+            <Description>
+              <Content>output buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*1300*3/2</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+      <ApiDef>
+        <Name>nv12Torgb</Name>
+        <Type>intrinsic</Type>
+        <Description>
+          <Content>Convert nv12 to rgb</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>imgSrc</Name>
+            <Description>
+              <Content></Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*1300*3/2</TestSize>
+          </Input>
+          <Input>
+            <Name>srcWidth</Name>
+            <Description>
+              <Content>src width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>srcHeight</Name>
+            <Description>
+              <Content>src height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcStride</Name>
+            <Description>
+              <Content>src stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstWidth</Name>
+            <Description>
+              <Content>dst width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstHeight</Name>
+            <Description>
+              <Content>dst height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>dstStride</Name>
+            <Description>
+              <Content>dst stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600*3</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>imgDst</Name>
+            <Description>
+              <Content>output buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*3*1300</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+      <ApiDef>
+        <Name>nv21Torgb</Name>
+        <Type>intrinsic</Type>
+        <Description>
+          <Content>Convert nv21 to rgb</Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>imgSrc</Name>
+            <Description>
+              <Content>input buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*1300*3/2</TestSize>
+          </Input>
+          <Input>
+            <Name>srcWidth</Name>
+            <Description>
+              <Content>src width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>srcHeight</Name>
+            <Description>
+              <Content>src height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>srcStride</Name>
+            <Description>
+              <Content>src stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstWidth</Name>
+            <Description>
+              <Content>dst width</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600</TestSize>
+          </Input>
+          <Input>
+            <Name>dstHeight</Name>
+            <Description>
+              <Content>dst height</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1300</TestSize>
+          </Input>
+          <Input>
+            <Name>dstStride</Name>
+            <Description>
+              <Content>dst stride</Content>
+            </Description>
+            <Datatype>uint32_t</Datatype>
+            <TestSize>1600*3</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>imgDst</Name>
+            <Description>
+              <Content>output buffer of unsigned 8-bit values</Content>
+            </Description>
+            <Datatype>uint8_t*</Datatype>
+            <TestSize>1600*3*1300</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+    </ApiDefList>
+  </FeatureDef>
+</FeatureDefCollection>

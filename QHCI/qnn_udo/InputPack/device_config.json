@@ -1,0 +1,20 @@
+{
+  "graphs": {
+    "vtcm_mb": 8,
+    "graph_names": [
+      "model_quant"
+    ],
+  "fp16_relaxed_precision":true
+  },
+  "devices": [
+    {
+      "dsp_arch": "v73",
+      "pd_session": "unsigned",
+      "cores": [
+        {
+          "perf_profile": "burst"
+        }
+      ]
+    }
+  ]
+}

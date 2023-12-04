@@ -1,0 +1,122 @@
+# ==============================================================================
+#
+#  Copyright (c) 2020, 2023 Qualcomm Technologies, Inc.
+#  All Rights Reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+# ===============================================================
+
+# define relevant directories
+SRC_DIR := src
+SRC_DIR_OPS := src/ops
+SRC_DIR_UTILS := src/utils/CPU
+
+# Checking if clang++-9 is present. If not switch to clang++
+ifeq ($(shell $(CXX) -v 2>&1 | grep -c "clang version"), 0)
+  CXX := clang++
+endif
+
+# define library name and corresponding directory
+QNN_TARGET ?= x86_64-linux-clang
+export LIB_DIR := ./libs/$(QNN_TARGET)
+
+ifdef PACKAGE_NAME
+library := $(LIB_DIR)/lib$(PACKAGE_NAME).so
+else
+library :=$(LIB_DIR)/libCpuCustomPackage.so
+endif
+
+# define target architecture if not previously defined, default is x86
+ifndef TARGET_AARCH_VARS
+TARGET_AARCH_VARS:= -march=x86-64
+endif
+
+# Include paths
+# QNN_SDK_ROOT should be set and points to the SDK path, it will be used.
+ifdef QNN_SDK_ROOT
+ifeq ($(shell test -d ${QNN_SDK_ROOT}/target && echo 0),0)
+  # setup custom op directory path
+  CUSTOM_OP_DIR :=$(QNN_SDK_ROOT)/target/x86_64-linux-clang/share/OpPackageGenerator/CustomOp
+
+  # setup include paths
+
+  INCLUDES += -I$(QNN_SDK_ROOT)/include -I include -I$(QNN_SDK_ROOT)/include/CPU -I $(CUSTOM_OP_DIR)
+  INCLUDES += -I $(SRC_DIR)/utils -I $(SRC_DIR)/utils/CPU
+
+  # copy source files from custom op directory
+  $(info Copying custom op source files from SDK)
+  COPYFILES := $(shell find $(CUSTOM_OP_DIR)/CPU -name "*.cpp" -exec cp -rf {} $(SRC_DIR) 2>/dev/null \;)
+else
+  # setup custom op directory path
+  CUSTOM_OP_DIR :=$(QNN_SDK_ROOT)/share/QNN/OpPackageGenerator/CustomOp
+
+  # setup include paths
+
+  INCLUDES += -I$(QNN_SDK_ROOT)/include/QNN -I include -I$(QNN_SDK_ROOT)/include/QNN/CPU -I $(CUSTOM_OP_DIR)
+  INCLUDES += -I $(SRC_DIR)/utils -I $(SRC_DIR)/utils/CPU
+
+  # copy source files from custom op directory
+  $(info Copying custom op source files from SDK)
+  COPYFILES := $(shell find $(CUSTOM_OP_DIR)/CPU -name "*.cpp" -exec cp -rf {} $(SRC_DIR) 2>/dev/null \;)
+endif
+else
+$(error QNN_SDK_ROOT: Please set QNN_SDK_ROOT)
+endif
+
+# set compiler flags
+COMMON_CXXFLAGS = -std=c++11 -fno-exceptions -fPIC -pg $(INCLUDES)
+COMMON_LDFLAGS = -shared -s -fPIC
+
+ifdef QNN_DEBUG_ENABLE
+CXXFLAGS += $(COMMON_CXXFLAGS) -march=x86-64 -O0 -g -DQNN_API=""
+LDFLAGS += $(COMMON_LDFLAGS)
+else
+CXXFLAGS += $(COMMON_CXXFLAGS) -march=x86-64 -O3 -Wno-write-strings -fvisibility=hidden -DQNN_API="__attribute__((visibility(\"default\")))"
+LDFLAGS += $(COMMON_LDFLAGS) -fvisibility=hidden -flto
+endif
+
+# define library sources
+SOURCES     := $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES_OPS := $(wildcard $(SRC_DIR_OPS)/*.cpp)
+SOURCE_UTILS := $(wildcard $(SRC_DIR_UTILS)/*.cpp)
+
+# define object directories
+OBJ_DIR := obj/$(QNN_TARGET)
+OBJ_DIR_OPS := obj/$(QNN_TARGET)/ops
+OBJ_DIR_UTILS := obj/$(QNN_TARGET)/utils
+
+# setup object files in object directory
+OBJECTS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(foreach x,$(SOURCES),$(notdir $(x))))
+OBJECTS_OPS := $(patsubst %.cpp,$(OBJ_DIR_OPS)/%.o,$(foreach x,$(SOURCES_OPS),$(notdir $(x))))
+OBJECTS_UTILS := $(patsubst %.cpp,$(OBJ_DIR_UTILS)/%.o,$(foreach x,$(SOURCE_UTILS),$(notdir $(x))))
+
+# Rule to make library
+.PHONY: library
+library: $(library)
+
+# Implicit rule to compile and link object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
+
+$(OBJ_DIR_UTILS)/%.o: $(SRC_DIR_UTILS)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
+
+# set up resources
+directories := $(LIB_DIR) $(OBJ_DIR) $(OBJ_DIR_OPS) $(OBJ_DIR_UTILS)
+
+# Compile
+$(library): $(OBJECTS) $(OBJECTS_OPS) $(OBJECTS_UTILS) | $(directories)
+	$(CXX) $(CXXFLAGS) $(LINKFLAGS) -shared $^ -o $@
+
+# rule for object directory resource
+$(OBJECTS): | $(OBJ_DIR) $(COPYFILES)
+$(OBJECTS_OPS): | $(OBJ_DIR_OPS)
+$(OBJECTS_UTILS): | $(OBJ_DIR_UTILS)
+
+# rule to create directories
+$(directories):
+	mkdir -p $@
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJ_DIR) $(LIB_DIR)

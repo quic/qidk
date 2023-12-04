@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2020 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+<FeatureDefCollection>
+    <FeatureDef>
+        <Name>gaussian5x5</Name>
+        <Description>
+            <Content></Content>
+        </Description>
+        <ApiDefList>
+            <ApiDef>
+                <Name>gaussian5x5</Name>
+                <Type>intrinsic</Type>
+                <Description>
+                    <Content></Content>
+                </Description>
+                <InputList>
+                    <Input>
+                        <Name>src</Name>
+                        <Description>
+                            <Content>source buffer</Content>
+                        </Description>
+                        <Datatype>uint16_t*</Datatype>
+                        <TestSize>1920*1080</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>srcWidth</Name>
+                        <Description>
+                            <Content>source width</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>1920</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>srcHeight</Name>
+                        <Description>
+                            <Content>source height</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>1080</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>srcStride</Name>
+                        <Description>
+                            <Content>source stride</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>1920</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>dstStride</Name>
+                        <Description>
+                            <Content>dst stride</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>1920</TestSize>
+                    </Input>
+                </InputList>
+                <OutputList>
+                    <Output>
+                        <Name>dst</Name>
+                        <Description>
+                            <Content>output dst buffer</Content>
+                        </Description>
+                        <Datatype>uint16_t*</Datatype>
+                        <TestSize>1920*1080</TestSize>
+                    </Output>
+                </OutputList>
+            </ApiDef>
+        </ApiDefList>
+    </FeatureDef>
+</FeatureDefCollection>

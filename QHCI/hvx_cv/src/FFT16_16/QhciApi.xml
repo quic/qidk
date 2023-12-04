@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2020 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+<FeatureDefCollection>
+  <FeatureDef>
+    <Name>FFT16_16</Name>
+    <Description>
+      <Content></Content>
+    </Description>
+    <ApiDefList>
+      <ApiDef>
+        <Name>FFT16_16</Name>
+        <Type>asm</Type>
+        <Description>
+          <Content></Content>
+        </Description>
+        <InputList>
+          <Input>
+            <Name>pRawImg</Name>
+            <Description>
+              <Content>Input point buffer of unsigned 16-bit values</Content>
+            </Description>
+            <Datatype>int16_t*</Datatype>
+            <TestSize>64*16</TestSize>
+          </Input>
+          <Input>
+            <Name>stride_i</Name>
+            <Description>
+              <Content>Stride of src</Content>
+            </Description>
+            <Datatype>int32_t</Datatype>
+            <TestSize>64</TestSize>
+          </Input>
+          <Input>
+            <Name>width</Name>
+            <Description>
+              <Content>Width of src</Content>
+            </Description>
+            <Datatype>int32_t</Datatype>
+            <TestSize>64</TestSize>
+          </Input>
+          <Input>
+            <Name>height</Name>
+            <Description>
+              <Content>Height of src</Content>
+            </Description>
+            <Datatype>int32_t</Datatype>
+            <TestSize>16</TestSize>
+          </Input>
+          <Input>
+            <Name>outstride</Name>
+            <Description>
+              <Content>Stride of output</Content>
+            </Description>
+            <Datatype>int32_t</Datatype>
+            <TestSize>128</TestSize>
+          </Input>
+        </InputList>
+        <OutputList>
+          <Output>
+            <Name>FFT_out</Name>
+            <Description>
+              <Content>Pointer to the FFT output</Content>
+            </Description>
+            <Datatype>int16_t*</Datatype>
+            <TestSize>64*16*2</TestSize>
+          </Output>
+        </OutputList>
+      </ApiDef>
+    </ApiDefList>
+  </FeatureDef>
+</FeatureDefCollection>

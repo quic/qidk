@@ -1,0 +1,13 @@
+SUPPORTED_VS = $(default_VS)
+
+# must list all the dependencies of this project
+DEPENDENCIES = \
+  RPCMEM \
+
+# each dependency needs a directory definition
+#  the form is <DEPENDENCY NAME>_DIR
+#  for example:
+#    DEPENDENCIES = FOO
+#    FOO_DIR = $(HEXAGON_SDK_ROOT)/examples/common/foo
+#
+RPCMEM_DIR = $(HEXAGON_SDK_ROOT)/ipc/fastrpc/rpcmem

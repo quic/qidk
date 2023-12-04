@@ -1,0 +1,10 @@
+LIB_DSPRPC = libcdsprpc
+$(info ************  LIB=$(LIB_DSPRPC) ************)
+
+include cpu.min
+
+DEFINES += ENABLE_ASYNC
+
+# stand-alone benchmark executable
+$(EXE_NAME)_LIBS += rpcmem
+$(EXE_NAME)_LD_FLAGS += -llog -lc++
