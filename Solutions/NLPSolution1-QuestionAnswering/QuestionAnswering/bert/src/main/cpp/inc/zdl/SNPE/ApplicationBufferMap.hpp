@@ -1,101 +1,90 @@
-//==============================================================================
+//=============================================================================
 //
-//  Copyright (c) 2019 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-//==============================================================================
+//=============================================================================
+#pragma once
 
-#ifndef PSNPE_APPLICATIONBUFFERMAP_HPP
-#define PSNPE_APPLICATIONBUFFERMAP_HPP
 #include <vector>
-#include <string>
 #include <unordered_map>
+#include <cstdint>
+#include <cstddef>
 
-#include "DlSystem/UserBufferMap.hpp"
-#include "DlSystem/ZdlExportDefine.hpp"
+#include "Wrapper.hpp"
+#include "DlSystem/StringList.hpp"
 
-namespace zdl
-{
-namespace PSNPE
-{
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+#include "SNPE/ApplicationBufferMap.h"
 
-/**
- * @brief .
- *
- * A class representing the UserBufferMap of Input and Output asynchronous mode.
- */
+namespace PSNPE {
 
-class ZDL_EXPORT ApplicationBufferMap final
-{
+class ApplicationBufferMap : public Wrapper<ApplicationBufferMap, Snpe_ApplicationBufferMap_Handle_t> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
 
- public:
-   /**
-    * @brief Adds a name and the corresponding buffer
-    *        to the map
-    *
-    * @param[in] name The name of the UserBuffer
-    * @param[in] buffer The vector of the uint8_t data
-    *
-    * @note If a UserBuffer with the same name already exists, the new
-    *       UserBuffer pointer would be updated.
-    */
-   void add(const char* name, std::vector<uint8_t>& buff) noexcept;
-   void add(const char* name, std::vector<float>& buff) noexcept;
-   /**
-    * @brief Removes a mapping of one UserBuffer and its name by its name
-    *
-    * @param[in] name The name of UserBuffer to be removed
-    *
-    * @note If no UserBuffer with the specified name is found, nothing
-    *       is done.
-    */
-   void remove(const char* name) noexcept;
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_ApplicationBufferMap_Delete};
+public:
+  ApplicationBufferMap()
+  : BaseType(Snpe_ApplicationBufferMap_Create()){}
 
-   /**
-    * @brief Returns the number of UserBuffers in the map
-    */
-   size_t size() const noexcept;
+  explicit ApplicationBufferMap(const std::unordered_map<std::string, std::vector<uint8_t>> &buffer)
+  : ApplicationBufferMap(){
+    for(const auto &kv: buffer){
+      add(kv.first.c_str(), kv.second);
+    }
+  }
 
-   /**
-    * @brief .
-    *
-    * Removes all UserBuffers from the map
-    */
-   void clear() noexcept;
+  void add(const char *name, const std::vector<uint8_t> &buff){
+    Snpe_ApplicationBufferMap_Add(handle(), name, buff.data(), buff.size());
+  }
 
-   /**
-    * @brief Returns the UserBuffer given its name.
-    *
-    * @param[in] name The name of the UserBuffer to get.
-    *
-    * @return nullptr if no UserBuffer with the specified name is
-    *         found; otherwise, a valid pointer to the UserBuffer.
-    */
-   const std::vector<uint8_t>& getUserBuffer(const char* name) const;
-   const std::vector<uint8_t>& operator[](const char* name) const;
-   /**
-    * @brief .
-    *
-    * Returns the names of all UserAsyncBufferMap
-    *
-    * @return A list of UserBuffer names.
-    */
-   zdl::DlSystem::StringList getUserBufferNames() const;
-   const std::unordered_map<std::string, std::vector<uint8_t>>& getUserBuffer() const;
-   explicit ApplicationBufferMap();
-   ~ApplicationBufferMap();
-   explicit ApplicationBufferMap(
-     const std::unordered_map<std::string, std::vector<uint8_t>> buffer);
+  void add(const char *name, const std::vector<float> &buff){
+    Snpe_ApplicationBufferMap_Add(handle(), name, reinterpret_cast<const uint8_t *>(buff.data()), buff.size()*sizeof(float));
+  }
 
- private:
-   std::unordered_map<std::string, std::vector<uint8_t>> m_UserMap;
+  void remove(const char *name) noexcept{
+    Snpe_ApplicationBufferMap_Remove(handle(), name);
+  }
+
+  size_t size() const noexcept{
+    return Snpe_ApplicationBufferMap_Size(handle());
+  }
+
+  void clear() noexcept{
+    Snpe_ApplicationBufferMap_Clear(handle());
+  }
+
+  std::vector<uint8_t> getUserBuffer(const char *name) const{
+    size_t size{};
+    const uint8_t *data{};
+    Snpe_ApplicationBufferMap_GetUserBuffer(handle(), name, &size, &data);
+
+    return std::vector<uint8_t>(data, data + size);
+  }
+
+  std::vector<uint8_t> operator[](const char *name) const{
+    return getUserBuffer(name);
+  }
+
+  DlSystem::StringList getUserBufferNames() const{
+    return moveHandle(Snpe_ApplicationBufferMap_GetUserBufferNames(handle()));
+  }
+
+  std::unordered_map<std::string, std::vector<uint8_t>> getUserBuffer() const{
+    std::unordered_map<std::string, std::vector<uint8_t>> toret;
+    for(auto name: getUserBufferNames()){
+      toret.emplace(name, getUserBuffer(name));
+    }
+
+    return toret;
+  }
+
 };
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
-} // namespace PSNPE
-} // namespace zdl
+} // ns PSNPE
 
-#endif // PSNPE_APPLICATIONBUFFERMAP_HPP
+
+ALIAS_IN_ZDL_NAMESPACE(PSNPE, ApplicationBufferMap)

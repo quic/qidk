@@ -51,6 +51,5 @@ bool FloatToTf8(uint8_t* out, unsigned char& stepEquivalentTo0, float& quantized
 
 void setResizableDim(size_t resizableDim);
 size_t getResizableDim();
-
 #endif
 

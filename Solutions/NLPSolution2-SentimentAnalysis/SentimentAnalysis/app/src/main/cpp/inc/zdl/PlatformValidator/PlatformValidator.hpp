@@ -1,118 +1,57 @@
-// =============================================================================
+//=============================================================================
 //
-// Copyright (c) 2018-2020 Qualcomm Technologies, Inc.
-// All Rights Reserved.
-// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
+//  All Rights Reserved.
+//  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-// =============================================================================
+//=============================================================================
+#pragma once
 
-#ifndef SNPE_PLATFORMVALIDATOR_HPP
-#define SNPE_PLATFORMVALIDATOR_HPP
+#include <string>
+
+#include "Wrapper.hpp"
 
 #include "DlSystem/DlEnums.hpp"
-#include "DlSystem/ZdlExportDefine.hpp"
 
-#define DO_PRAGMA(s) _Pragma(#s)
-#define NO_WARNING "-Wunused-variable"
 
-#ifdef __clang__
-#define SNPE_DISABLE_WARNINGS(clang_warning,gcc_warning) \
-_Pragma("clang diagnostic push") \
-DO_PRAGMA(clang diagnostic ignored clang_warning)
+#include "PlatformValidator/PlatformValidator.h"
 
-#define SNPE_ENABLE_WARNINGS \
-_Pragma("clang diagnostic pop")
 
-#elif defined __GNUC__
-#define SNPE_DISABLE_WARNINGS(clang_warning,gcc_warning) \
-_Pragma("GCC diagnostic push") \
-DO_PRAGMA(GCC diagnostic ignored gcc_warning)
+namespace SNPE {
 
-#define SNPE_ENABLE_WARNINGS \
-_Pragma("GCC diagnostic pop")
+class PlatformValidator : public Wrapper<PlatformValidator, Snpe_PlatformValidator_Handle_t> {
+  friend BaseType;
+  using BaseType::BaseType;
 
-#else
-#define SNPE_DISABLE_WARNINGS(...)
-#define SNPE_ENABLE_WARNINGS
-#endif
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_PlatformValidator_Delete};
 
-SNPE_DISABLE_WARNINGS("-Wdelete-non-virtual-dtor","-Wdelete-non-virtual-dtor")
-#include <string>
-#include <memory>
-SNPE_ENABLE_WARNINGS
-
-namespace zdl
-{
-   namespace SNPE
-   {
-      class PlatformValidator;
-
-      class IPlatformValidatorRuntime;
-   }
-}
-
-/** @addtogroup c_plus_plus_apis C++
-@{ */
-
-/**
-* The class for checking SNPE compatibility/capability of a device.
-*
-*/
-
-class ZDL_EXPORT zdl::SNPE::PlatformValidator
-{
 public:
-   /**
-    * @brief Default Constructor of the PlatformValidator Class
-    *
-    * @return A new instance of a PlatformValidator object
-    *         that can be used to check the SNPE compatibility
-    *         of a device
-    */
-   PlatformValidator();
+  PlatformValidator()
+    : BaseType(Snpe_PlatformValidator_Create())
+  {  }
 
-   ~PlatformValidator();
+  void setRuntime(DlSystem::Runtime_t runtime, bool unsignedPD=true){
+    Snpe_PlatformValidator_SetRuntime(handle(), static_cast<Snpe_Runtime_t>(runtime), unsignedPD);
+  }
 
-   /**
-    * @brief Sets the runtime processor for compatibility check
-    *
-    * @return Void
-    */
-   void setRuntime(zdl::DlSystem::Runtime_t runtime);
+  bool isRuntimeAvailable(bool unsignedPD=true){
+    return Snpe_PlatformValidator_IsRuntimeAvailable(handle(), unsignedPD);
+  }
 
-   /**
-    * @brief Checks if the Runtime prerequisites for SNPE are available.
-    *
-    * @return True if the Runtime prerequisites are available, else false.
-    */
-   bool isRuntimeAvailable();
+  std::string getCoreVersion(){
+    return Snpe_PlatformValidator_GetCoreVersion(handle());
+  }
 
-   /**
-    * @brief Returns the core version for the Runtime selected.
-    *
-    * @return String which contains the actual core version value
-    */
-   std::string getCoreVersion();
+  std::string getLibVersion(){
+    return Snpe_PlatformValidator_GetLibVersion(handle());
+  }
 
-   /**
-    * @brief Returns the library version for the Runtime selected.
-    *
-    * @return String which contains the actual lib version value
-    */
-   std::string getLibVersion();
+  bool runtimeCheck(bool unsignedPD=true){
+    return Snpe_PlatformValidator_RuntimeCheck(handle(), unsignedPD);
+  }
 
-   /**
-    * @brief Runs a small program on the runtime and Checks if SNPE is supported for Runtime.
-    *
-    * @return If True, the device is ready for SNPE execution, else not.
-    */
-
-   bool runtimeCheck();
-
-private:
-    zdl::DlSystem::Runtime_t m_runtimeType;
-    std::unique_ptr<IPlatformValidatorRuntime> m_platformValidatorRuntime;
 };
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-#endif //SNPE_PLATFORMVALIDATOR_HPP
+} // ns SNPE
+
+ALIAS_IN_ZDL_NAMESPACE(SNPE, PlatformValidator)

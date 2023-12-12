@@ -12,7 +12,7 @@
 #include "DlSystem/RuntimeList.hpp"
 #include "SNPE/SNPE.hpp"
 #include "DlSystem/DlEnums.hpp"
-#include "DlSystem/UDLFunc.hpp"
+//#include "DlSystem/UDLFunc.hpp"
 #include "DlContainer/IDlContainer.hpp"
 #include "DlSystem/PlatformConfig.hpp"
 

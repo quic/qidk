@@ -1,49 +1,76 @@
-//==============================================================================
+//=============================================================================
 //
-//  Copyright (c) 2019 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-//==============================================================================
-#ifndef PSNPE_USERBUFFERLIST_HPP
-#define PSNPE_USERBUFFERLIST_HPP
+//=============================================================================
+#pragma once
 
-#include <vector>
+#include "Wrapper.hpp"
 #include "DlSystem/UserBufferMap.hpp"
-#include "DlSystem/ZdlExportDefine.hpp"
 
-namespace zdl {
-namespace PSNPE
-{
+#include "SNPE/UserBufferList.h"
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
-/**
-* @brief .
-*
-* The class for creating a UserBufferMap container.
-*
-*/
-class ZDL_EXPORT UserBufferList final
-{
+
+namespace PSNPE {
+
+class UserBufferList : public Wrapper<UserBufferList, Snpe_UserBufferList_Handle_t, true> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_UserBufferList_Delete};
+
 public:
-   UserBufferList();
-   UserBufferList(const size_t size);
-   void push_back(const zdl::DlSystem::UserBufferMap &userBufferMap);
-   zdl::DlSystem::UserBufferMap& operator[](const size_t index);
-   UserBufferList& operator =(const UserBufferList &other);
-   size_t size() const noexcept;
-   size_t capacity() const noexcept;
-   void clear() noexcept;
-   ~UserBufferList() = default;
+  UserBufferList()
+    : BaseType(Snpe_UserBufferList_Create())
+  {  }
+  explicit UserBufferList(size_t size)
+    : BaseType(Snpe_UserBufferList_CreateSize(size))
+  {  }
 
-private:
-   void swap(const UserBufferList &other);
-   std::vector<zdl::DlSystem::UserBufferMap> m_userBufferMaps;
+  UserBufferList(const UserBufferList& other)
+    : BaseType(Snpe_UserBufferList_CreateCopy(other.handle()))
+  {  }
+  UserBufferList(UserBufferList&& other) noexcept
+    : BaseType(std::move(other))
+  {  }
 
+  UserBufferList& operator=(const UserBufferList& other){
+    if(this != &other){
+      Snpe_UserBufferList_Assign(other.handle(), handle());
+    }
+    return *this;
+  }
+  UserBufferList& operator=(UserBufferList&& other){
+    return moveAssign(std::move(other));
+  }
+
+
+  void push_back(const DlSystem::UserBufferMap&  userBufferMap){
+    Snpe_UserBufferList_PushBack(handle(), getHandle(userBufferMap));
+  }
+
+  DlSystem::UserBufferMap& operator[](size_t idx){
+    return *makeReference<DlSystem::UserBufferMap>(Snpe_UserBufferList_At_Ref(handle(), idx));
+  }
+
+  size_t size() const noexcept{
+    return Snpe_UserBufferList_Size(handle());
+  }
+
+  size_t capacity() const noexcept{
+    return Snpe_UserBufferList_Capacity(handle());
+  }
+
+  void clear() noexcept{
+    Snpe_UserBufferList_Clear(handle());
+  }
 };
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-} // namespace PSNPE
-} // namespace zdl
-#endif //PSNPE_USERBUFFERLIST_HPP
+
+} // ns PSNPE
+
+ALIAS_IN_ZDL_NAMESPACE(PSNPE, UserBufferList)

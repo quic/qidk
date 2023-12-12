@@ -1,92 +1,52 @@
 //=============================================================================
 //
-//  Copyright (c) 2015-2016 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
+#pragma once
 
-#ifndef _ITENSOR_FACTORY_HPP
-#define _ITENSOR_FACTORY_HPP
-
+#include "Wrapper.hpp"
 #include "ITensor.hpp"
-#include "TensorShape.hpp"
-#include "ZdlExportDefine.hpp"
+
 #include <istream>
 
-namespace zdl {
-    namespace DlSystem
-    {
-        class ITensor;
-        class TensorShape;
-    }
-}
 
-namespace zdl { namespace DlSystem
-{
+#include "SNPE/SNPEUtil.h"
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+namespace DlSystem{
+// NOTE: These factories use a different handle type because they are singletons
+// Never copy this pattern unless you're also implementing a singleton
+class ITensorFactory : public Wrapper<ITensorFactory, ITensorFactory*, true>{
+  friend BaseType;
 
-/**
- * Factory interface class to create ITensor objects.
- */
-class ZDL_EXPORT ITensorFactory
-{
+  using BaseType::BaseType;
+  static constexpr DeleteFunctionType DeleteFunction{NoOpDeleter};
+
 public:
-   virtual ~ITensorFactory() = default;
+  ITensorFactory()
+    : BaseType(nullptr)
+  {  }
 
-   /**
-    * Creates a new ITensor with uninitialized data. 
-    *  
-    * The strides for the tensor will match the tensor dimensions 
-    * (i.e., the tensor data is contiguous in memory).
-    *  
-    * @param[in] shape The dimensions for the tensor in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    * 
-    * @return A pointer to the created tensor or nullptr if creating failed.
-    */
-   virtual std::unique_ptr<ITensor>
-      createTensor(const TensorShape &shape) noexcept = 0;
 
-   /**
-    * Creates a new ITensor by loading it from a file.
-    *  
-    * @param[in] input The input stream from which to read the tensor 
-    *                  data.
-    *  
-    * @return A pointer to the created tensor or nullptr if creating failed.
-    *
-    */
-   virtual std::unique_ptr<ITensor> createTensor(std::istream &input) noexcept = 0;
+  std::unique_ptr<ITensor> createTensor(const TensorShape &shape) noexcept{
+    return makeUnique<ITensor>(Snpe_Util_CreateITensor(getHandle(shape)));
+  }
 
-   /**
-    * Create a new ITensor with specific data.
-    * (i.e. the tensor data is contiguous in memory). This tensor is
-    * primarily used to create a tensor where tensor size can't be
-    * computed directly from dimension. One such example is
-    * NV21-formatted image, or any YUV formatted image
-    *
-    * @param[in] shape The dimensions for the tensor in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    *
-    * @param[in] data The actual data with which the Tensor object is filled.
-    *
-    * @param[in] dataSize The size of data
-    *
-    * @return A pointer to the created tensor
-    */
-   virtual std::unique_ptr<ITensor>
-      createTensor(const TensorShape &shape, const unsigned char *data, size_t dataSize) noexcept = 0;
+  // Create from std::istream is no longer supported
+  std::unique_ptr<ITensor> createTensor(std::istream &input) noexcept = delete;
+
+  std::unique_ptr<ITensor> createTensor(const TensorShape &shape,
+                                        const unsigned char *data,
+                                        size_t dataSize) noexcept{
+    auto handle = Snpe_Util_CreateITensorDataSize(getHandle(shape), data, dataSize);
+    return makeUnique<ITensor>(handle);
+  }
+
 };
 
-}}
+} // ns DlSystem
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-#endif
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, ITensorFactory)

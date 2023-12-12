@@ -1,122 +1,80 @@
 //=============================================================================
 //
-//  Copyright (c) 2017 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
-#include <memory>
-#include "ZdlExportDefine.hpp"
-#include "StringList.hpp"
+#pragma once
 
-#ifndef DL_SYSTEM_USER_BUFFER_MAP_HPP
-#define DL_SYSTEM_USER_BUFFER_MAP_HPP
+#include <cstddef>
 
-namespace DlSystem
-{
-    // Forward declaration of UserBuffer map implementation.
-    class UserBufferMapImpl;
-}
+#include "Wrapper.hpp"
+#include "DlSystem/DlError.hpp"
+#include "DlSystem/StringList.hpp"
+#include "DlSystem/IUserBuffer.hpp"
 
-namespace zdl
-{
-namespace DlSystem
-{
-class IUserBuffer;
+#include "DlSystem/UserBufferMap.h"
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+namespace DlSystem {
 
-/**
-  * @brief .
-  *
-  * A class representing the map of UserBuffer.
-  */
-class ZDL_EXPORT UserBufferMap final
-{
+class UserBufferMap : public Wrapper<UserBufferMap, Snpe_UserBufferMap_Handle_t, true> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_UserBufferMap_Delete};
+
 public:
+  UserBufferMap()
+    : BaseType(Snpe_UserBufferMap_Create())
+  {  }
 
-    /**
-     * @brief .
-     *
-     * Creates a new empty UserBuffer map
-     */
-    UserBufferMap();
+  UserBufferMap(const UserBufferMap& other)
+    : BaseType(Snpe_UserBufferMap_CreateCopy(other.handle()))
+  {  }
+  UserBufferMap(UserBufferMap&& other) noexcept
+    : BaseType(std::move(other))
+  {  }
 
-    /**
-     * copy constructor.
-     * @param[in] other object to copy.
-     */
-    UserBufferMap(const UserBufferMap& other);
+  UserBufferMap& operator=(const UserBufferMap& other){
+    if(this != &other){
+      Snpe_UserBufferMap_Assign(other.handle(), handle());
+    }
+    return *this;
+  }
+  UserBufferMap& operator=(UserBufferMap&& other) noexcept{
+    return moveAssign(std::move(other));
+  }
 
-    /**
-      * assignment operator.
-      */
-    UserBufferMap& operator=(const UserBufferMap& other);
+  DlSystem::ErrorCode add(const char* name, IUserBuffer* buffer){
+    if(!buffer) return ErrorCode::SNPE_CAPI_BAD_ARGUMENT;
+    return static_cast<DlSystem::ErrorCode>(Snpe_UserBufferMap_Add(handle(), name, getHandle(*buffer)));
+  }
 
-    /**
-     * @brief Adds a name and the corresponding UserBuffer pointer
-     *        to the map
-     *
-     * @param[in] name The name of the UserBuffer
-     * @param[in] userBuffer The pointer to the UserBuffer
-     *
-     * @note If a UserBuffer with the same name already exists, the new
-     *       UserBuffer pointer would be updated.
-     */
-    void add(const char *name, zdl::DlSystem::IUserBuffer *buffer);
+  DlSystem::ErrorCode remove(const char* name) noexcept{
+    return static_cast<DlSystem::ErrorCode>(Snpe_UserBufferMap_Remove(handle(), name));
+  }
 
-    /**
-     * @brief Removes a mapping of one UserBuffer and its name by its name
-     *
-     * @param[in] name The name of UserBuffer to be removed
-     *
-     * @note If no UserBuffer with the specified name is found, nothing
-     *       is done.
-     */
-    void remove(const char *name) noexcept;
+  size_t size() const noexcept{
+    return Snpe_UserBufferMap_Size(handle());
+  }
 
-    /**
-     * @brief Returns the number of UserBuffers in the map
-     */
-    size_t size() const noexcept;
+  DlSystem::ErrorCode clear() noexcept{
+    return static_cast<DlSystem::ErrorCode>(Snpe_UserBufferMap_Clear(handle()));
+  }
 
-    /**
-     * @brief .
-     *
-     * Removes all UserBuffers from the map
-     */
-    void clear() noexcept;
+  IUserBuffer* getUserBuffer(const char* name) const noexcept{
+    return makeReference<IUserBuffer>(Snpe_UserBufferMap_GetUserBuffer_Ref(handle(), name));
+  }
 
-    /**
-     * @brief Returns the UserBuffer given its name.
-     *
-     * @param[in] name The name of the UserBuffer to get.
-     *
-     * @return nullptr if no UserBuffer with the specified name is
-     *         found; otherwise, a valid pointer to the UserBuffer.
-     */
-    zdl::DlSystem::IUserBuffer* getUserBuffer(const char *name) const noexcept;
+  StringList getUserBufferNames() const{
+    return moveHandle(Snpe_UserBufferMap_GetUserBufferNames(handle()));
+  }
 
-    /**
-     * @brief .
-     *
-     * Returns the names of all UserBuffers
-     *
-     * @return A list of UserBuffer names.
-     */
-    zdl::DlSystem::StringList getUserBufferNames() const;
-
-    ~UserBufferMap();
-private:
-    void swap(const UserBufferMap &other);
-    std::unique_ptr<::DlSystem::UserBufferMapImpl> m_UserBufferMapImpl;
 };
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-} // DlSystem namespace
-} // zdl namespace
+} // ns DlSystem
 
-
-#endif // DL_SYSTEM_TENSOR_MAP_HPP
-
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, UserBufferMap)

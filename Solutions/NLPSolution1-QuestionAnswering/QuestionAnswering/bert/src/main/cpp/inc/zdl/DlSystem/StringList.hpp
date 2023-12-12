@@ -1,107 +1,73 @@
 //=============================================================================
 //
-//  Copyright (c) 2016 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
-#include <cstdio>
-#include "ZdlExportDefine.hpp"
+#pragma once
 
-#ifndef DL_SYSTEM_STRINGLIST_HPP
-#define DL_SYSTEM_STRINGLIST_HPP
+#include "Wrapper.hpp"
+#include "DlSystem/DlError.hpp"
 
-namespace zdl
-{
-namespace DlSystem
-{
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+#include "DlSystem/StringList.h"
 
-/**
- * @brief .
- *
- * Class for holding an order list of null-terminated ASCII strings.
- */
-class ZDL_EXPORT StringList final
-{
+
+namespace DlSystem {
+
+class StringList : public Wrapper<StringList, Snpe_StringList_Handle_t>{
+  friend BaseType;
+  using BaseType::BaseType;
+  static constexpr DeleteFunctionType DeleteFunction = Snpe_StringList_Delete;
+
 public:
-   StringList() {}
-
-   /**
-    * Construct a string list with some pre-allocated memory.
-    * @warning Contents of the list will be uninitialized
-    * @param[in] length Number of elements for which to pre-allocate space.
-    */
-   explicit StringList(size_t length);
-
-   /**
-    * Append a string to the list.
-    * @param[in] str Null-terminated ASCII string to append to the list.
-    */
-   void append(const char* str);
-
-   /**
-    * Returns the string at the indicated position,
-    *  or an empty string if the positions is greater than the size
-    *  of the list.
-    * @param[in] idx Position in the list of the desired string
-    */
-   const char* at(size_t idx) const noexcept;
-
-   /**
-    * Pointer to the first string in the list.
-    *  Can be used to iterate through the list.
-    */
-   const char** begin() const noexcept;
-
-   /**
-    * Pointer to one after the last string in the list.
-    *  Can be used to iterate through the list.
-    */
-   const char** end() const noexcept;
-
-   /**
-    * Return the number of valid string pointers held by this list.
-    */
-   size_t size() const noexcept;
+  StringList()
+    : BaseType(Snpe_StringList_Create())
+  {  }
+  explicit StringList(size_t length)
+    : BaseType(Snpe_StringList_CreateSize(length))
+  {  }
+  StringList(const StringList& other)
+    : BaseType(Snpe_StringList_CreateCopy(other.handle()))
+  {  }
+  StringList(StringList&& other) noexcept
+    : BaseType(std::move(other))
+  {  }
 
 
-   /**
-    * assignment operator. 
-    */
-   StringList& operator=(const StringList&) noexcept;
+  StringList& operator=(const StringList& other){
+    if(this != &other){
+      Snpe_StringList_Assign(other.handle(), handle());
+    }
+    return *this;
+  }
+  StringList& operator=(StringList&& other) noexcept{
+    return moveAssign(std::move(other));
+  }
 
-   /**
-    * copy constructor.
-    * @param[in] other object to copy.
-    */
-   StringList(const StringList& other);
 
-   /**
-    * move constructor.
-    * @param[in] other object to move.    
-    */
-   StringList(StringList&& other) noexcept;
+  DlSystem::ErrorCode append(const char* str){
+    return static_cast<DlSystem::ErrorCode>(Snpe_StringList_Append(handle(), str));
+  }
 
-   ~StringList();
-private:
-   void copy(const StringList& other);
+  const char* at(size_t idx) const noexcept{
+    return Snpe_StringList_At(handle(), idx);
+  }
 
-   void resize(size_t length);
+  const char** begin() const noexcept{
+    return Snpe_StringList_Begin(handle());
+  }
+  const char** end() const noexcept{
+    return Snpe_StringList_End(handle());
+  }
 
-   void clear();
+  size_t size() const noexcept{
+    return Snpe_StringList_Size(handle());
+  }
 
-   static const char* s_Empty;
-   const char** m_Strings = nullptr;
-   const char** m_End = nullptr;
-   size_t       m_Size = 0;
 };
 
-} // DlSystem namespace
-} // zdl namespace
+} // ns DlSystem
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-#endif // DL_SYSTEM_STRINGLIST_HPP
-
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, StringList)

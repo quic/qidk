@@ -1,131 +1,88 @@
-//==============================================================================
+//=============================================================================
 //
-//  Copyright (c) 2015-2020 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-//==============================================================================
+//=============================================================================
+#pragma once
 
-#ifndef _SNPE_FACTORY_HPP_
-#define _SNPE_FACTORY_HPP_
+#include "Wrapper.hpp"
 
-#include "SNPE/SNPE.hpp"
 #include "DlSystem/DlEnums.hpp"
-#include "DlSystem/UDLFunc.hpp"
-#include "DlSystem/ZdlExportDefine.hpp"
-#include "DlSystem/DlOptional.hpp"
-
-namespace zdl {
-   namespace DlSystem
-   {
-      class ITensorFactory;
-      class IUserBufferFactory;
-   }
-   namespace DlContainer
-   {
-      class IDlContainer;
-   }
-}
+#include "DlSystem/DlVersion.hpp"
+#include "DlSystem/ITensorFactory.hpp"
+#include "DlSystem/IUserBufferFactory.hpp"
 
 
+#include "SNPE/SNPEUtil.h"
+#include "DlSystem/DlEnums.h"
 
-namespace zdl { namespace SNPE {
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+namespace SNPE {
 
-/**
- * The factory class for creating SNPE objects.
- *
- */
-class ZDL_EXPORT SNPEFactory
-{
+
+class SNPEFactory {
 public:
 
-   /**
-    * Indicates whether the supplied runtime is available on the
-    * current platform.
-    *
-    * @param[in] runtime The target runtime to check.
-    *
-    * @return True if the supplied runtime is available; false,
-    *         otherwise.
-    */
-   static bool isRuntimeAvailable(zdl::DlSystem::Runtime_t runtime);
 
-   /**
-    * Indicates whether the supplied runtime is available on the
-    * current platform.
-    *
-    * @param[in] runtime The target runtime to check.
-    *
-    * @param[in] option Extent to perform runtime available check.
-    *
-    * @return True if the supplied runtime is available; false,
-    *         otherwise.
-    */
-   static bool isRuntimeAvailable(zdl::DlSystem::Runtime_t runtime,
-                                  zdl::DlSystem::RuntimeCheckOption_t option);
+  static bool isRuntimeAvailable(DlSystem::Runtime_t runtime){
+    return Snpe_Util_IsRuntimeAvailable(static_cast<Snpe_Runtime_t>(runtime));
+  }
 
-   /**
-    * Gets a reference to the tensor factory.
-    *
-    * @return A reference to the tensor factory.
-    */
-   static zdl::DlSystem::ITensorFactory& getTensorFactory();
+  static bool isRuntimeAvailable(DlSystem::Runtime_t runtime, DlSystem::RuntimeCheckOption_t option){
+    return Snpe_Util_IsRuntimeAvailableCheckOption(static_cast<Snpe_Runtime_t>(runtime),
+                                                   static_cast<Snpe_RuntimeCheckOption_t>(option));
+  }
 
-   /**
-    * Gets a reference to the UserBuffer factory.
-    *
-    * @return A reference to the UserBuffer factory.
-    */
-   static zdl::DlSystem::IUserBufferFactory& getUserBufferFactory();
+  static DlSystem::ITensorFactory& getTensorFactory(){
+    static DlSystem::ITensorFactory iTensorFactory;
+    return iTensorFactory;
+  }
 
-   /**
-    * Gets the version of the SNPE library.
-    *
-    * @return Version of the SNPE library.
-    *
-    */
-   static zdl::DlSystem::Version_t getLibraryVersion();
+  static DlSystem::IUserBufferFactory& getUserBufferFactory(){
+    static DlSystem::IUserBufferFactory iUserBufferFactory;
+    return iUserBufferFactory;
+  }
 
-   /**
-    * Set the SNPE storage location for all SNPE instances in this
-    * process. Note that this may only be called once, and if so
-    * must be called before creating any SNPE instances.
-    *
-    * @param[in] storagePath Absolute path to a directory which SNPE may
-    *  use for caching and other storage purposes.
-    *
-    * @return True if the supplied path was succesfully set as
-    *  the SNPE storage location, false otherwise.
-    */
-   static bool setSNPEStorageLocation(const char* storagePath);
+  static DlSystem::Version_t getLibraryVersion(){
+    return WrapperDetail::moveHandle(Snpe_Util_GetLibraryVersion());
+  }
 
-   /**
-    * @brief Register a user-defined op package with SNPE.
-    *
-    * @param[in] regLibraryPath Path to the registration library
-    *                      that allows clients to register a set of operations that are
-    *                      part of the package, and share op info with SNPE
-    *
-    * @return True if successful, False otherwise.
-    */
-   static bool addOpPackage( const std::string& regLibraryPath );
+  static bool setSNPEStorageLocation(const char* storagePath){
+    return SNPE_SUCCESS == Snpe_Util_SetSNPEStorageLocation(storagePath);
+  }
 
-   /**
-    * Indicates whether the OpenGL and OpenCL interoperability is supported
-    * on GPU platform.
-    *
-    * @return True if the OpenGL and OpenCl interop is supported; false,
-    *         otherwise.
-    */
-   static bool isGLCLInteropSupported();
+  static bool addOpPackage(const std::string& regLibraryPath){
+    return SNPE_SUCCESS == Snpe_Util_AddOpPackage(regLibraryPath.c_str());
+  }
 
-   static const char* getLastError();
+  static bool isGLCLInteropSupported(){
+    return Snpe_Util_IsGLCLInteropSupported();
+  }
+
+  static const char* getLastError(){
+    return Snpe_Util_GetLastError();
+  }
+
+  static bool initializeLogging(const DlSystem::LogLevel_t& level){
+    return Snpe_Util_InitializeLogging(static_cast<Snpe_LogLevel_t>(level));
+  }
+
+  static bool initializeLogging(const DlSystem::LogLevel_t& level, const std::string& logPath){
+    return Snpe_Util_InitializeLoggingPath(static_cast<Snpe_LogLevel_t>(level), logPath.c_str());
+  }
+
+  static bool setLogLevel(const DlSystem::LogLevel_t& level){
+    return Snpe_Util_SetLogLevel(static_cast<Snpe_LogLevel_t>(level));
+  }
+
+  static bool terminateLogging(){
+    return Snpe_Util_TerminateLogging();
+  }
 };
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
-}}
+
+} // ns SNPE
 
 
-#endif
+ALIAS_IN_ZDL_NAMESPACE(SNPE, SNPEFactory)

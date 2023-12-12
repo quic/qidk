@@ -1,0 +1,3 @@
+include ':enhancement'
+include ':snpe-release'
+rootProject.name = "enhancement"

@@ -20,7 +20,6 @@
 typedef unsigned int GLuint;
 std::unique_ptr<zdl::DlSystem::ITensor> loadInputTensor (std::unique_ptr<zdl::SNPE::SNPE>& snpe , std::vector<float>& inp_raw);
 std::tuple<zdl::DlSystem::TensorMap, bool> loadMultipleInput (std::unique_ptr<zdl::SNPE::SNPE> & snpe , std::string& fileLine);
-
 bool loadInputUserBufferFloat(std::unordered_map<std::string, std::vector<uint8_t>>& applicationBuffers,
                                 std::unique_ptr<zdl::SNPE::SNPE>& snpe,
                                 std::vector<std::string>& fileLines);
@@ -33,5 +32,4 @@ bool loadInputUserBufferTf8(std::unordered_map<std::string, std::vector<uint8_t>
 void loadInputUserBuffer(std::unordered_map<std::string, GLuint>& applicationBuffers,
                                 std::unique_ptr<zdl::SNPE::SNPE>& snpe,
                                 const GLuint inputglbuffer);
-
 #endif

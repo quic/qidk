@@ -1,6 +1,6 @@
 //==============================================================================
 //
-// Copyright (c) 2019-2021 Qualcomm Technologies, Inc.
+// Copyright (c) 2019-2022 Qualcomm Technologies, Inc.
 // All Rights Reserved.
 // Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
@@ -120,7 +120,7 @@ typedef enum
    SNPE_UDO_LAYOUT_NHWC             = 0x01,        UDO_LAYOUT_NHWC             = 0x01,
    /// data layout (4D): NCHW (batch-channel-height-width)
    SNPE_UDO_LAYOUT_NCHW             = 0x02,        UDO_LAYOUT_NCHW             = 0x02,
-   /// data layout (5D): NDHWC (batch-dimension-height-width-channel)
+   /// data layout (5D): NDHWC (batch-depth-height-width-channel)
    SNPE_UDO_LAYOUT_NDHWC            = 0x04,        UDO_LAYOUT_NDHWC            = 0x04,
    SNPE_UDO_LAYOUT_GPU_OPTIMAL1     = 0x08,        UDO_LAYOUT_GPU_OPTIMAL1     = 0x08,
    SNPE_UDO_LAYOUT_GPU_OPTIMAL2     = 0x10,        UDO_LAYOUT_GPU_OPTIMAL2     = 0x10,

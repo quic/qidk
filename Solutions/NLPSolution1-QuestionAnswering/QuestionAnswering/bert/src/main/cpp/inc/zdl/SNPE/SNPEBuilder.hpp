@@ -1,283 +1,136 @@
-//==============================================================================
+//=============================================================================
 //
-//  Copyright (c) 2017-2019 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-//==============================================================================
+//=============================================================================
+#pragma once
 
-#ifndef _SNPE_BUILDER_HPP_
-#define _SNPE_BUILDER_HPP_
+#include <memory>
 
-#include "SNPE/SNPE.hpp"
-#include "DlSystem/DlEnums.hpp"
-#include "DlSystem/UDLFunc.hpp"
-#include "DlSystem/DlOptional.hpp"
-#include "DlSystem/TensorShapeMap.hpp"
-#include "DlSystem/PlatformConfig.hpp"
+
+#include "Wrapper.hpp"
+#include "SNPE.hpp"
 #include "DlSystem/RuntimeList.hpp"
+#include "DlContainer/IDlContainer.hpp"
+#include "DlSystem/PlatformConfig.hpp"
+#include "DlSystem/TensorShapeMap.hpp"
 
-namespace zdl {
-   namespace DlContainer
-   {
-      class IDlContainer;
-   }
-}
+#include "DlSystem/DlEnums.hpp"
 
-struct SNPEBuilderImpl;
+#include "DlSystem/IOBufferDataTypeMap.hpp"
+
+#include "SNPE/SNPEBuilder.h"
 
 
-namespace zdl { namespace SNPE {
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+namespace SNPE {
 
-/**
- * The builder class for creating SNPE objects.
- * Not meant to be extended.
- */
-class ZDL_EXPORT SNPEBuilder final
-{
-private:
-   std::unique_ptr<::SNPEBuilderImpl> m_Impl;
+class SNPEBuilder : public Wrapper<SNPEBuilder, Snpe_SNPEBuilder_Handle_t> {
+  friend BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_SNPEBuilder_Delete};
 public:
 
-   /**
-    * @brief Constructor of NeuralNetwork Builder with a supplied model.
-    *
-    * @param[in] container A container holding the model.
-    *
-    * @return A new instance of a SNPEBuilder object
-    *         that can be used to configure and build
-    *         an instance of SNPE.
-    *
-    */
-   explicit SNPEBuilder(
-      zdl::DlContainer::IDlContainer* container);
-   ~SNPEBuilder();
-
-   /**
-    * NOTE: DEPRECATED, MAY BE REMOVED IN THE FUTURE. Please use
-    *       setRuntimeProcessorOrder()
-    *
-    * @brief Sets the runtime processor.
-    *
-    * @param[in] targetRuntimeProcessor The target runtime.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setRuntimeProcessor(
-      zdl::DlSystem::Runtime_t targetRuntimeProcessor);
-
-   /**
-    * @brief Requests a performance profile.
-    *
-    * @param[in] targetRuntimeProfile The target performance profile.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setPerformanceProfile(
-      zdl::DlSystem::PerformanceProfile_t performanceProfile);
-
-   /**
-    * @brief Sets the profiling level. Default profiling level for
-    *        SNPEBuilder is off. Off and basic only applies to DSP runtime.
-    *
-    * @param[in] profilingLevel The target profiling level.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setProfilingLevel(
-      zdl::DlSystem::ProfilingLevel_t profilingLevel);
-
-    /**
-     * @brief Sets a preference for execution priority.
-     *
-     * This allows the caller to give coarse hint to SNPE runtime
-     * about the priority of the network.  SNPE runtime is free to use
-     * this information to co-ordinate between different workloads
-     * that may or may not extend beyond SNPE.
-     *
-     * @param[in] ExecutionPriorityHint_t The target performance profile.
-     *
-     * @return The current instance of SNPEBuilder.
-     */
-   SNPEBuilder& setExecutionPriorityHint(
-            zdl::DlSystem::ExecutionPriorityHint_t priority);
-
-    /**
-    * @brief Sets the layers that will generate output.
-    *
-    * @param[in] outputLayerNames List of layer names to
-    *                             output. An empty list will
-    *                             result in only the final
-    *                             layer of the model being
-    *                             the output layer.  The list
-    *                             will be copied.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setOutputLayers(
-      const zdl::DlSystem::StringList& outputLayerNames);
-
-   /**
-   * @brief Sets the output tensor names.
-   *
-   * @param[in] outputTensorNames List of tensor names to
-   *                             output. An empty list will
-   *                             result in producing output for the final
-   *                             output tensor of the model.
-   *                             The list will be copied.
-   *
-   * @return The current instance of SNPEBuilder.
-   */
-   SNPEBuilder& setOutputTensors(
-      const zdl::DlSystem::StringList& outputTensorNames);
-
-   /**
-    * @brief Passes in a User-defined layer.
-    *
-    * @param udlBundle Bundle of udl factory function and a cookie
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setUdlBundle(
-      zdl::DlSystem::UDLBundle udlBundle);
-
-   /**
-    * @brief Sets whether this neural network will perform inference with
-    *        input from user-supplied buffers, and write output to user-supplied
-    *        buffers.  Default behaviour is to use tensors created by
-    *        ITensorFactory.
-    *
-    * @param[in] bufferMode Whether to use user-supplied buffer or not.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setUseUserSuppliedBuffers(
-      bool bufferMode);
-
-    /**
-    * @brief Sets the debug mode of the runtime.
-    *
-    * @param[in] debugMode This enables debug mode for the runtime. It
-    *                      does two things. For an empty
-    *                      outputLayerNames list, all layers will be
-    *                      output. It might also disable some internal
-    *                      runtime optimizations (e.g., some networks
-    *                      might be optimized by combining layers,
-    *                      etc.).
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setDebugMode(
-      bool debugMode);
-
-   /**
-    * NOTE: DEPRECATED, MAY BE REMOVED IN THE FUTURE. Please use
-    *       setRuntimeProcessorOrder()
-    *
-    * @brief Sets the mode of CPU fallback functionality.
-    *
-    * @param[in] mode   This flag enables/disables the functionality
-    *                   of CPU fallback. When the CPU fallback
-    *                   functionality is enabled, layers in model that
-    *                   violates runtime constraints will run on CPU
-    *                   while the rest of non-violating layers will
-    *                   run on the chosen runtime processor. In
-    *                   disabled mode, models with layers violating
-    *                   runtime constraints will NOT run on the chosen
-    *                   runtime processor and will result in runtime
-    *                   exception. By default, the functionality is
-    *                   enabled.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setCPUFallbackMode(
-      bool mode);
+  explicit SNPEBuilder(DlContainer::IDlContainer *container)
+    :  BaseType(Snpe_SNPEBuilder_Create(getHandle(container)))
+  {  }
 
 
-   /**
-    * @brief Sets network's input dimensions to enable resizing of
-    *        the spatial dimensions of each layer for fully convolutional networks,
-    *        and the batch dimension for all networks.
-    *
-    * @param[in] tensorShapeMap The map of input names and their new dimensions.
-    *                           The new dimensions overwrite the input dimensions
-    *                           embedded in the model and then resize each layer
-    *                           of the model. If the model contains
-    *                           layers whose dimensions cannot be resized e.g FullyConnected,
-    *                           exception will be thrown when SNPE instance is actually built.
-    *                           In general the batch dimension is always resizable.
-    *                           After resizing of layers' dimensions in model based
-    *                           on new input dimensions, the new model is revalidated
-    *                           against all runtime constraints, whose failures may
-    *                           result in cpu fallback situation.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setInputDimensions(const zdl::DlSystem::TensorShapeMap& inputDimensionsMap);
+  SNPEBuilder& setPerformanceProfile(DlSystem::PerformanceProfile_t performanceProfile){
+    Snpe_SNPEBuilder_SetPerformanceProfile(handle(), static_cast<Snpe_PerformanceProfile_t>(performanceProfile));
+    return *this;
+  }
 
-   /**
-    * @brief Sets the mode of init caching functionality.
-    *
-    * @param[in] mode   This flag enables/disables the functionality of init caching.
-    *                   When init caching functionality is enabled, a set of init caches
-    *                   will be created during network building/initialization process
-    *                   and will be added to DLC container. If such DLC container is saved
-    *                   by the user, in subsequent network building/initialization processes
-    *                   these init caches will be loaded from the DLC so as to reduce initialization time.
-    *                   In disable mode, no init caches will be added to DLC container.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setInitCacheMode(
-      bool cacheMode);
+  SNPEBuilder& setProfilingLevel(DlSystem::ProfilingLevel_t profilingLevel){
+    Snpe_SNPEBuilder_SetProfilingLevel(handle(), static_cast<Snpe_ProfilingLevel_t>(profilingLevel));
+    return *this;
+  }
 
-   /**
-    * @brief Returns an instance of SNPE based on the current parameters.
-    *
-    * @return A new instance of a SNPE object that can be used
-    *         to execute models or null if any errors occur.
-    */
-   std::unique_ptr<SNPE> build() noexcept;
+  SNPEBuilder& setExecutionPriorityHint(DlSystem::ExecutionPriorityHint_t priority){
+    Snpe_SNPEBuilder_SetExecutionPriorityHint(handle(), static_cast<Snpe_ExecutionPriorityHint_t>(priority));
+    return *this;
+  }
 
-   /**
-    * @brief Sets the platform configuration.
-    *
-    * @param[in] platformConfig The platform configuration.
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setPlatformConfig(const zdl::DlSystem::PlatformConfig& platformConfig);
+  SNPEBuilder& setOutputLayers(const DlSystem::StringList& outputLayerNames){
+    Snpe_SNPEBuilder_SetOutputLayers(handle(), getHandle(outputLayerNames));
+    return *this;
+  }
 
-   /**
-    * @brief Sets network's runtime order of precedence. Example:
-    *        CPU_FLOAT32, GPU_FLOAT16, AIP_FIXED8_TF
-    *        Note:- setRuntimeProcessor() or setCPUFallbackMode() will be silently ignored when
-    *        setRuntimeProcessorOrder() is invoked
-    *
-    * @param[in] runtimeList The list of runtime in order of precedence
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setRuntimeProcessorOrder(const zdl::DlSystem::RuntimeList& runtimeList);
+  SNPEBuilder& setOutputTensors(const DlSystem::StringList& outputTensorNames){
+    Snpe_SNPEBuilder_SetOutputTensors(handle(), getHandle(outputTensorNames));
+    return *this;
+  }
 
-    /**
-    * @brief Sets the unconsumed tensors as output
-    *
-    * @param[in] setOutput This enables unconsumed tensors (i.e)
-    *                      outputs which are not inputs to any
-    *                      layer (basically dead ends) to be marked
-    *                      for output
-    *
-    * @return The current instance of SNPEBuilder.
-    */
-   SNPEBuilder& setUnconsumedTensorsAsOutputs(
-      bool setOutput);
+  SNPEBuilder& setUseUserSuppliedBuffers(int bufferMode){
+    Snpe_SNPEBuilder_SetUseUserSuppliedBuffers(handle(), bufferMode);
+    return *this;
+  }
+
+  SNPEBuilder& setDebugMode(int debugMode){
+    Snpe_SNPEBuilder_SetDebugMode(handle(), debugMode);
+    return *this;
+  }
+
+  SNPEBuilder& setInputDimensions(const DlSystem::TensorShapeMap& inputDimensionsMap){
+    Snpe_SNPEBuilder_SetInputDimensions(handle(), getHandle(inputDimensionsMap));
+    return *this;
+  }
+
+  SNPEBuilder& setInitCacheMode(int cacheMode){
+    Snpe_SNPEBuilder_SetInitCacheMode(handle(), cacheMode);
+    return *this;
+  }
+
+  SNPEBuilder& setPlatformConfig(const DlSystem::PlatformConfig& platformConfigHandle){
+    Snpe_SNPEBuilder_SetPlatformConfig(handle(), getHandle(platformConfigHandle));
+    return *this;
+  }
+
+  SNPEBuilder& setRuntimeProcessorOrder(const DlSystem::RuntimeList& runtimeList){
+    Snpe_SNPEBuilder_SetRuntimeProcessorOrder(handle(), getHandle(runtimeList));
+    return *this;
+  }
+
+  SNPEBuilder& setUnconsumedTensorsAsOutputs(int setOutput){
+    Snpe_SNPEBuilder_SetUnconsumedTensorsAsOutputs(handle(), setOutput);
+    return *this;
+  }
+
+  SNPEBuilder& setTimeOut(uint64_t timeoutMicroSec){
+    Snpe_SNPEBuilder_SetTimeOut(handle(), timeoutMicroSec);
+    return *this;
+  }
+
+
+  SNPEBuilder& setBufferDataType(const DlSystem::IOBufferDataTypeMap& dataTypeMap){
+    Snpe_SNPEBuilder_SetBufferDataType(handle(), getHandle(dataTypeMap));
+    return *this;
+  }
+
+  SNPEBuilder& setSingleThreadedInit(int singleThreadedInit){
+    Snpe_SNPEBuilder_SetSingleThreadedInit(handle(), singleThreadedInit);
+    return *this;
+  }
+
+  SNPEBuilder& setCpuFixedPointMode(bool cpuFxpMode){
+    Snpe_SNPEBuilder_SetCpuFixedPointMode(handle(), cpuFxpMode);
+    return *this;
+  }
+
+  SNPEBuilder& setModelName(DlSystem::String modelName){
+    Snpe_SNPEBuilder_SetModelName(handle(), modelName.c_str());
+    return *this;
+  }
+
+  std::unique_ptr<SNPE> build() noexcept{
+    auto h = Snpe_SNPEBuilder_Build(handle());
+    return h ?  makeUnique<SNPE>(h) : nullptr;
+  }
 
 };
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
 
-}}
+} // ns SNPE
 
-#endif
+
+ALIAS_IN_ZDL_NAMESPACE(SNPE, SNPEBuilder)

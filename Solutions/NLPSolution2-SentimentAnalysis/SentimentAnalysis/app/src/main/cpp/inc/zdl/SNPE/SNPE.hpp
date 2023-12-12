@@ -1,242 +1,125 @@
-//==============================================================================
+//=============================================================================
 //
-//  Copyright (c) 2015-2021 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
-//==============================================================================
+//=============================================================================
+#pragma once
 
-#ifndef _SNPE_SNPE_HPP_
-#define _SNPE_SNPE_HPP_
+#include "Wrapper.hpp"
+#include "DlSystem/StringList.hpp"
+#include "DlSystem/TensorMap.hpp"
+#include "DlSystem/UserBufferMap.hpp"
+#include "DlSystem/UserMemoryMap.hpp"
+#include "DlSystem/IBufferAttributes.hpp"
+#include "DiagLog/IDiagLog.hpp"
 
 #include "DlSystem/DlOptional.hpp"
-#include "DlSystem/DlVersion.hpp"
-#include "DlSystem/IBufferAttributes.hpp"
-#include "DlSystem/ITensor.hpp"
-#include "DlSystem/TensorShape.hpp"
-#include "DlSystem/TensorMap.hpp"
-#include "DlSystem/String.hpp"
-#include "DlSystem/StringList.hpp"
-#include "DlSystem/IUserBuffer.hpp"
-#include "DlSystem/UserBufferMap.hpp"
-#include "DlSystem/ZdlExportDefine.hpp"
 
-namespace zdl {
-   namespace SNPE
-   {
-      class SnpeRuntime;
-   }
-}
-namespace zdl {
-   namespace DiagLog
-   {
-      class IDiagLog;
-   }
-}
 
-namespace zdl { namespace SNPE {
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+#include "SNPE/SNPE.h"
 
-/**
- * @brief .
- *
- * The SNPE interface class definition
- */
-class ZDL_EXPORT SNPE final
-{
+namespace SNPE{
+
+class SNPE : public Wrapper<SNPE, Snpe_SNPE_Handle_t, true> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_SNPE_Delete};
+
+  template<typename T, typename H>
+  static DlSystem::Optional<T> makeOptional(H handle){
+    return DlSystem::Optional<T>(T(moveHandle(handle)));
+  }
 public:
 
-   // keep this undocumented to be hidden in doxygen using HIDE_UNDOC_MEMBERS
-   explicit SNPE(std::unique_ptr<zdl::SNPE::SnpeRuntime>&& runtime) noexcept;
-   ~SNPE();
+  DlSystem::Optional<DlSystem::StringList> getInputTensorNames() const noexcept{
+    return makeOptional<DlSystem::StringList>(Snpe_SNPE_GetInputTensorNames(handle()));
+  }
 
-   /**
-    * @brief Gets the names of input tensors to the network
-    *
-    * To support multiple input scenarios, where multiple tensors are
-    * passed through execute() in a TensorMap, each tensor needs to
-    * be uniquely named. The names of tensors can be retrieved
-    * through this function.
-    *
-    * In the case of a single input, one name will be returned.
-    *
-    * @note Note that because the returned value is an Optional list,
-    * the list must be verified as boolean true value before being
-    * dereferenced.
-    *
-    * @return An Optional List of input tensor names.
-    *
-    * @see zdl::DlSystem::Optional
-    */
-   zdl::DlSystem::Optional<zdl::DlSystem::StringList>
-      getInputTensorNames() const noexcept;
+  DlSystem::Optional<DlSystem::StringList> getOutputTensorNames() const noexcept{
+    return makeOptional<DlSystem::StringList>(Snpe_SNPE_GetOutputTensorNames(handle()));
+  }
 
-    /**
-     * @brief Gets the names of output tensors to the network
-     *
-     * @return List of output tensor names.
-     */
-   zdl::DlSystem::Optional<zdl::DlSystem::StringList>
-      getOutputTensorNames() const noexcept;
+  DlSystem::StringList getOutputTensorNamesByLayerName(const char *name) const noexcept{
+    return moveHandle(Snpe_SNPE_GetOutputTensorNamesByLayerName(handle(), name));
+  }
 
-   /**
-    * @brief Gets the name of output tensor from the input layer name
-    *
-    * @return Output tensor name.
-    */
-   zdl::DlSystem::StringList
-      getOutputTensorNamesByLayerName(const char *name) const noexcept;
+  bool execute(const DlSystem::TensorMap& input, DlSystem::TensorMap& output) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_ExecuteITensors(handle(), getHandle(input), getHandle(output));
+  }
 
-   /**
-    * @brief Processes the input data and returns the output
-    *
-    * @param[in] A map of tensors that contains the input data for
-    *            each input. The names of tensors needs to be
-    *            matched with names retrieved through
-    *            getInputTensorNames()
-    *
-    * @param[in,out] An empty map of tensors that will contain the output
-    *                data of potentially multiple layers (the key
-    *                in the map is the layer name) upon return
-    *
-    * @note output tensormap has to be empty.  To forward propagate
-    *       and get results in user-supplied tensors, use
-    *       executeWithSuppliedOutputTensors.
-    */
-   bool execute(const zdl::DlSystem::TensorMap &input,
-                zdl::DlSystem::TensorMap &output) noexcept;
 
-   /**
-    * @brief Processes the input data and returns the output
-    *
-    * @param[in] A single tensor contains the input data.
-    *
-    * @param[in,out] An empty map of tensors that will contain the output
-    *                data of potentially multiple layers (the key
-    *                in the map is the layer name) upon return
-    *
-    * @note output tensormap has to be empty.
-    */
-   bool execute(const zdl::DlSystem::ITensor *input,
-                zdl::DlSystem::TensorMap &output) noexcept;
+  bool execute(const DlSystem::ITensor* input, DlSystem::TensorMap& output) noexcept{
+    if(!input) return false;
+    return SNPE_SUCCESS == Snpe_SNPE_ExecuteITensor(handle(), getHandle(*input), getHandle(output));
+  }
 
-   /**
-    * @brief Processes the input data and returns the output, using
-    *        user-supplied buffers
-    *
-    * @param[in] A map of UserBuffers that contains the input data for
-    *            each input. The names of UserBuffers needs to be
-    *            matched with names retrieved through
-    *            getInputTensorNames()
-    *
-    * @param[in,out] A map of UserBuffers that will hold the output
-    *                data of potentially multiple layers (the key
-    *                in the map is the UserBuffer name)
-    *
-    * @note input and output UserBuffer maps must be fully pre-populated. with
-    *       dimensions matching what the network expects.
-    *       For example, if there are 5 output UserBuffers they all have to be
-    *       present in map.
-    *
-    *       Caller must guarantee that for the duration of execute(), the buffer
-    *       stored in UserBuffer would remain valid.  For more detail on buffer
-    *       ownership and lifetime requirements, please refer to zdl::DlSystem::UserBuffer
-    *       documentation.
-    */
-   bool execute(const zdl::DlSystem::UserBufferMap &input,
-                const zdl::DlSystem::UserBufferMap &output) noexcept;
+  bool execute(const DlSystem::UserBufferMap& input, const DlSystem::UserBufferMap& output) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_ExecuteUserBuffers(handle(), getHandle(input), getHandle(output));
+  }
 
-    /**
-    * @brief Returns the version string embedded at model conversion
-    * time.
-    *
-    * @return Model version string, which is a free-form string
-    *         supplied at the time of the conversion
-    *
-    */
-   zdl::DlSystem::String getModelVersion() const noexcept;
 
-   /**
-    * @brief Returns the dimensions of the input data to the model in the
-    * form of TensorShape. The dimensions in TensorShape corresponds to
-    * what the tensor dimensions would need to be for an input tensor to
-    * the model.
-    *
-    * @param[in] layer input name.
-    *
-    * @note Note that this function only makes sense for networks 
-    *       that have a fixed input size. For networks in which the
-    *       input size varies with each call of Execute(), this
-    *       function should not be used.
-    *
-    * @note Because the returned type is an Optional instance, it must
-    *       be verified as a boolean true value before being dereferenced.
-    * 
-    * @return An Optional instance of TensorShape that maintains dimensions,
-    *         matching the tensor dimensions for input to the model,
-    *         where the last entry is the fastest varying dimension, etc.
-    *  
-    * @see zdl::DlSystem::ITensor
-    * @see zdl::DlSystem::TensorShape
-    * @see zdl::DlSystem::Optional
-    */
-   zdl::DlSystem::Optional<zdl::DlSystem::TensorShape>
-      getInputDimensions() const noexcept;
-   zdl::DlSystem::Optional<zdl::DlSystem::TensorShape>
-      getInputDimensions(const char *name) const noexcept;
+  /* To be deprecated, please use new api registerMemoryMappedBuffers */
+  bool registerIonBuffers(const DlSystem::UserMemoryMap& ionBufferMap) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_RegisterUserMemoryMappedBuffers(handle(), getHandle(ionBufferMap));
+  }
 
-   /**
-    * @brief Gets the output layer(s) for the network. 
-    *  
-    * Note that the output layers returned by this function may be 
-    * different than those specified when the network was created 
-    * via the zdl::SNPE::SNPEBuilder. For example, if the
-    * network was created in debug mode with no explicit output 
-    * layers specified, this will contain all layers.
-    *
-    * @note Note that because the returned value is an Optional StringList,
-    * the list must be verified as a boolean true value before being
-    * dereferenced.
-    *
-    * @return A List of output layer names.
-    *
-    * @see zdl::DlSystem::Optional
-    */
-   zdl::DlSystem::Optional<zdl::DlSystem::StringList>
-      getOutputLayerNames() const noexcept;
+  /* To be deprecated, please use new api deregisterMemoryMappedBuffers */
+  bool deregisterIonBuffers(const DlSystem::StringList& ionBufferNames) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_DeregisterUserMemoryMappedBuffers(handle(), getHandle(ionBufferNames));
+  }
 
-   /**
-     * @brief Returns attributes of buffers used to feed input tensors and receive result from output tensors.
-     *
-     * @param[in] Tensor name.
-     *
-     * @return BufferAttributes of input/output tensor named
-     */
-   zdl::DlSystem::Optional<zdl::DlSystem::IBufferAttributes*> getInputOutputBufferAttributes(const char *name) const noexcept;
+  bool registerMemoryMappedBuffers(const DlSystem::UserMemoryMap& memoryMappedBufferMap) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_RegisterUserMemoryMappedBuffers(handle(), getHandle(memoryMappedBufferMap));
+  }
 
-   /**
-    * @brief .
-    *
-    * Get the diagnostic logging interface
-    *
-    * @note Note that because the returned type is an Optional instance,
-    * it must be verified as a boolean true value before being
-    * dereferenced.
-    *
-    * @see zdl::DlSystem::Optional
-    */
-   zdl::DlSystem::Optional<zdl::DiagLog::IDiagLog*>
-      getDiagLogInterface() noexcept;
+  bool deregisterMemoryMappedBuffers(const DlSystem::StringList& bufferNames) noexcept{
+    return SNPE_SUCCESS == Snpe_SNPE_DeregisterUserMemoryMappedBuffers(handle(), getHandle(bufferNames));
+  }
+
+  std::string getModelVersion() const{
+    auto str = Snpe_SNPE_GetModelVersion(handle());
+    return str ? str : "";
+  }
+
+  DlSystem::Optional<DlSystem::TensorShape> getInputDimensions() const noexcept{
+    return makeOptional<DlSystem::TensorShape>(Snpe_SNPE_GetInputDimensionsOfFirstTensor(handle()));
+  }
+
+  DlSystem::Optional<DlSystem::TensorShape> getInputDimensions(const char* name) const noexcept{
+    return makeOptional<DlSystem::TensorShape>(Snpe_SNPE_GetInputDimensions(handle(), name));
+  }
+
+  DlSystem::Optional<DlSystem::StringList> getOutputLayerNames() const noexcept{
+    return makeOptional<DlSystem::StringList>(Snpe_SNPE_GetOutputLayerNames(handle()));
+  }
+
+
+  DlSystem::Optional<DlSystem::IBufferAttributes*> getInputOutputBufferAttributes(const char* name) const noexcept{
+    return DlSystem::Optional<DlSystem::IBufferAttributes*>(
+      new DlSystem::IBufferAttributes(moveHandle(Snpe_SNPE_GetInputOutputBufferAttributes(handle(), name))),
+      DlSystem::Optional<DlSystem::IBufferAttributes*>::LIFECYCLE::POINTER_OWNED
+    );
+  }
+
+  DlSystem::Optional<DiagLog::IDiagLog*> getDiagLogInterface() noexcept{
+    auto diagLogHandle = Snpe_SNPE_GetDiagLogInterface_Ref(handle());
+    if(!diagLogHandle) return {};
+    // Bind lifespan of this reference to this object
+    auto toret = makeReference<DiagLog::IDiagLog>(diagLogHandle);
+    return {toret, DlSystem::Optional<DiagLog::IDiagLog*>::LIFECYCLE::POINTER_NOT_OWNED};
+  }
 
 private:
-   SNPE(const SNPE&) = delete;
-   SNPE& operator=(const SNPE&) = delete;
+  SNPE(const SNPE&) = delete;
+  SNPE& operator=(const SNPE&) = delete;
 
-   std::unique_ptr<SnpeRuntime> m_Runtime;
 };
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
-}}
+} // ns SNPE
 
-#endif
+ALIAS_IN_ZDL_NAMESPACE(SNPE, SNPE)

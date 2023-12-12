@@ -1,120 +1,81 @@
 //=============================================================================
 //
-//  Copyright (c) 2016 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
-#include <memory>
-#include "ZdlExportDefine.hpp"
-#include "ITensor.hpp"
-#include "StringList.hpp"
+#pragma once
 
-#ifndef DL_SYSTEM_TENSOR_MAP_HPP
-#define DL_SYSTEM_TENSOR_MAP_HPP
+#include "Wrapper.hpp"
+#include "DlSystem/ITensor.hpp"
+#include "DlSystem/StringList.hpp"
+#include "DlSystem/DlError.hpp"
 
-namespace DlSystem
-{
-   // Forward declaration of tensor map implementation.
-   class TensorMapImpl;
-}
+#include "DlSystem/TensorMap.h"
 
-namespace zdl
-{
-namespace DlSystem
-{
+namespace DlSystem {
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
+class TensorMap : public Wrapper<TensorMap, Snpe_TensorMap_Handle_t, true> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
 
-/**
-  * @brief .
-  *
-  * A class representing the map of tensor.
-  */
-class ZDL_EXPORT TensorMap final
-{
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_TensorMap_Delete};
 public:
 
-  /**
-   * @brief .
-   *
-   * Creates a new empty tensor map
-   */
-   TensorMap();
+  TensorMap()
+    : BaseType(Snpe_TensorMap_Create())
+  {  }
 
-  /**
-   * copy constructor.
-   * @param[in] other object to copy. 
-   */
-   TensorMap(const TensorMap& other);
+  TensorMap(const TensorMap& other)
+    : BaseType(Snpe_TensorMap_CreateCopy(other.handle()))
+  {  }
 
-  /**
-    * assignment operator. 
-    */
-   TensorMap& operator=(const TensorMap& other);
+  TensorMap(TensorMap&& other) noexcept
+    : BaseType(std::move(other))
+  {  }
 
-   /**
-    * @brief Adds a name and the corresponding tensor pointer
-    *        to the map
-    *
-    * @param[in] name The name of the tensor
-    * @param[out] tensor The pointer to the tensor
-    *
-    * @note If a tensor with the same name already exists, the
-    *       tensor is replaced with the existing tensor.
-    */
-   void add(const char *name, zdl::DlSystem::ITensor *tensor);
+  TensorMap& operator=(const TensorMap& other){
+    if(this != &other){
+      Snpe_TensorMap_Assign(other.handle(), handle());
+    }
+    return *this;
+  }
+  TensorMap& operator=(TensorMap&& other) noexcept{
+    return moveAssign(std::move(other));
+  }
 
-   /**
-    * @brief Removes a mapping of tensor and its name by its name
-    *
-    * @param[in] name The name of tensor to be removed
-    *
-    * @note If no tensor with the specified name is found, nothing
-    *       is done.
-    */
-   void remove(const char *name) noexcept;
+  DlSystem::ErrorCode add(const char* name, ITensor* tensor){
+    if(!tensor) return DlSystem::ErrorCode::SNPE_CAPI_BAD_ARGUMENT;
+    Snpe_TensorMap_Add(handle(), name, getHandle(*tensor));
+    return DlSystem::ErrorCode::NONE;
+  }
 
-   /**
-    * @brief Returns the number of tensors in the map
-    */
-   size_t size() const noexcept;
+  void remove(const char* name) noexcept{
+    Snpe_TensorMap_Remove(handle(), name);
+  }
 
-   /**
-    * @brief .
-    *
-    * Removes all tensors from the map
-    */
-   void clear() noexcept;
+  size_t size() const noexcept{
+    return Snpe_TensorMap_Size(handle());
+  }
 
-   /**
-    * @brief Returns the tensor given its name.
-    *  
-    * @param[in] name The name of the tensor to get. 
-    *  
-    * @return nullptr if no tensor with the specified name is 
-    *         found; otherwise, a valid pointer to the tensor.
-    */
-   zdl::DlSystem::ITensor* getTensor(const char *name) const noexcept;
+  void clear() noexcept{
+    Snpe_TensorMap_Clear(handle());
+  }
 
-   /**
-    * @brief .
-    *
-    * Returns the names of all tensors
-    */
-   zdl::DlSystem::StringList getTensorNames() const;
 
-   ~TensorMap();
-private:
-   void swap(const TensorMap &other);
-   std::unique_ptr<::DlSystem::TensorMapImpl> m_TensorMapImpl;
+  ITensor* getTensor(const char* name) const noexcept{
+    return makeReference<ITensor>(Snpe_TensorMap_GetTensor_Ref(handle(), name));
+  }
+
+  StringList getTensorNames() const{
+    return moveHandle(Snpe_TensorMap_GetTensorNames(handle()));
+  }
+
 };
 
-} // DlSystem namespace
-} // zdl namespace
+} // ns DlSystem
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
-
-#endif // DL_SYSTEM_TENSOR_MAP_HPP
-
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, TensorMap)

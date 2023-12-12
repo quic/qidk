@@ -1,203 +1,104 @@
 //=============================================================================
 //
-//  Copyright (c) 2016 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
-#include <initializer_list>
-#include <cstdio>
-#include <memory>
+#pragma once
+
 #include <vector>
-#include "ZdlExportDefine.hpp"
+#include <initializer_list>
+#include <cstddef>
 
-#ifndef DL_SYSTEM_TENSOR_SHAPE_HPP
-#define DL_SYSTEM_TENSOR_SHAPE_HPP
+#include "Wrapper.hpp"
 
-namespace DlSystem
-{
-   // Forward declaration of tensor shape implementation.
-   class TensorShapeImpl;
-}
+#include "DlSystem/TensorShape.h"
 
-namespace zdl
-{
-namespace DlSystem
-{
+namespace DlSystem {
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
 
-/**
- * @brief .
- *
- * Convenient typedef to represent dimension
- */
 using Dimension = size_t;
 
-/**
-  * @brief .
-  *
-  * A class representing the shape of tensor. It is used at the
-  * time of creation of tensor.
-  */
-class ZDL_EXPORT TensorShape final
-{
-public:
 
-    /**
-    * @brief .
-    *
-    * Creates a new shape with a list of dims specified in
-    * initializer list fashion.
-    *
-    * @param[in] dims The dimensions are specified in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    *
-    */
-   TensorShape(std::initializer_list<Dimension> dims);
 
-   /**
-    * @brief .
-    *
-    * Creates a new shape with a list of dims specified in array
-    *
-    * @param[in] dims The dimensions are specified in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    *
-    * @param[in] size Size of the array.
-    *
-    */
-   TensorShape(const Dimension *dims, size_t size);
+class TensorShape : public Wrapper<TensorShape, Snpe_TensorShape_Handle_t> {
+  friend BaseType;
+  using BaseType::BaseType;
 
-    /**
-    * @brief .
-    *
-    * Creates a new shape with a vector of dims specified in
-    * vector fashion.
-    *
-    * @param[in] dims The dimensions are specified in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    * 
-    */   
-   TensorShape(std::vector<Dimension> dims);
-
-   /**
-   * @brief .
-   *   
-   * copy constructor.
-   * @param[in] other object to copy. 
-   */   
-   TensorShape(const TensorShape& other);
-
-   /**
-    * @brief .
-    *  
-    * assignment operator. 
-    */   
-   TensorShape& operator=(const TensorShape& other);
-
-    /**
-    * @brief .
-    *
-    * Creates a new shape with no dims. It can be extended later
-    * by invoking concatenate.
-    */
-   TensorShape();
-
-  /**
-    * @brief .
-    *
-    * Concatenates additional dimensions specified in 
-    * initializer list fashion to the existing dimensions. 
-    *
-    * @param[in] dims The dimensions are specified in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    *
-   */
-   void concatenate(std::initializer_list<Dimension> dims);
-
-   /**
-    * @brief .
-    *
-    * Concatenates additional dimensions specified in 
-    * the array to the existing dimensions. 
-    *
-    * @param[in] dims The dimensions are specified in which the last
-    * element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest
-    * varying, etc.
-    * 
-    * @param[in] size Size of the array.
-    *
-   */
-   void concatenate(const Dimension *dims, size_t size);
-
-  /**
-    * @brief .
-    *
-    * Concatenates an additional dimension to the existing
-    * dimensions.
-    *
-    * @param[in] dim The dimensions are specified in which the last element
-    * of the vector represents the fastest varying dimension and the
-    * zeroth element represents the slowest varying, etc.
-    *
-   */
-   void concatenate(const Dimension &dim);
-
-  /**
-    * @brief .
-    *
-    * Retrieves a single dimension, based on its index.
-    *
-    * @return The value of dimension
-    *
-    * @throws std::out_of_range if the index is >= the number of
-    * dimensions (or rank).
-    */
-   Dimension& operator[](size_t index);
-   Dimension& operator[](size_t index) const;
-
-  /**
-    * @brief .
-    *
-    * Retrieves the rank i.e. number of dimensions.
-    *
-    * @return The rank
-    */
-   size_t rank() const;
-
-  /**
-    * @brief .
-    *
-    * Retrieves a pointer to the first dimension of shape
-    *
-    * @return nullptr if no dimension exists; otherwise, points to
-    * the first dimension. 
-    *
-    */
-   const Dimension* getDimensions() const;
-
-   ~TensorShape();
+protected:
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_TensorShape_Delete};
 
 private:
-   void swap(const TensorShape &other);
-   std::unique_ptr<::DlSystem::TensorShapeImpl> m_TensorShapeImpl;
+  using DimensionReference = WrapperDetail::MemberIndexedReference<TensorShape, Snpe_TensorShape_Handle_t, size_t, size_t, Snpe_TensorShape_At, Snpe_TensorShape_Set>;
+  friend DimensionReference;
+
+public:
+
+  TensorShape()
+    : BaseType(Snpe_TensorShape_Create())
+  {  }
+
+  TensorShape(const TensorShape& other)
+    : BaseType(Snpe_TensorShape_CreateCopy(other.handle()))
+  {  }
+
+  TensorShape(TensorShape&& other) noexcept
+    : BaseType(std::move(other))
+  {  }
+
+  TensorShape(std::initializer_list<Dimension> dims)
+    : BaseType(Snpe_TensorShape_CreateDimsSize(dims.begin(), dims.size()))
+  {  }
+
+  TensorShape& operator=(const TensorShape& other) noexcept{
+    if(this != &other){
+      Snpe_TensorShape_Assign(other.handle(), handle());
+    }
+    return *this;
+  }
+
+  TensorShape& operator=(TensorShape&& other) noexcept{
+    return moveAssign(std::move(other));
+  }
+
+  TensorShape(const size_t *dims, size_t size)
+    : BaseType(Snpe_TensorShape_CreateDimsSize(dims, size))
+  {  }
+
+  TensorShape(const std::vector<size_t>& dims)
+    : TensorShape(dims.data(), dims.size())
+  {  }
+
+
+  void concatenate(const size_t *dims, size_t size){
+    Snpe_TensorShape_Concatenate(handle(), dims, size);
+  }
+
+  void concatenate(const size_t &dim){
+    return concatenate(&dim, 1);
+  }
+
+  size_t operator[](size_t idx) const{
+    return Snpe_TensorShape_At(handle(), idx);
+  }
+
+  DimensionReference operator[](size_t idx){
+    return {*this, idx};
+  }
+
+  size_t rank() const{
+    return Snpe_TensorShape_Rank(handle());
+  }
+
+  const size_t* getDimensions() const{
+    return Snpe_TensorShape_GetDimensions(handle());
+  }
+
+
 };
 
-} // DlSystem namespace
-} // zdl namespace
+} // ns DlSystem
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
-
-#endif // DL_SYSTEM_TENSOR_SHAPE_HPP
-
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, Dimension)
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, TensorShape)

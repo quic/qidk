@@ -1,146 +1,95 @@
 //=============================================================================
 //
-//  Copyright (c) 2015-2020 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
+#pragma once
 
-#ifndef _ITENSOR_HPP_
-#define _ITENSOR_HPP_
-
-#include "ITensorItr.hpp"
-#include "ITensorItrImpl.hpp"
+#include "Wrapper.hpp"
 #include "TensorShape.hpp"
-#include "ZdlExportDefine.hpp"
-#include <memory>
-#include <ostream>
-#include <cmath>
+#include "ITensorItr.hpp"
 
-namespace zdl {
-namespace DlSystem
-{
-   class ITensor;
-}}
+#include "DlSystem/ITensor.h"
 
-namespace zdl { namespace DlSystem
-{
-/** @addtogroup c_plus_plus_apis C++
-@{ */
 
-/**
- * Represents a tensor which holds n-dimensional data. It is important to
- * understand how the tensor data is represented in memory 
- * relative to the tensor dimensions. Tensors store data in 
- * memory in row-major order (i.e. the last tensor dimension is 
- * the fastest varying one). For example, if you have a two 
- * dimensional tensor with 3 rows and 2 columns (i.e. the tensor 
- * dimensions are 3,2 as returned in tensor dimension vectors)
- * with the following data in terms rows and columns: 
- *  
- * | 1 2 | <br/>
- * | 3 4 | <br/>
- * | 5 6 | <br/>
- *  
- * This data would be stored in memory as 1,2,3,4,5,6. 
- */
-class ZDL_EXPORT ITensor 
-{
+namespace DlSystem {
+
+
+class ITensor : public Wrapper<ITensor, Snpe_ITensor_Handle_t> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_ITensor_Delete};
+
+  template<typename T>
+  T* getData(){
+    return static_cast<T*>(Snpe_ITensor_GetData(handle()));
+  }
+
+  template<typename T>
+  const T* getData() const{
+    return static_cast<const T*>(Snpe_ITensor_GetData(handle()));
+  }
+
 public:
+  using iterator = DlSystem::ITensorItr<false>;
+  using const_iterator = DlSystem::ITensorItr<true>;
 
-   typedef zdl::DlSystem::ITensorItr<false> iterator;
-   typedef zdl::DlSystem::ITensorItr<true> const_iterator;
 
-   virtual ~ITensor() {}
+  iterator begin(){
+    return iterator(getData<float>());
+  }
 
-   /**
-    * Returns a tensor iterator pointing to the beginning 
-    * of the data in the tensor.
-    * 
-    * @return A tensor iterator that points to the first data
-    *         element in the tensor.
-    */
-   virtual iterator begin() = 0;
+  const_iterator begin() const{
+    return const_iterator(getData<float>());
+  }
 
-   /**
-    * Returns the const version of a tensor iterator 
-    * pointing to the beginning of the data in the tensor.
-    * 
-    * @return A tensor const iterator that points to the first data
-    *         element in the tensor.
-    */
-   virtual const_iterator cbegin() const = 0;
+  const_iterator cbegin() const{
+    return begin();
+  }
 
-   /**
-    * Returns a tensor iterator pointing to the end of the
-    * data in the tensor. This tensor should not be
-    * dereferenced.
-    * 
-    * @return A tensor iterator that points to the end of the data 
-    *         (one past the last element) in the tensor.
-    */
-   virtual iterator end() = 0;
+  iterator end(){
+    return begin() + getSize();
+  }
 
-   /**
-    * Returns the const version of a tensor iterator 
-    * pointing to the end of the data in the tensor. This
-    * tensor should not be dereferenced.
-    * 
-    * @return A tensor const iterator that points to the end of the
-    *         data (one past the last element) in the tensor.
-    */
-   virtual const_iterator cend() const = 0;
+  const_iterator end() const{
+    return cbegin() + getSize();
+  }
 
-   /**
-    * @brief Gets the shape of this tensor.
-    *  
-    * The last element of the vector represents the fastest varying
-    * dimension and the zeroth element represents the slowest 
-    * varying dimension, etc. 
-    * 
-    * @return A shape class holding the tensor dimensions.
-    */
-   virtual TensorShape getShape() const = 0;
+  const_iterator cend() const{
+    return end();
+  }
 
-   /**
-    * Returns the element size of the data in the tensor 
-    * (discounting strides). This is how big a buffer would
-    * need to be to hold the tensor data contiguously in
-    * memory.
-    *  
-    * @return The size of the tensor (in elements).
-    */
-   virtual size_t getSize() const = 0;
+  TensorShape getShape() const{
+    return moveHandle(Snpe_ITensor_GetShape(handle()));
+  }
 
-   /**
-    * @brief Serializes the tensor to an output stream.
-    * 
-    * @param[in] output The output stream to which to write the tensor 
-    *  
-    * @throw std::runtime_error If the stream is ever in a bad 
-    *        state before the tensor is fully serialized.
-    */
-   virtual void serialize(std::ostream &output) const = 0;
+  size_t getSize() const{
+    return Snpe_ITensor_GetSize(handle());
+  }
 
-   friend iterator;
-   friend const_iterator;
+  // Serialize to std::ostream is no longer supported
+  void serialize(std::ostream &output) const = delete;
 
-   virtual bool isQuantized() {return false;}
-   virtual float GetDelta() {return NAN;};
-   virtual float GetOffset() {return NAN;};
+  bool isQuantized() const{
+    return Snpe_ITensor_IsQuantized(handle());
+  }
 
-protected:
+  float GetDelta() const{
+    return Snpe_ITensor_GetDelta(handle());
+  }
 
-   /**
-    * Returns the tensor iterator implementation.
-    * 
-    * @return A pointer to the tensor iterator implementation.
-    */
-   virtual std::unique_ptr<::DlSystem::ITensorItrImpl> getItrImpl() const = 0;
+  float GetOffset() const{
+    return Snpe_ITensor_GetOffset(handle());
+  }
 };
 
-}}
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
+} //ns DlSystem
 
-#endif
+
+ALIAS_IN_ZDL_NAMESPACE(DlSystem, ITensor)

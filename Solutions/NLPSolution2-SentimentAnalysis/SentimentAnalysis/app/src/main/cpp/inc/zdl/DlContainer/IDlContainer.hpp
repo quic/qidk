@@ -1,191 +1,146 @@
 //=============================================================================
 //
-//  Copyright (c) 2015-2020 Qualcomm Technologies, Inc.
+//  Copyright (c) 2023 Qualcomm Technologies, Inc.
 //  All Rights Reserved.
 //  Confidential and Proprietary - Qualcomm Technologies, Inc.
 //
 //=============================================================================
+#pragma once
 
-#ifndef ZEROTH_IDNC_CONTAINER_HPP
-#define ZEROTH_IDNC_CONTAINER_HPP
-
-#include <memory>
-#include <stdint.h>
-#include <string>
 #include <vector>
-#include <set>
+#include <string>
+#include <memory>
+#include <cstdint>
+#include <stdexcept>
 
-#include "DlSystem/ZdlExportDefine.hpp"
+#include "Wrapper.hpp"
 #include "DlSystem/String.hpp"
 
-namespace zdl {
+#include "DlContainer/DlContainer.h"
+#include "DlSystem/StringList.hpp"
+
+
+
 namespace DlContainer {
 
-/** @addtogroup c_plus_plus_apis C++
-@{ */
-
-class IDlContainer;
-class dlc_error;
-
-/**
- * The structure of a record in a DL container.
- */
-struct ZDL_EXPORT DlcRecord
+struct DlcRecord
 {
-   /// Name of the record.
-   std::string name;
-   /// Byte blob holding the data for the record.
-   std::vector<uint8_t> data;
+  std::string name;
+  std::vector<uint8_t> data;
 
-   DlcRecord();
-   DlcRecord( DlcRecord&& other )
-      : name(std::move(other.name))
-      , data(std::move(other.data))
-   {}
-   DlcRecord(const std::string& new_name)
-      : name(new_name)
-      , data()
-   {
-      if(name.empty())
-      {
-         name.reserve(1);
-      }
-   }
-   DlcRecord(const DlcRecord&) = delete;
+  DlcRecord()
+    : name{},
+      data{}
+  {  }
+
+  DlcRecord( DlcRecord&& other ) noexcept
+    : name(std::move(other.name)),
+     data(std::move(other.data))
+  {  }
+  DlcRecord(const std::string& new_name)
+    : name(new_name),
+      data()
+  {
+    if(name.empty()) {
+      name.reserve(1);
+    }
+  }
+  DlcRecord(const DlcRecord&) = delete;
 };
 
-// The maximum length of any record name.
-extern const uint32_t RECORD_NAME_MAX_SIZE;
-// The maximum size of the record payload (bytes).
-extern const uint32_t RECORD_DATA_MAX_SIZE;
-// The maximum number of records in an archive at one time.
-extern const uint32_t ARCHIVE_MAX_RECORDS;
 
-/**
- * Represents a container for a neural network model which can
- * be used to load the model into the SNPE runtime.
- */
-class ZDL_EXPORT IDlContainer
-{
+class IDlContainer : public Wrapper<IDlContainer, Snpe_DlContainer_Handle_t> {
+  friend BaseType;
+  // Use this to get free move Ctor and move assignment operator, provided this class does not specify
+  // as copy assignment operator or copy Ctor
+  using BaseType::BaseType;
+
+  static constexpr DeleteFunctionType DeleteFunction{Snpe_DlContainer_Delete};
+
+  template<typename StringType>
+  void getCatalog_(std::set<StringType>& catalog) const{
+    DlSystem::StringList sl(moveHandle(Snpe_DlContainer_GetCatalog(handle())));
+    for(auto s : sl){
+      catalog.emplace(s);
+    }
+  }
+
+
+  class DlcRecordInternal : public Wrapper<DlcRecordInternal, Snpe_DlcRecord_Handle_t> {
+    friend BaseType;
+    using BaseType::BaseType;
+
+    static constexpr DeleteFunctionType DeleteFunction{Snpe_DlcRecord_Delete};
+  public:
+    DlcRecordInternal()
+      : BaseType(Snpe_DlcRecord_Create())
+    {  }
+    explicit DlcRecordInternal(const std::string& name)
+    : BaseType(Snpe_DlcRecord_CreateName(name.c_str()))
+    {  }
+
+    uint8_t* getData(){
+      return Snpe_DlcRecord_Data(handle());
+    }
+    size_t size() const{
+      return Snpe_DlcRecord_Size(handle());
+    }
+    const char* getName(){
+      return Snpe_DlcRecord_Name(handle());
+    }
+  };
+
+
 public:
-   /**
-    * Initializes a container from a container archive file.
-    *
-    * @param[in] filename Container archive file path.
-    *
-    * @return A pointer to the initialized container
-    */
-   static std::unique_ptr<IDlContainer>
-   open(const std::string &filename) noexcept;
+  static std::unique_ptr<IDlContainer> open(const std::string& filename) noexcept{
+    return makeUnique<IDlContainer>(Snpe_DlContainer_Open(filename.c_str()));
+  }
 
-   /**
-    * Initializes a container from a container archive file.
-    *
-    * @param[in] filename Container archive file path.
-    *
-    * @return A pointer to the initialized container
-    */
-   static std::unique_ptr<IDlContainer>
-   open(const zdl::DlSystem::String &filename) noexcept;
+  static std::unique_ptr<IDlContainer> open(const uint8_t* buffer, const size_t size) noexcept{
+    return makeUnique<IDlContainer>(Snpe_DlContainer_OpenBuffer(buffer, size));
 
-   /**
-    * Initializes a container from a byte buffer.
-    *
-    * @param[in] buffer Byte buffer holding the contents of an archive
-    *                   file.
-    *
-    * @return A pointer to the initialized container
-    */
-   static std::unique_ptr<IDlContainer>
-   open(const std::vector<uint8_t> &buffer) noexcept;
-
-   /**
-    * Initializes a container from a byte buffer.
-    *
-    * @param[in] buffer Byte buffer holding the contents of an archive
-    *                   file.
-    *
-    * @param[in] size Size of the byte buffer.
-    *
-    * @return A pointer to the initialized container
-    */
-   static std::unique_ptr<IDlContainer>
-   open(const uint8_t* buffer, const size_t size) noexcept;
+  }
+  static std::unique_ptr<IDlContainer> open(const std::vector<uint8_t>& buffer) noexcept{
+    return open(buffer.data(), buffer.size());
+  }
+  static std::unique_ptr<IDlContainer> open(const DlSystem::String &filename) noexcept{
+    return open(static_cast<const std::string&>(filename));
+  }
 
 
-/** @} */ /* end_addtogroup c_plus_plus_apis C++ */
+  void getCatalog(std::set<std::string>& catalog) const{
+    return getCatalog_(catalog);
+  }
+  void getCatalog(std::set<DlSystem::String>& catalog) const{
+    return getCatalog_(catalog);
+  }
 
-   /**
-    * Get the record catalog for a container.
-    *
-    * @param[out] catalog Buffer that will hold the record names on
-    *                    return.
-    */
-   virtual void getCatalog(std::set<std::string> &catalog) const = 0;
+  bool getRecord(const std::string& name, DlcRecord& record) const{
+    auto h = Snpe_DlContainer_GetRecord(handle(), name.c_str());
+    if(!h) return false;
+    DlcRecordInternal internal(moveHandle(h));
+    auto data = internal.getData();
 
-    /**
-     * Get the record catalog for a container.
-     *
-     * @param[out] catalog Buffer that will hold the record names on
-     *                    return.
-     */
-   virtual void getCatalog(std::set<zdl::DlSystem::String> &catalog) const = 0;
+    record.name.assign(internal.getName());
+    record.data.assign(data, data+internal.size());
+    return true;
+  }
 
-   /**
-    * Get a record from a container by name.
-    *
-    * @param[in] name Name of the record to fetch.
-    * @param[out] record The passed in record will be populated with the
-    *                   record data on return. Note that the caller
-    *                   will own the data in the record and is
-    *                   responsible for freeing it if needed.
-    */
-   virtual void getRecord(const std::string &name, DlcRecord &record) const = 0;
+  bool getRecord(const DlSystem::String& name, DlcRecord& record) const{
+    return getRecord(static_cast<const std::string&>(name), record);
+  }
 
-   /**
-    * Get a record from a container by name.
-    *
-    * @param[in] name Name of the record to fetch.
-    * @param[out] record The passed in record will be populated with the
-    *                   record data on return. Note that the caller
-    *                   will own the data in the record and is
-    *                   responsible for freeing it if needed.
-    */
-   virtual void getRecord(const zdl::DlSystem::String &name, DlcRecord &record) const = 0;
+  bool save(const std::string& filename){
+    return Snpe_DlContainer_Save(handle(), filename.c_str());
+  }
 
-   /**
-    * Save the container to an archive on disk. This function will save the
-    * container if the filename is different from the file that it was opened
-    * from, or if at least one record was modified since the container was
-    * opened.
-    *
-    * It will truncate any existing file at the target path.
-    *
-    * @param filename Container archive file path.
-    *
-    * @return indication of success/failure
-    */
-   virtual bool save(const std::string &filename) = 0;
-
-   /**
-    * Save the container to an archive on disk. This function will save the
-    * container if the filename is different from the file that it was opened
-    * from, or if at least one record was modified since the container was
-    * opened.
-    *
-    * It will truncate any existing file at the target path.
-    *
-    * @param filename Container archive file path.
-    *
-    * @return indication of success/failure
-    */
-   virtual bool save (const zdl::DlSystem::String &filename) = 0;
-
-   virtual ~IDlContainer() {}
+  bool save(const DlSystem::String& filename){
+    return save(static_cast<const std::string&>(filename));
+  }
 };
+
 
 } // ns DlContainer
-} // ns zdl
 
-
-#endif
+ALIAS_IN_ZDL_NAMESPACE(DlContainer, DlcRecord)
+ALIAS_IN_ZDL_NAMESPACE(DlContainer, IDlContainer)
