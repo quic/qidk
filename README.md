@@ -67,8 +67,8 @@ Contain tools to simplify workflow
 
 |   Tool    | SDK   |   Details   |   Link |
 |  :---:    |    :---:   |    :---:  |   :---:  |
-|  PySNPE   | Neural Processing SDK  |  Python Interface to 'Qualcomm Neural Processing SDK for AI' tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
-|  snpe-docker    | Neural Processing SDK  |  Docker container for 'Qualcomm Neural Processing SDK for AI' | [ReadMe](./Tools/snpe-docker/README.md) |
+|  PySNPE   | Neural Processing SDK  |  Python Interface to SDK tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
+|  snpe-docker    | Neural Processing SDK  |  Docker container for SDK | [ReadMe](./Tools/snpe-docker/README.md) |
 
 ## Report Issues
 
