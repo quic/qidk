@@ -1,0 +1,28 @@
+diff --git a/Tools/snpe-helper/Tutorials/snpehelper_manager.py b/Tools/snpe-helper/Tutorials/snpehelper_manager.py
+index b7c111f..05b55ed 100644
+--- a/Tools/snpe-helper/Tutorials/snpehelper_manager.py
++++ b/Tools/snpe-helper/Tutorials/snpehelper_manager.py
+@@ -13,8 +13,8 @@ import time
+ import os
+ 
+ #Copy paste all dlls and so files to this location
+-os.add_dll_directory(os.getcwd())
+-import snpehelper #Make sure snpehelper.pyd (Python Extenson Module is in the same directory or in PYTHONPATH)
++#os.add_dll_directory(os.getcwd())
++import libsnpehelper as snpehelper #Make sure snpehelper.pyd or libsnpehelper.so(Python Extenson Module is in the same directory or in PYTHONPATH)
+ 
+ '''
+ Description:
+diff --git a/Tools/snpe-helper/snpehelper/dllmain.cpp b/Tools/snpe-helper/snpehelper/dllmain.cpp
+index 5ce20c5..2c7e335 100644
+--- a/Tools/snpe-helper/snpehelper/dllmain.cpp
++++ b/Tools/snpe-helper/snpehelper/dllmain.cpp
+@@ -9,7 +9,7 @@
+ // =============================================================================
+ #include "snpehelper.h"
+ 
+-PYBIND11_MODULE(snpehelper, m) {
++PYBIND11_MODULE(libsnpehelper, m) {
+     m.doc() = "snpehelper plugin";
+     m.attr("__name__") = "snpehelper";
+     m.attr("__version__") = "0.1.0";
