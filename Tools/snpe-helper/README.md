@@ -56,7 +56,7 @@ pip uninstall snpehelper
 
 ## Overview:
 
-![snpehelper](https://github.qualcomm.com/storage/user/30177/files/82e8cecb-fae4-49ec-ae70-4a08237efda4)
+![Screenshot](./readme-assets/image1.jpg)
 
 The goal of snpehelper is to help users inference DLC models on Snapdragon Devices with a Python Interface.
 
@@ -66,7 +66,7 @@ The goal of snpehelper is to help users inference DLC models on Snapdragon Devic
 - `Execute`: To execute DLC on Snapdragon device 
 - `GetOutputBuffer`: Returns inferenced data from specified output nodes
 
-![snpecontext](https://github.qualcomm.com/storage/user/30177/files/1d456ecd-eb0f-4aa0-b0a7-6d2f6d8d0d4b)
+![Screenshot](./readme-assets/image2.jpg)
 
 
 <br>
