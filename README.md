@@ -13,6 +13,9 @@ This repository contains sample android applications, which are designed to use 
 3. [AI Model Efficiency Tool Kit (AIMET)](https://github.com/quic/aimet)
 4. [AIMET Model Zoo](https://github.com/quic/aimet-model-zoo)
 
+Contents of this repository are verified on Snapdragon 8 Gen2, and Snapdragon 8 Gen3 platforms. 
+If users want to try this content on other Qualcomm platforms - please do check with the support e-mail mentioned below. 
+
 This Repository is divided into following categories
 
 ## QWA Course - AI on Qualcomm Innovators Development Kit 
