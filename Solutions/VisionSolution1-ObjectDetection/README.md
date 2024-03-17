@@ -1,3 +1,7 @@
+
+**Note : Caffe to DLC conversion is deprecated in AI SDK from version 2.11. This solution is only applicable, with older SDK versions.**
+
+
 # Object Detection with MobilenetSSD
 
 The project is designed to utilize the [Qualcomm® Neural Processing SDK for AI ](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html), a deep learning software from Snapdragon platforms for Object Detection in Android. The Android application can be designed to use any built-in/connected  camera to capture the objects and use Machine Learning model to get the prediction/inference and location of the respective objects.
