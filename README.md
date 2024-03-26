@@ -36,6 +36,7 @@ Contain examples to use features of above SDKs
 |  :---:    |    :---:   |    :---:  |   :---:  |
 |  Model    | AI Engine Direct |  Model - EnhancementGAN | [ReadMe](./Examples/QNN-Model-Example-EnhancementGAN/README.md) |
 |  Model    | AI Engine Direct  |  Model - SESR | [ReadMe](./Examples/QNN-Model-Example-SESR/README.md) |
+| Android App | NA | Python pre/post in Android App | [ReadMe](./Examples/Python-ASR-wav2vec2/README.md) |
 
 ## Model Enablement
 
@@ -58,11 +59,13 @@ Contain end-to-end ready-to-run solutions
 |  :---:     |    :---:   |    :---:  |    :---:  |    :---:  |   :---:  |  :---:  |
 |  NLP       | Question Answering       |  Neural Processing SDK | Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
 |  NLP       | Sentiment Analysis       |  Neural Processing SDK | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
+|  NLP       | ASR  | Neural Processing SDK | Native API | Whisper | [ReadMe](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md) | [Demo](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md#Result) |                   
 |  Vision    | Object Detection       |  Neural Processing SDK |   Java API  | Mobilenet SSD V2    | [ReadMe](./Solutions/VisionSolution1-ObjectDetection/README.md) |   [Demo](./Solutions/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
 |  Vision    | Object Detection YoloNAS | Neural Processing SDK | Native API | YoloNAS| [ReadMe](./Solutions/VisionSolution1-ObjectDetection-YoloNas/README.md)| [Demo](./Solutions/VisionSolution1-ObjectDetection-YoloNas/demo/ObjectDetectYoloNAS.gif)|
 |  Vision    | Image Super Resolution       |Neural Processing SDK |   Java API | SESR XL    | [ReadMe](./Solutions/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./Solutions/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
 |  Vision    | Image Enhancement       |Neural Processing SDK |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
 |  Vision    | Pose Estimation |Neural Processing SDK| Native API|YoloNAS + HRNet| [ReadMe](./Solutions/VisionSolution4-PoseEstimation/README.md)|[Demo](./Solutions/VisionSolution4-PoseEstimation/demo/PoseDetectionYoloNas.gif)|
+|  Vision    | Detection Transformer | Neural Processing SDK | Native API | DETR | [ReadMe](./Solutions/VisionSolution1-ObjectDetection-DETR/README.md) | [Demo](./Solutions/VisionSolution1-ObjectDetection-DETR/demo/ObjectDetectDETR.avi)|
 
 ## Tools
 
