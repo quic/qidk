@@ -1,0 +1,129 @@
+plugins {
+    id 'com.android.application'
+    id 'com.chaquo.python'
+
+}
+
+android {
+    namespace 'com.example.automatic_speech_recognition'
+    compileSdk 33
+    //buildToolsVersion '29.0.2'
+
+    defaultConfig {
+        //ndkVersion "25.1.8937393"
+        ndkVersion "23.1.7779620"
+
+
+        applicationId "com.example.automatic_speech_recognition"
+        minSdk 30
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -frtti -fexceptions"
+            }
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters  'arm64-v8a'
+        }
+        python {
+            version "3.8"
+        }
+        sourceSets {
+            main {
+                python.srcDir "src/main/python"
+                assets.srcDirs = ["src/main/assets"]
+            }
+        }
+
+        python {
+            pip {
+                //rneti -https://github.com/chaquo/chaquopy/issues/525
+                //Above link to solve the SSL issue
+                options "--proxy", "http://proxy-web.micron.com:80"
+                options "--trusted-host", "files.pythonhosted.org"
+                options "--trusted-host", "pypi.org"
+                options "--trusted-host", "pypi.python.org"
+                options "--trusted-host", "chaquo.com"
+                options "--trusted-host", "https://huggingface.co/"
+
+
+                install "numpy"
+                install "torch==1.8.1"
+                install "tokenizers==0.10.3"
+                install "transformers==4.15.0"
+                install "six"
+                install "requests==2.27.1"
+
+            }
+        }
+    }
+    packagingOptions {
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+        }
+    }
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    buildFeatures {
+        mlModelBinding true
+    }
+}
+
+    dependencies {
+
+        implementation 'androidx.appcompat:appcompat:1.4.0'
+        implementation 'com.google.android.material:material:1.6.0'
+        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+        testImplementation 'junit:junit:4.13.2'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+        // Dependency on local binaries
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+        testImplementation 'junit:junit:4.12'
+        testImplementation 'androidx.test:core:1.2.0'
+        testImplementation 'com.google.truth:truth:1.0'
+        testImplementation 'org.robolectric:robolectric:4.3.1'
+        androidTestImplementation 'androidx.test:runner:1.2.0'
+        implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+        // Gson library
+        implementation 'com.google.code.gson:gson:2.9.0'
+        implementation 'com.google.guava:guava:28.1-android'
+
+
+
+    }
+
