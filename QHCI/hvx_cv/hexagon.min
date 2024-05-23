@@ -17,26 +17,18 @@ libqhci_skel_QAICIDLS += inc/qhci
 
 # .c files to build into the shared lib
 libqhci_skel_C_SRCS += $(OBJ_DIR)/qhci_skel \
-                            src/base/dsp/qhci_imp \
-                            src/uyvy2bgr/dsp/uyvy2bgr_imp
+                            src/base/dsp/qhci_imp
 
 libqhci_skel_C_SRCS += src/rgb2yuv/dsp/rgb2yuv_imp
 libqhci_skel_C_SRCS += src/gaussian5x5/dsp/gaussian5x5_imp \
                        src/gaussian5x5/dsp/gaussian5x5_C_intrinsics
 libqhci_skel_C_SRCS += src/FFT16_16/dsp/FFT16_16_imp
-libqhci_skel_C_SRCS += src/IFFT32_32/dsp/IFFT32_32_imp \
-                       src/IFFT32_32/dsp/FFT32x32_C_intrinsics \
-                       src/IFFT32_32/dsp/IFFT32x32_C_intrinsics
-libqhci_skel_C_SRCS += src/IFFT64_64/dsp/IFFT64_64_imp \
-                       src/IFFT64_64/dsp/FFT64x64_C_intrinsics \
-                       src/IFFT64_64/dsp/IFFT64x64_C_intrinsics
-libqhci_skel_C_SRCS += src/sInt32Division/dsp/sInt32Division_imp
 libqhci_skel_C_SRCS += src/div16/dsp/div16_imp
+libqhci_skel_C_SRCS += src/matmul/dsp/matmul_imp
 libqhci_skel_DLLS+=libworker_pool
 libqhci_skel_LIBS+=libworker_pool
 
 libqhci_skel.ASM_SRCS += src/FFT16_16/dsp/rfft16x16_asm.S \
-                         src/sInt32Division/dsp/int32_div_intrinsic_asm.S \
                          src/div16/dsp/div_fractional_asm.S \
                          src/div16/dsp/div_integer_denome0_asm.S \
                          src/div16/dsp/div_integer_signed_asm.S

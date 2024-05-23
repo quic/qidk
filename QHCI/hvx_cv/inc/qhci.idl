@@ -10,15 +10,7 @@ interface qhci : remote_handle64{
         in int32 latency,               // latency tolerance for low-power states
         in int32 dcvs_enable             // flag for enabling DCVS
     );
-    AEEResult uyvy2bgr(
-        in sequence<uint8> src,
-        in uint32 srcWidth, 
-        in uint32 srcHeight,
-        in uint32 srcStride,
-        in uint32 dst_stride,
-        rout sequence<uint8> dst
-    );
-    
+
     AEEResult gaussian5x5(
         in sequence<uint16_t> src, //source buffer
         in uint32_t srcWidth, //source width
@@ -75,23 +67,6 @@ interface qhci : remote_handle64{
         in int32_t outstride, //Stride of output
         rout sequence<int16_t> FFT_out //Pointer to the FFT output
     );
-    AEEResult IFFT32_32(
-        in sequence<uint16_t> pRawImg, //Input point buffer of unsigned 16-bit values
-        in int32_t stride_i, //Stride of src
-        in int32_t width, //Width of src
-        in int32_t height, //Height of src
-        in int32_t outstride, //Stride of output
-        rout sequence<int16_t> FFT_out, //Pointer to the FFT output
-        rout sequence<int16_t> IFFT_out //Pointer to the IFFT32X32 output
-    );
-    AEEResult IFFT64_64(
-        in sequence<uint16_t> pRawImg, //Input point buffer of unsigned 16-bit values
-        in int32_t stride_i, //Stride of src
-        in int32_t width, //Width of src
-        in int32_t height, //Height of src
-        in int32_t outstride, //Stride of output
-        rout sequence<int16_t> IFFT_out //Pointer to the IFFT64x64 output image
-    );
     AEEResult HAP_mem_get_stats(
         rout sequence<uint64> status
     );
@@ -100,15 +75,6 @@ interface qhci : remote_handle64{
     );
     AEEResult HAP_core_clock_limit_query(
         rout sequence<uint32_t> limit_info //Pointer to limit information, including limit_status and core_clock
-    );
-    AEEResult sInt32Division(
-        in int32_t width, //Width of the  input image in pixel. The number of pixels in a row
-        in int32_t height, //Height of the  input image in pixel
-        in int32_t istride, //Input stride
-        in sequence<int32_t> srcDividend, //The int32 pointer to the dividend
-        in sequence<int32_t> srcDivisor, //The int32 pointer to the divisor
-        in int32_t thread_num, //Thread number
-        rout sequence<int32_t> dst //The int32 pointer to the output
     );
     AEEResult div16_integer_unsigned(
         in sequence<uint16_t> srcDividend, //Input point buffer of unsigned 16-bit dividend
@@ -125,6 +91,14 @@ interface qhci : remote_handle64{
         in sequence<uint16_t> srcDivisor, //Input point buffer of unsigned 16-bit divisor
         rout sequence<uint16_t> dst //Pointer to the output
     );    
+    AEEResult matmul_int8(
+        in sequence<uint8_t> mIn0, //input left matrix, MxK
+        in sequence<uint8_t> mIn1, //input right matrix, KxN
+        in uint32_t M, //in0 row
+        in uint32_t K, //in0 col/in1 row
+        in uint32_t N, //in1 col
+        rout sequence<uint32_t> mOut //out matrix MxN
+    );
 };
 
 #endif QHCI_IDL

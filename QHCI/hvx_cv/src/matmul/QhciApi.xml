@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2020 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+<FeatureDefCollection>
+    <FeatureDef>
+        <Name>matmul</Name>
+        <Description>
+            <Content></Content>
+        </Description>
+        <ApiDefList>
+            <ApiDef>
+                <Name>matmul_int8</Name>
+                <Type>intrinsic</Type>
+                <Description>
+                    <Content></Content>
+                </Description>
+                <InputList>
+                    <Input>
+                        <Name>mIn0</Name>
+                        <Description>
+                            <Content>input left matrix, MxK</Content>
+                        </Description>
+                        <Datatype>uint8_t*</Datatype>
+                        <TestSize>133*512</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>mIn1</Name>
+                        <Description>
+                            <Content>input right matrix, KxN</Content>
+                        </Description>
+                        <Datatype>uint8_t*</Datatype>
+                        <TestSize>512*2048</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>M</Name>
+                        <Description>
+                            <Content>in0 row</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>133</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>K</Name>
+                        <Description>
+                            <Content>in0 col/in1 row</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>512</TestSize>
+                    </Input>
+                    <Input>
+                        <Name>N</Name>
+                        <Description>
+                            <Content>in1 col</Content>
+                        </Description>
+                        <Datatype>uint32_t</Datatype>
+                        <TestSize>2048</TestSize>
+                    </Input>
+                </InputList>
+                <OutputList>
+                    <Output>
+                        <Name>mOut</Name>
+                        <Description>
+                            <Content>out matrix MxN</Content>
+                        </Description>
+                        <Datatype>uint32_t*</Datatype>
+                        <TestSize>133*2048</TestSize>
+                    </Output>
+                </OutputList>
+            </ApiDef>
+        </ApiDefList>
+    </FeatureDef>
+</FeatureDefCollection>
