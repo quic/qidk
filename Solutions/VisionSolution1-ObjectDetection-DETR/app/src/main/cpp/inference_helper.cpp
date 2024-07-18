@@ -68,13 +68,16 @@ std::unique_ptr<zdl::SNPE::SNPE> setBuilderOptions(std::unique_ptr<zdl::DlContai
     std::unique_ptr<zdl::SNPE::SNPE> snpe;
     zdl::SNPE::SNPEBuilder snpeBuilder(container.get());
 
-//    if(runtimeList.empty())
-//    {
-//        runtimeList.add(runtime);
-//    }
+    if(runtimeList.empty())
+    {
+        runtimeList.add(runtime);
+    }
 
     std::string platformOptionStr = "useAdaptivePD:ON";
-
+//  if (isSignedStatus == UNSIGNED_PD) {
+        // use unsignedPD feature for untrusted app.
+        // platformOptionStr += "unsignedPD:ON";
+//  }
     zdl::DlSystem::PlatformConfig platformConfig;
     bool setSuccess = platformConfig.setPlatformOptions(platformOptionStr);
     if (!setSuccess)
@@ -101,6 +104,7 @@ std::unique_ptr<zdl::SNPE::SNPE> setBuilderOptions(std::unique_ptr<zdl::DlContai
             .setUseUserSuppliedBuffers(useUserSuppliedBuffers)
             .setPlatformConfig(platformConfig)
             .setInitCacheMode(useCaching)
+            .setUnconsumedTensorsAsOutputs(true)
             .build();
 
     return snpe;
@@ -229,18 +233,21 @@ void createInputBufferMap(zdl::DlSystem::UserBufferMap& inputMap,
 void preprocess_BB(std::vector<float32_t> &dest_buffer, cv::Mat &img)
 {
     cv::Mat img320;
-
-    cv::resize(img,img320,cv::Size(1066,800),cv::INTER_CUBIC);  //TODO get the size from model itself
-
+    cv::resize(img,img320,cv::Size(320,320),cv::INTER_CUBIC);  //TODO get the size from model itself
     float * accumulator = reinterpret_cast<float *> (&dest_buffer[0]);
-
     //opencv read in BGRA by default
-    cvtColor(img320, img320, CV_BGRA2BGR);
+//    cvtColor(img320, img320, CV_BGRA2BGR);
+    cvtColor(img320, img320, CV_BGRA2RGB);
     LOGI("num of channels: %d",img320.channels());
     int lim = img320.rows*img320.cols*3;
     for(int idx = 0; idx<lim; idx++)
-        accumulator[idx]= img320.data[idx]*0.00392156862745f;
-
+        accumulator[idx]= img320.data[idx]*0.00392156862745f;// 1/255 (quantize)
+    // mean=[R0.485, G0.456, B0.406], std=[0.229, 0.224, 0.225]
+//    for(int x=0; x < 320*320; x++){
+//        accumulator[x]= (img320.data[x] - 0.485f) / 0.229f;
+//        accumulator[x+320*320]= (img320.data[x+320*320] - 0.456f) / 0.224f;
+//        accumulator[x+2*320*320]= (img320.data[x+2*320*320] - 0.406f) / 0.225f;
+//    }
 }
 
 

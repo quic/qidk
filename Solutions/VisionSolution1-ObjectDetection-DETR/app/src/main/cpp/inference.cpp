@@ -184,8 +184,9 @@ std::string build_network_BB(const uint8_t * dlc_buffer_BB, const size_t dlc_siz
 
 
 bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj, std::vector<std::vector<float>> &BB_coords, std::vector<std::string> &BB_names) {
-
-    LOGI("execute_net_BB");
+    int sizei = 320;
+    float sizef = 320.0f;
+//    LOGI("execute_net_BB");
     ATrace_beginSection("preprocessing");
 
     struct timeval start_time, end_time;
@@ -202,9 +203,8 @@ bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj,
     }
 
     //TODO Need to take from model, Output value might change.
-    std::string name_out_boxes = "5842";
-    std::string name_out_classes =  "5850";
-
+    std::string name_out_boxes = "2139";
+    std::string name_out_classes =  "2135";
     ATrace_endSection();
     gettimeofday(&start_time, NULL);
     ATrace_beginSection("inference time");
@@ -226,21 +226,18 @@ bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj,
         mtx.unlock();
         return false;
     }
-    const auto& outputNamesOpt = snpe_BB->getOutputTensorNames();
-    const zdl::DlSystem::StringList& outputNames = *outputNamesOpt;
-    for(auto k:outputNames){
-        LOGI("output tensors %s",k);
-    }
-    std::vector<float32_t> BBout_boxcoords1600 = applicationOutputBuffers.at(name_out_boxes);
-    std::vector<float32_t> BBout_class3640 = applicationOutputBuffers.at(name_out_classes);
-
-    std::vector<float32_t> BBout_boxcoords(BBout_boxcoords1600.begin(), BBout_boxcoords1600.begin() + 400);
-    std::vector<float32_t> BBout_class(BBout_class3640.begin(), BBout_class3640.begin() + 9100);
-
+//    const auto& outputNamesOpt = snpe_BB->getOutputTensorNames();
+//    const zdl::DlSystem::StringList& outputNames = *outputNamesOpt;
+//    std::vector<std::string> varaa;
+//    for(auto k:outputNames){
+//        LOGI("output tensors %s",k);
+//    }
+    std::vector<float32_t> BBout_boxcoords = applicationOutputBuffers.at(name_out_boxes);
+    std::vector<float32_t> BBout_class = applicationOutputBuffers.at(name_out_classes);
     std::vector<BoxCornerEncoding> Boxlist;
     std::vector<std::string> Classlist;
     //Post Processing
-    for(int i =0;i<(100);i++)  //TODO change value of 2100 to soft value
+    for(int i =0;i<(100);i++)
     {
         int start = i*91;
         int end = (i+1)*91;
@@ -248,26 +245,24 @@ bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj,
         auto it = max_element (BBout_class.begin()+start, BBout_class.begin()+end);
         int index = distance(BBout_class.begin()+start, it);
         std::string classname = classnamemapping[index];
-        if(*it>0.4 )
+        if(*it>0.5)
         {
+            int x1 = (BBout_boxcoords[i * 4 + 0]-0.5*BBout_boxcoords[i * 4 + 2])*sizei; // rescale_bboxes and box_cxcywh_to_xyxy
+            int y1 = (BBout_boxcoords[i * 4 + 1]-0.5*BBout_boxcoords[i * 4 + 3])*sizei;
+            int x2 = (BBout_boxcoords[i * 4 + 0]+0.5*BBout_boxcoords[i * 4 + 2])*sizei;
+            int y2 = (BBout_boxcoords[i * 4 + 1]+0.5*BBout_boxcoords[i * 4 + 3])*sizei;
 
-            int x1 = (BBout_boxcoords[i * 4 + 0]-0.5*BBout_boxcoords[i * 4 + 2])*320;
-            int y1 = (BBout_boxcoords[i * 4 + 1]-0.5*BBout_boxcoords[i * 4 + 3])*320;
-            int x2 = (BBout_boxcoords[i * 4 + 0]+0.5*BBout_boxcoords[i * 4 + 2])*320;
-            int y2 = (BBout_boxcoords[i * 4 + 1]+0.5*BBout_boxcoords[i * 4 + 3])*320;
-
-            LOGI("it %d %d %d %d %s",x1,y1,x2,y2,classname.c_str());
-
-
+            LOGI("it %d - %d %d %d %d %s %f",i,x1,y1,x2,y2,classname.c_str(), *it);
             Boxlist.push_back(BoxCornerEncoding(x1, y1, x2, y2,*it,classname));
         }
     }
 
-    std::vector<BoxCornerEncoding> reslist = NonMaxSuppression(Boxlist,0.20);
+    std::vector<BoxCornerEncoding> reslist = Boxlist;
+//    std::vector<BoxCornerEncoding> reslist = NonMaxSuppression(Boxlist,0.20);
 
     numberofobj = reslist.size();
-    float ratio_2 = orig_width/320.0f;
-    float ratio_1 = orig_height/320.0f;
+    float ratio_2 = orig_width/sizef;
+    float ratio_1 = orig_height/sizef;
 
     for(int k=0;k<numberofobj;k++) {
         float top,bottom,left,right;

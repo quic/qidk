@@ -83,7 +83,8 @@ Java_com_qc_DETR_SNPEHelper_initSNPE(JNIEnv *env, jobject thiz, jobject asset_ma
     std::string result;
 
     AAssetManager* mgr = AAssetManager_fromJava(env, asset_manager);
-    AAsset* asset_BB = AAssetManager_open(mgr, "detr_resnet101_w8a8_cached.dlc", AASSET_MODE_UNKNOWN);
+//    AAsset* asset_BB = AAssetManager_open(mgr, "detr_resnet101_w8a8_cached.dlc", AASSET_MODE_UNKNOWN);
+    AAsset* asset_BB = AAssetManager_open(mgr, "Quant_detr_demo_s_320.dlc", AASSET_MODE_UNKNOWN);
     if (NULL == asset_BB) {
         LOGE("Failed to load ASSET, needed to load DLC\n");
         result = "Failed to load ASSET, needed to load DLC\n";
