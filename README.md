@@ -28,6 +28,20 @@ This course is applicable, even if a developer is AI SDK on Qualcomm platforms o
 
 All QIDK deliverables are covered in this course in detail with hands-on lab sessions. 
 
+### Download AI SDK 
+
+Please note the change in steps to download AI SDK (Steps in QWA course will be modified later)
+Users need to follow below procedure do download AI SDK. 
+
+1. Visit qpm.qualcomm.com
+2. Download AI SDK for Linux (Linux is the host platform for development, QIDK has Android as target platform)
+
+   ![image](https://github.com/user-attachments/assets/dbea8590-1af4-496b-8332-81d1f5640401)
+
+
+4. Follow SDK documentation for setup, or refer to QWA course.
+5. Once SDK is setup, please revert back to QWA course for model conversion, and deployment. 
+
 ## Examples
 
 Contain examples to use features of above SDKs
