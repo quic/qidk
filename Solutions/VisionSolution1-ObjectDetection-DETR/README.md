@@ -34,7 +34,7 @@ sdk: Contains openCV sdk
 
 ## DLC Generation
 
-Run jupyter notebook GenerateDLC.ipynb. This notebook will generate DETR quantized dlc, You cann take the notebook from here [DETR_Notebook Link](https://github.qualcomm.com/qualcomm-model-zoo-public-mirror/models-for-solutions/tree/main/03-object-detection/detr_resnet101)
+Run jupyter notebook GenerateDLC.ipynb. This notebook will generate DETR quantized dlc, You cann take the notebook from here [DETR_Notebook Link](https://github.com/quic/ai-hub-models/tree/aistack-models/models-for-solutions/SNPE/03-object-detection/detr_resnet101)
 
 DETR model is has 80 classes of everyday objects.
 For model details, please refer to paper : https://arxiv.org/abs/2005.12872
