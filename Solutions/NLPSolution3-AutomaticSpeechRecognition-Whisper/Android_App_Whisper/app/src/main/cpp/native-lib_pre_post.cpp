@@ -238,12 +238,12 @@ Java_com_example_automatic_1speech_1recognition_MainActivity_InitSnpe(JNIEnv *en
     const char *cstr = env->GetStringUTFChars(native_dir_path, nullptr);
     env->ReleaseStringUTFChars(native_dir_path, cstr);
     std::string nativeLibPath = std::string(cstr);
-//
-//    SetAdspLibraryPath(nativeLibPath);
-//        __android_log_print(ANDROID_LOG_INFO, "SNPE ", "Failed to set ADSP Library Path\n");
+
+    SetAdspLibraryPath(nativeLibPath);
+        __android_log_print(ANDROID_LOG_INFO, "SNPE ", "Failed to set ADSP Library Path\n");
 
 
-    AAsset* asset = AAssetManager_open(mgr, "whisper_tiny_encoder_w8a8.dlc", AASSET_MODE_UNKNOWN);
+    AAsset* asset = AAssetManager_open(mgr, "whisper_tiny_encoder_w8a16.dlc", AASSET_MODE_UNKNOWN);
 
     if (NULL == asset) {
         LOGE("ASRHelper: Failed to load ASSET, needed to load DLC\n");

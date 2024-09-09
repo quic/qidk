@@ -68,10 +68,21 @@ std::string build_network(const uint8_t * dlc_buffer, const size_t dlc_size)
         outputLogger += "DSP Build = Failed ; ";
 
     }
+    // Build for CPU runtime
+//    runtimeList.clear();
+//    runtime = zdl::DlSystem::Runtime_t::CPU;
+//    snpe_cpu = setBuilderOptions(container, runtime, runtimeList, useUserSuppliedBuffers, usingInitCaching);
 
+//    if (snpe_cpu == nullptr) {
+//        LOGE("SNPE Prepare failed: Builder option failed for CPU runtime");
+//        return outputLogger += "CPU Build = Failed ; ";
+//    }
+
+//    outputLogger += "CPU Build = OK ; ";
     if (usingInitCaching) {
         if (container->save(dlc_path)) {
             LOGI("Saved container into archive successfully");
+//            outputLogger += "\nSaved container cache";
         } else LOGE("Failed to save container into archive");
     }
 
@@ -116,6 +127,7 @@ std::string execute_net(std::vector<float *> inputVec, int arrayLength,
 
     std::unordered_map <std::string, std::vector<float_t>> applicationInputBuffers;
     createInputBufferMap(inputMap, applicationInputBuffers, snpeUserBackedInputBuffers, snpe, useIntBuffer, bitWidth);
+//
     if(!loadInputUserBuffer(applicationInputBuffers, snpe, inputVec, arrayLength, inputMap, bitWidth))
         return "\nFailed to load Input UserBuffer";
 //

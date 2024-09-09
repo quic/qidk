@@ -90,14 +90,14 @@ std::unique_ptr<zdl::SNPE::SNPE> setBuilderOptions(std::unique_ptr<zdl::DlContai
         LOGI("runtime sh %s", name);
 
     snpe = snpeBuilder.setOutputLayers({})
-            .setPerformanceProfile(zdl::DlSystem::PerformanceProfile_t::BURST)
+            .setPerformanceProfile(zdl::DlSystem::PerformanceProfile_t::HIGH_PERFORMANCE)
             .setExecutionPriorityHint(
                     zdl::DlSystem::ExecutionPriorityHint_t::HIGH)
             .setRuntimeProcessorOrder(runtimeList)
             .setUseUserSuppliedBuffers(useUserSuppliedBuffers)
             .setPlatformConfig(platformConfig)
             .setInitCacheMode(useCaching)
-            .setUnconsumedTensorsAsOutputs(true)
+//            .setUnconsumedTensorsAsOutputs(true)
             .build();
 
     return snpe;

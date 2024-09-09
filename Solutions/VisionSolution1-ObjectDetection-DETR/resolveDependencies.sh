@@ -11,15 +11,16 @@ rm -r OpenCV-android-sdk
 #Steps to paste files in JNI
 ##copying snpe-release.aar file
 mkdir snpe-release
-cp $SNPE_ROOT/android/snpe-release.aar snpe-release
+cp $SNPE_ROOT/lib/android/snpe-release.aar snpe-release
 unzip -o snpe-release/snpe-release.aar -d snpe-release/snpe-release
 
 mkdir -p app/src/main/jniLibs/arm64-v8a
 
 ##writing jniLibs
-cp snpe-release/snpe-release/jni/arm64-v8a/libc++_shared.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSNPE.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libsnpe-android.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpPrepare.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV73Skel.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV73Stub.so app/src/main/jniLibs/arm64-v8a/
+cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV75Skel.so app/src/main/jniLibs/arm64-v8a/
+cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV75Stub.so app/src/main/jniLibs/arm64-v8a/

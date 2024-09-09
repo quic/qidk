@@ -93,7 +93,7 @@ std::unique_ptr<zdl::SNPE::SNPE> setBuilderOptions(std::unique_ptr<zdl::DlContai
     for (const char *name : stringruntime)
         LOGI("runtime sh %s", name);
 
-    snpe = snpeBuilder.setOutputLayers({})
+    snpe = snpeBuilder.setUnconsumedTensorsAsOutputs(1) //.setOutputLayers({})
             .setPerformanceProfile(zdl::DlSystem::PerformanceProfile_t::BURST)
             .setExecutionPriorityHint(
                     zdl::DlSystem::ExecutionPriorityHint_t::HIGH)

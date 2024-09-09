@@ -2,7 +2,7 @@
 
 ### About "Image Super Resolution" 
 
-- Current project is an sample Android application for AI-based Image Super Resolution using [Qualcomm® Neural Processing SDK for AI](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html) framework. 
+- Current project is an sample Android application for AI-based Image Super Resolution using <b>Qualcomm® Neural Processing SDK for AI </b> framework. 
 - Model used in this sample is : **Collapsible Linear Blocks for Super-Efficient Super Resolution** (*https://arxiv.org/abs/2103.09404*)
 - SESR model is also part of AIMET Model Zoo (*https://github.com/quic/aimet-model-zoo/#pytorch-model-zoo*)
 - This sample enhances input image resolution by 2x along width, and height. If input resolution is wxh, output resolution will be 2*w x 2*h
@@ -13,10 +13,9 @@
 
 ### Pre-Requisites 
 
-- Qualcomm® Neural Processing SDK for AI setup should be completed by following the guide here : https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
+- Qualcomm® Neural Processing SDK for AI setup should be completed by following the guide here : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
 - Android Studio to import sample project
 - Android NDK to build native code
-- Install torch, onnx v1.6.0. Installation instructions can be found https://qdn-drekartst.qualcomm.com/hardware/qualcomm-innovators-development-kit/frameworks-qualcomm-neural-processing-sdk-for-ai <TODO>
 - Install opencv using ```pip install opencv-python```
 
 # Model Selection, and DLC conversion
@@ -37,22 +36,7 @@ Source : *https://arxiv.org/pdf/2103.09404.pdf*
 
 - Ensure the pre-requisites mentioned at the begining of this page, are completed
 - Note: As a general practice, please convert PYTORCH models to ONNX first, and then convert ONNX to DLC.
-- To convert PYTORCH to ONNX clone the [AIMET-MODEL-ZOO](https://github.com/quic/aimet-model-zoo.git) repo. For, below steps we are assuming that the repo is pointing to this [header](https://github.com/quic/aimet-model-zoo/tree/b7a21a02f3a33387548f376bdf7831b4cc5cc41b).
-
-```python
-git clone https://github.com/quic/aimet-model-zoo.git
-cd aimet-model-zoo/
-git reset --hard b7a21a02f3a33387548f376bdf7831b4cc5cc41b
-```
-
-- Apply aimet.patch in above repo.
-
-```python
-cd aimet-model-zoo
-git apply aimet.patch
-```
-
-- Run [superres_quanteval.ipynb](https://github.com/quic/aimet-model-zoo/blob/b7a21a02f3a33387548f376bdf7831b4cc5cc41b/zoo_torch/examples/superres/notebooks/superres_quanteval.ipynb) to make dlc and paste in assets folder of the Solution.
+- Please run .\Genarate_Model\sesr.ipynb notebook to prepare dlc. 
 
 
 ### How to change the model? 
@@ -148,7 +132,7 @@ you need to release the model after you are done with it.<br/>
 1. Clone QIDK repo. 
 2. Generate DLC using the steps mentioned above (super_resolution_sesr_opt.dlc)
 3. Copy "snpe-release.aar" file from android folder in "Qualcomm Neural Processing SDK for AI" release from Qualcomm Developer Network into this folder : VisionSolution2-ImageSuperResolution\snpe-release\
-4. Copy DLC generated in step-2 at : VisionSolution2-ImageSuperResolution\superresolution\src\main\assets\ (super_resolution_sesr_opt.dlc)
+4. Copy DLC generated from the notebook at : VisionSolution2-ImageSuperResolution\superresolution\src\main\assets\ (super_resolution_sesr_opt.dlc)
 5. Import folder VisionSolution2-ImageSuperResolution as a project in Android Studio 
 6. Compile the project. 
 7. Output APK file should get generated : superresolution-debug.apk

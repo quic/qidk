@@ -5,10 +5,7 @@
 #ifndef NATIVEINFERENCE_INFERENCE_H
 #define NATIVEINFERENCE_INFERENCE_H
 
-std::string build_network(const uint8_t * dlc_buffer, const size_t dlc_size);
-bool SetAdspLibraryPath(std::string nativeLibPath);
-std::string execute_net(std::vector<float *> inputVec, int arrayLength,
-                        std::vector<float *> & outputVec, std::string runtime);
+
 
 #include "zdl/DlSystem/TensorShape.hpp"
 #include "zdl/DlSystem/TensorMap.hpp"
@@ -51,5 +48,9 @@ bool saveOutput (zdl::DlSystem::UserBufferMap& outputMap,
                  size_t batchSize,
                  bool isTfNBuffer,
                  int bitWidth);
-
+				 
+std::string build_network(const uint8_t * dlc_buffer, const size_t dlc_size);
+bool SetAdspLibraryPath(std::string nativeLibPath);
+std::string execute_net(std::vector<float *> inputVec, int arrayLength,
+                        std::vector<float *> & outputVec, std::string runtime);
 #endif //NATIVEINFERENCE_INFERENCE_H

@@ -4,11 +4,11 @@
 
 # Object Detection with MobilenetSSD
 
-The project is designed to utilize the [Qualcomm® Neural Processing SDK for AI ](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html), a deep learning software from Snapdragon platforms for Object Detection in Android. The Android application can be designed to use any built-in/connected  camera to capture the objects and use Machine Learning model to get the prediction/inference and location of the respective objects.
+The project is designed to utilize the Qualcomm® Neural Processing SDK for AI , a deep learning software from Snapdragon platforms for Object Detection in Android. The Android application can be designed to use any built-in/connected  camera to capture the objects and use Machine Learning model to get the prediction/inference and location of the respective objects.
 
 ## Pre-requisites
 
-* Before starting the Android application, please follow the instructions for setting up Qualcomm Neural Processing SDK using the link provided. https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
+* Before starting the Android application, please follow the instructions for setting up [Qualcomm Neural Processing SDK]([https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412)
 * Android device 6.0 and above which uses below mentioned Snapdragon processors/Snapdragon HDK with display can be used to test the application
 * To install caffe follow the instructions from https://qdn-drekartst.qualcomm.com/hardware/qualcomm-innovators-development-kit/frameworks-qualcomm-neural-processing-sdk-for-ai <TODO> 
 

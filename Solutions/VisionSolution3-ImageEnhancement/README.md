@@ -2,7 +2,7 @@
 
 ### About "Image Enhancement"
 
-- Current project is an sample Android application for AI-based Image Enhancement using [Qualcomm® Neural Processing SDK for AI](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html) framework.
+- Current project is an sample Android application for AI-based Image Enhancement using <b>Qualcomm® Neural Processing SDK for AI </b> framework.
 - Model used in this sample is : EnlightenGAN <https://arxiv.org/abs/1906.06972>
 - This solution can take variable size input image and after preprocessing it can apply the enhancement model to the image.
 - If users intend to use a different model in this demo framework, they need to also take care of image pre/post processing.
@@ -10,9 +10,7 @@
 
 ### Pre-Requisites
 
-- Qualcomm® Neural Processing SDK setup should be completed by following the guide here:<br> https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
-- Install onnx v1.6.0. Installation instruction can be found https://qdn-drekartst.qualcomm.com/hardware/qualcomm-innovators-development-kit/frameworks-qualcomm-neural-processing-sdk-for-ai <TODO>
-- Install onnxsim ```pip install onnxsim``` and onnxruntime ```pip install onnxruntime```.
+- Qualcomm® Neural Processing SDK setup should be completed by following the guide here:<br> https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
 - Android Studio to import sample project
 - Android NDK to build native code
 
@@ -42,12 +40,12 @@ onnxsim enlighten.onnx enlighten_opt.onnx
 snpe-onnx-to-dlc -i enlighten_opt.onnx -d input 1,3,240,320 -o enlighten_fixed.dlc
 ```
 
-- For better performance on Snapdragon SM8550 model quantization is recommended. For quantization please keep the dlc, data and list.txt in one directory. 
+- For better performance on Snapdragon SM8650 model quantization is recommended. For quantization please keep the dlc, data and list.txt in one directory. 
 "data" has some raw input for model quantization.
 "list.txt" has names of all files in data directory
 
 ```python
-snpe-dlc-quantize --input_dlc enlighten_fixed.dlc --input_list list.txt --use_enhanced_quantizer --use_adjusted_weights_quantizer --axis_quant --output_dlc enlight_axisQ_cached.dlc --enable_htp --htp_socs sm8550
+snpe-dlc-quantize --input_dlc enlighten_fixed.dlc --input_list list.txt --use_enhanced_quantizer --use_adjusted_weights_quantizer --axis_quant --output_dlc enlight_axisQ_cached.dlc --enable_htp --htp_socs sm8650
 ```
 
 # Source Overview

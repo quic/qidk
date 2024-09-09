@@ -14,6 +14,7 @@ cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so ./QuestionAnswering/bert/src/main/j
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpPrepare.so ./QuestionAnswering/bert/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV69Stub.so ./QuestionAnswering/bert/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV73Stub.so ./QuestionAnswering/bert/src/main/jniLibs/arm64-v8a/.
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV75Stub.so ./QuestionAnswering/bert/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libc++_shared.so ./QuestionAnswering/bert/src/main/jniLibs/arm64-v8a/.
 
 # Add SNPE DSP libs to App 'jniLibs'

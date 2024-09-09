@@ -1,0 +1,32 @@
+FROM ubuntu:22.04
+
+LABEL maintainer="https://www.qualcomm.com/"
+LABEL version="0.1"
+LABEL description="Ubunutu 22.04 Docker image to be the base for QNN SDK"
+
+RUN apt-get update && apt-get install -y software-properties-common gcc && \
+    add-apt-repository -y ppa:deadsnakes/ppa
+
+
+RUN apt-get install -y python3.10-venv python3-pip git wget unzip make file adb nano vim
+RUN python3 -m venv /usr/venv
+RUN chmod -R 777 /usr/venv
+RUN python3 -m pip install --upgrade pip
+RUN . /usr/venv/bin/activate && pip3 --no-cache-dir install pip-tools wheel rich jupyter
+RUN . /usr/venv/bin/activate && pip3 --no-cache-dir install --no-deps tensorflow==2.10.1 tflite==2.3.0 
+RUN . /usr/venv/bin/activate && pip3 --no-cache-dir install --no-deps torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
+RUN . /usr/venv/bin/activate && pip3 --no-cache-dir install --no-deps protobuf==3.19.6 onnx==1.16.1 onnx-simplifier==0.4.36 
+
+RUN . /usr/venv/bin/activate && pip3 --no-cache-dir install --no-deps pycocotools==2.0.6 transformers sacrebleu==2.3.1 \
+	sentencepiece scikit-learn
+
+EXPOSE 8080
+EXPOSE 5037
+RUN echo 'alias python='python3''>>~/.bashrc
+RUN apt install -y sudo
+
+COPY ./setup_env.sh /setup_env.sh
+
+RUN chmod +x /setup_env.sh
+
+RUN echo ". /setup_env.sh" > ~/.bashrc

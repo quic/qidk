@@ -1,18 +1,19 @@
 # HRNET pose-estimation
-The project is designed to utilize the [Qualcomm® Neural Processing SDK for AI ](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html), a deep learning software from Snapdragon platforms for Pose Detection in Android. The Android application can be designed to use any built-in/connected camera to capture the objects and use Machine Learning model to get the pose of any human present in the camera feed. This solution uses two opensource models to achieve better accuracy on Human Pose Estimation. We use YoloNAS_SSD to identify each person in a frame and then give this data to HRNET model to get pose estimation on the previously identified person.
+The project is designed to utilize the <b>Qualcomm® Neural Processing SDK for AI </b>, a deep learning software from Snapdragon platforms for Pose Detection in Android. The Android application can be designed to use any built-in/connected camera to capture the objects and use Machine Learning model to get the pose of any human present in the camera feed. This solution uses two opensource models to achieve better accuracy on Human Pose Estimation. We use YoloNAS_SSD to identify each person in a frame and then give this data to HRNET model to get pose estimation on the previously identified person.
 
 
 # Pre-requisites
 
-* Before starting the Android application, please follow the instructions for setting up Qualcomm Neural Processing SDK using the link provided. https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
+* Before starting the Android application, please follow the instructions for setting up Qualcomm Neural Processing SDK using the link provided. https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
 * Android device 6.0 and above which uses below mentioned Snapdragon processors/Snapdragon HDK with display can be used to test the application 
-* Download CocoDataset 2014 and give its path to Generate_DLC.ipynb. Change variable "dataset_path" during Quantization for both models.
+* Download CocoDataset 2017 and give its path to Generate_DLC.ipynb. Change variable "dataset_path" during Quantization for both models.
 
 ## List of Supported Devices
 
 - Snapdragon® SM8550
+- Snapdragon® SM8650
 
-The above targets supports the application with CPU, GPU and DSP. For more information on the supported devices, please follow this link https://developer.qualcomm.com/docs/snpe/overview.html
+The above targets supports the application with CPU, GPU and DSP. For more information on the supported devices, please follow this link https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/overview.html?product=1601111740010412
   
 # Source Overview
 
@@ -34,7 +35,7 @@ sdk: Contains openCV sdk
 
 ## DLC Generation
 
-Run jupyter notebook GenerateDLC.ipynb. This notebook will generate 2 dlc(s).
+Run jupyter notebook Generate_models/GenerateDLC.ipynb. This notebook will generate 2 dlc(s).
 	
 *  Quantized YoloNAS SSD model as Quant_yoloNas_s_320.dlc
 *  Quantized HRNET  model as hrnet_axis_int8.dlc
@@ -185,11 +186,12 @@ Model returns the respective Float Tensors, from which the shape of the object a
 * Download opencv and paste to sdk directory, to enable OpenCv for android Java.
 
 ```java
+    sed -i 's/\r$//' resolveDependencies.sh
 	bash resolveDependencies.sh
 ```
 
 	
-3. Run jupyter notebook GenerateDLC.ipynb to generate DLC(s) for YoloNAS_SSD, HRNET for hrnet_axis_int8.dlc. Change dataset_path with Coco Dataset Path.
+3. Run jupyter notebook Generate_models/GenerateDLC.ipynb to generate DLC(s) for YoloNAS_SSD, HRNET for hrnet_axis_int8.dlc. Change dataset_path with Coco Dataset Path.
 				  
 * This script generates required dlc(s) and paste them to appropriate location. 
 

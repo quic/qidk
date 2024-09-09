@@ -14,7 +14,7 @@
 ## Introduction
 
 Question Answering (QA) is one of the common and challenging Natural Language Processing tasks. <br>
-- Current project is an sample Android application for OnDevice Question Ansering based on [ICLR 2020 Electra](https://openreview.net/pdf?id=r1xMH1BtvB) Transformer model acclerated using [Qualcomm® Neural Processing SDK for AI ](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html) framework.
+- Current project is an sample Android application for OnDevice Question Ansering based on [ICLR 2020 Electra](https://openreview.net/pdf?id=r1xMH1BtvB) Transformer model acclerated using Qualcomm® Neural Processing SDK for AI framework.
 
 - Model used in this project is : https://huggingface.co/mrm8488/electra-small-finetuned-squadv2 
 
@@ -28,12 +28,8 @@ Question Answering (QA) is one of the common and challenging Natural Language Pr
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Android NDK "r19c" or "r21e" to build native code in Android Studio
-* Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
-  ###### <i>(above mentioned Python packages version and Android Studio version is just a recommendation and is not a hard requirement. Please install SDK dependencies in Python 3.6 virtual environment) </i>
 
-* [Qualcomm® Neural Processing Engine for AI SDK](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) v2.x.x and its [dependencies](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html) to integrate and accelerate the network on Snapdragon<br>
-  ###### <i>(During developement of this tutorial, the AI SDK recommends Python 3.6 version and is subject to change with future SDK releases. Please refer SDK Release Notes.)</i>
+* [Qualcomm® Neural Processing Engine for AI SDK] v2.x.x and its [dependencies](https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412) to integrate and accelerate the network on Snapdragon<br>
   
 
 ## Quick Start
@@ -64,7 +60,7 @@ This command converts Tensorflow frozen graph into DLC format, which DSP, GPU An
 
 #### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading time on DSP accelerator)
 ```
-snpe-dlc-graph-prepare --input_dlc frozen_models/electra_small_squad2.dlc --use_float_io --htp_archs v73 --set_output_tensors Identity:0,Identity_1:0
+snpe-dlc-graph-prepare --input_dlc frozen_models/electra_small_squad2.dlc --use_float_io --htp_archs v75 --set_output_tensors Identity:0,Identity_1:0
 ```
 A new DLC will get saved at `frozen_models` directory with name `electra_small_squad2_cached.dlc`. <br>
 
@@ -129,7 +125,7 @@ best_f1_thresh = 0.0
 
 #### 2.3 Validating generated Electra-small DLC on DSP runtime:
 ```
- python $SNPE_ROOT/benchmarks/snpe_bench.py -c dsp_accuracy_test.json -t android-aarch64 -p burst -z
+ python $SNPE_ROOT/benchmarks/SNPE/snpe_bench.py -c dsp_accuracy_test.json -t android-aarch64 -p burst -z
 ```
 This command will push DLC, SDK assets and Input artifacts on connected device and auto-run inference on DSP runtime.
 ```
@@ -176,7 +172,7 @@ Please refer to "Total Inference Time" field in CSV file, which shows Model exec
 
 ##### Note: Performance may change based on SDK version and device meta build.
 
-To understand benchmark fields in CSV file please refer to "CSV Benchmark Results File" section : https://developer.qualcomm.com/sites/default/files/docs/snpe/benchmarking.html <br>
+To understand benchmark fields in CSV file please refer to "CSV Benchmark Results File" section : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/benchmarking.html?product=1601111740010412 <br>
 
 
 ### 4. Build and run with Android Studio
@@ -241,7 +237,7 @@ Following is the basic Question Answering Android App.
 
 ## Qualcomm® Neural Processing SDK C++ APIs JNI Integration
 
-Please refer to SDK Native application tutorial : https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
+Please refer to SDK Native application tutorial : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/cplus_plus_tutorial.html?product=1601111740010412
 
 ## Credits
 
@@ -258,10 +254,10 @@ tokenizer with Electra-small model.
 - https://github.com/huggingface/tflite-android-transformers
 - https://huggingface.co/google/electra-small-discriminator
 - https://huggingface.co/mrm8488/electra-small-finetuned-squadv2
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
-- https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk/learning-resources/vision-based-ai-use-cases/performance-analysis-using-benchmarking-tools
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/introduction.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup10.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup8.html?product=1601111740010412
 
 
 

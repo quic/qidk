@@ -15,7 +15,7 @@
 
 ## Pre-requisites
 
-- Setup AI SDK <a href="https://qpm.qualcomm.com/#/main/tools/details/qualcomm_neural_processing_sdk"> Qualcomm® Neural Processing SDK (Linux)</a>. 
+- Setup AI SDK [<b>] Qualcomm® Neural Processing SDK</b>. 
 
 - Follow the insturctions given in SDK to setup the SDK 
 

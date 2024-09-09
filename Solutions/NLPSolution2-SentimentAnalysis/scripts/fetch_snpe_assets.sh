@@ -14,6 +14,7 @@ cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so ./SentimentAnalysis/app/src/main/jn
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpPrepare.so ./SentimentAnalysis/app/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV69Stub.so ./SentimentAnalysis/app/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV73Stub.so ./SentimentAnalysis/app/src/main/jniLibs/arm64-v8a/.
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV75Stub.so  ./SentimentAnalysis/app/src/main/jniLibs/arm64-v8a/.
 cp $SNPE_ROOT/lib/aarch64-android/libc++_shared.so ./SentimentAnalysis/app/src/main/jniLibs/arm64-v8a/.
 
 # Add SNPE DSP libs to App 'jniLibs'

@@ -18,7 +18,7 @@
 # Introduction
 
 Automatic Speech Recognition (ASR) is one of the common and challenging Natural Language Processing tasks. <br>
-- Current project is an sample Android application for OnDevice Automatic Speech Recognition using [Qualcomm® Neural Processing SDK for AI](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html) framework. 
+- Current project is an sample Android application for OnDevice Automatic Speech Recognition using <b>Qualcomm® Neural Processing SDK for AI</b> framework. 
 -  We have used [Whisper](https://github.com/openai/whisper) Model in this Solution
 
 - This Solution has 2 Model, Encoder and Decoder Model.
@@ -34,13 +34,8 @@ Automatic Speech Recognition (ASR) is one of the common and challenging Natural 
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Android NDK "r19c" or "r21e" to build native code in Android Studio
-* Python 3.8, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
-  ###### <i>(above mentioned Python packages version and Android Studio version is just a recommendation and is not a hard requirement. Please install SDK dependencies in Python 3.6 virtual environment) </i>
-* [Qualcomm® Neural Processing Engine for AI SDK](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) v2.x.x and its [dependencies](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html) to integrate and accelerate the network on Snapdragon<br>
-  ###### <i>(During developement of this tutorial, the AI SDK recommends Python 3.8 version and is subject to change with future SDK releases. Please refer SDK Release Notes.)</i>
+* Set up for <b>Qualcomm® Neural Processing SDK for AI</b> 
   
-
 ## Quick Start
 
 ### 1. Model Preparation
@@ -69,7 +64,7 @@ snpe-onnx-to-dlc -i whisper_encoder.onnx -d x.1 1,80,3000 -o whisper_tiny_encode
 
 #### 1.4 Quantization with caching of DLC (for optimizing model loading time on DSP accelerator)
 ```
-snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.txt  --optimizations cle --axis_quant --output_dlc whisper_tiny_encoder_w8a16.dlc --weights_bitwidth 8 --act_bitwidth 16 --enable_htp --htp_socs sm8550
+snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.txt  --optimizations cle --axis_quant --output_dlc whisper_tiny_encoder_w8a16.dlc --weights_bitwidth 8 --act_bitwidth 16 --enable_htp --htp_socs sm8650
 
 ```
 #### 1.5 Getting the Decoder TFLite Model
@@ -82,8 +77,8 @@ snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.tx
 #### Add AI SDK libs and generated DLC into app assets, jniLibs and cmakeLibs directory:
 - Take SNPE_ROOT/lib/android/snpe-release.aar file, unzip it
 - Then create **app/src/main/jniLibs** folder and paste everything from **jni/arm64-v8a** which is extracted from **snpe-release.aar** to this **app/src/main/jniLibs/arm64-v8a** folder.
-- Take SNPE_ROOT/lib/hexagon-v75 if you want to run it on Snapdragon 8th gen 3 device
-- Take SNPE_ROOT/lib/hexagon-v73 if you want to run it on Snapdragon 8th gen 2 device. 
+- Take SNPE_ROOT/lib/hexagon-v75 if you want to run it on Snapdragon 8th gen 3 device  <sm8650>
+- Take SNPE_ROOT/lib/hexagon-v73 if you want to run it on Snapdragon 8th gen 2 device. <sm8550>
 
 
 * If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `src/main/cpp/CMakeList.txt` under `target_link_libraries` section and delete `libSnpe.so` from "jniLibs" directory.
@@ -117,7 +112,7 @@ adb shell setenforce 0
 
 ## Qualcomm® Neural Processing SDK C++ APIs JNI Integration
 
-Please refer to SDK Native application tutorial : https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
+Please refer to SDK Native application tutorial : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup8.html?product=1601111740010412
 
 ## Credits
 
@@ -134,11 +129,9 @@ The pre-trained model is from HuggingFace Repo
 - https://openai.com/research/whisper
 - https://huggingface.co/openai/whisper-tiny
 - https://www.tensorflow.org/datasets/catalog/librispeech
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
-- https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk/learning-resources/vision-based-ai-use-cases/performance-analysis-using-benchmarking-tools
-
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/cplus_plus_tutorial.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/benchmarking.html?product=1601111740010412
 
 
 ###### *Qualcomm Neural Processing SDK is a product of Qualcomm Technologies, Inc. and/or its subsidiaries.*

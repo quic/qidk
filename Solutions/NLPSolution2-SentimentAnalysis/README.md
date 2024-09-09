@@ -20,7 +20,7 @@
 ## Introduction
 
 Sentiment Analysis(SA) is a [natural language processing](https://en.wikipedia.org/wiki/Natural_language_processing) technique that identifies the polarity of a given text, such as positive, negative. <br>
-- Current project is an sample Android application for OnDevice Sentiment Analysis based on [ACL 2020 MobileBERT](https://arxiv.org/abs/2004.02984) Transformer model finetuned on [GLUE( General Language Understanding Evaluation) SST2 (Stanford Sentiment Treebank) dataset](https://gluebenchmark.com/) accelerated using [Qualcomm® Neural Processing SDK for AI](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html) framework.
+- Current project is an sample Android application for OnDevice Sentiment Analysis based on [ACL 2020 MobileBERT](https://arxiv.org/abs/2004.02984) Transformer model finetuned on [GLUE( General Language Understanding Evaluation) SST2 (Stanford Sentiment Treebank) dataset](https://gluebenchmark.com/) accelerated using Qualcomm® Neural Processing SDK for AI framework.
 
 - Model used in this project is : https://huggingface.co/Alireza1044/mobilebert_sst2 
 
@@ -30,12 +30,10 @@ Sentiment Analysis(SA) is a [natural language processing](https://en.wikipedia.o
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Android NDK "r19c" or "r21e" to build native code in Android Studio
 * Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
-    ###### <i>(above mentioned Python packages version and Android Studio version is just a recommendation and is not a hard requirement. Please install SDK dependencies in Python 3.6 virtual environment) </i>
 
-* [Qualcomm® Neural Processing Engine for AI SDK](https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk) v2.x.x and its [dependencies](https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html) to integrate and accelerate the network on Snapdragon<br>
-  ###### <i>(During developement of this tutorial, the AI SDK recommends Python 3.6 version and is subject to change with future SDK releases. Please refer SDK Release Notes.)</i>
+* Qualcomm® Neural Processing Engine for AI SDK v2.x.x and its [dependencies](https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412) to integrate and accelerate the network on Snapdragon<br>
+ 
 
 ## Quick Start
 
@@ -65,7 +63,7 @@ This command converts Tensorflow frozen graph into DLC format, which DSP, GPU An
 
 #### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading/INIT time on DSP accelerator)
 ```
-snpe-dlc-graph-prepare --input_dlc frozen_models/mobilebert_sst2.dlc --use_float_io --htp_archs v73 
+snpe-dlc-graph-prepare --input_dlc frozen_models/mobilebert_sst2.dlc --use_float_io --htp_archs v75
 ```
 A new DLC will get save at `frozen_models` directory with name `mobilebert_sst2_cached.dlc`. <br>
 
@@ -159,7 +157,7 @@ Please refer to "Total Inference Time" field in CSV file, which shows Model exec
 
 ##### Note: Performance may change based on SDK version and device meta build.
 
-To understand benchmark fields in CSV file please refer to "CSV Benchmark Results File" section : https://developer.qualcomm.com/sites/default/files/docs/snpe/benchmarking.html <br>
+To understand benchmark fields in CSV file please refer to "CSV Benchmark Results File" section : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/benchmarking.html?product=1601111740010412 <br>
 
 ### 4. Build and run with Android Studio
 
@@ -222,7 +220,7 @@ Following is the basic Question Answering Android App.
   
 ## Qualcomm® Neural Processing SDK C++ APIs JNI Integration
 
-Please refer to SDK Native application tutorial : https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
+Please refer to SDK Native application tutorial : https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup8.html?product=1601111740010412
 
 ## Credits
 
@@ -233,10 +231,10 @@ The tokenizer src code is from https://github.com/huggingface/tflite-android-tra
 
 - https://arxiv.org/abs/2004.02984
 - https://huggingface.co/Alireza1044/mobilebert_sst2
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
-- https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk/learning-resources/vision-based-ai-use-cases/performance-analysis-using-benchmarking-tools
-- https://developer.qualcomm.com/sites/default/files/docs/snpe/cplus_plus_tutorial.html
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/introduction.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup10.html?product=1601111740010412
+- https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/usergroup8.html?product=1601111740010412
 
 
 ###### *Qualcomm Neural Processing SDK is a product of Qualcomm Technologies, Inc. and/or its subsidiaries.*

@@ -1,20 +1,20 @@
 ## Object Detection with DETR
 
-The project is designed to utilize the [Qualcomm® Neural Processing SDK for AI ](https://developer.qualcomm.com/sites/default/files/docs/snpe/index.html), a deep learning software from Snapdragon platforms for Object Detection in Android. The Android application can be designed to use any built-in/connected camera to capture the objects and use Machine Learning model to get the prediction/inference and location of the respective objects.
+The project is designed to utilize the Qualcomm® Neural Processing SDK for AI, a deep learning software from Snapdragon platforms for Object Detection in Android. The Android application can be designed to use any built-in/connected camera to capture the objects and use Machine Learning model to get the prediction/inference and location of the respective objects.
 
 # Pre-requisites
 
-* Before starting the Android application, please follow the instructions for setting up Qualcomm Neural Processing SDK using the link provided. https://developer.qualcomm.com/sites/default/files/docs/snpe/setup.html
+* Before starting the Android application, please follow the instructions for setting up [Qualcomm Neural Processing SDK](https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412)
 * Android device 6.0 and above which uses below mentioned Snapdragon processors/Snapdragon HDK with display can be used to test the application
-* Download dataset of your choice and give its path to Generate_DLC.ipynb. Change variable "dataset_path" in Quantization Section in notebook.
+* Download dataset of your choice and give its path in Generate_DLC.ipynb. Change variable "dataset_path" in Quantization Section in notebook.
 
 ## List of Supported Devices
 
-- Snapdragon® 8 Gen 3
-- Snapdragon® 8 Gen 2
+- Snapdragon® 8 Gen 3 <sm8650>
+- Snapdragon® 8 Gen 2 <sm8550>
 
 The above targets supports the application with CPU, GPU and DSP. 
-For more information on the supported devices, please follow this link https://developer.qualcomm.com/docs/snpe/overview.html
+For more information on the supported devices, please follow this link https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-50/backend.html?product=1601111740009302
 
 # Source Overview
 
@@ -34,7 +34,7 @@ sdk: Contains openCV sdk
 
 ## DLC Generation
 
-Run jupyter notebook GenerateDLC.ipynb. This notebook will generate DETR quantized dlc, You cann take the notebook from here [DETR_Notebook Link](https://github.com/quic/ai-hub-models/tree/aistack-models/models-for-solutions/SNPE/03-object-detection/detr_resnet101)
+Run jupyter notebook GenerateDLC.ipynb. This notebook will generate DETR quantized dlc.
 
 DETR model is has 80 classes of everyday objects.
 For model details, please refer to paper : https://arxiv.org/abs/2005.12872
@@ -173,6 +173,7 @@ then we just scale the coords for original image
 * Download opencv and paste to sdk directory, to enable OpenCv for android Java.
 
 ```java
+    sed -i 's/\r$//' resolveDependencies.sh
 	bash resolveDependencies.sh
 ```
 
