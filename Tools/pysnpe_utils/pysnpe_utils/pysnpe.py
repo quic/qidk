@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 """
 Python API wrapper over SNPE Tools and APIs for Auto DLC Generation, its Execution, Easy Integration and On-Device Prototyping of your DNN project.
 """

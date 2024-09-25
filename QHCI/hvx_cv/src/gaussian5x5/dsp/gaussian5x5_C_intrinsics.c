@@ -1,3 +1,8 @@
+//============================================================================
+// Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+// SPDX-License-Identifier: BSD-3-Clause-Clear
+//============================================================================
+
 #include "hexagon_types.h"
 #include "hexagon_protos.h"         // part of Q6 tools, contains intrinsics definitions
 

@@ -1,3 +1,9 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
+
 """
 SNPE Environment Setup and Sanity Checks for needed dependencies versions.
 """

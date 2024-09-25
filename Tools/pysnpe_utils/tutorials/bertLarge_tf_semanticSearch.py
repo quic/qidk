@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 from transformers import TFAutoModel, AutoTokenizer
 from pysnpe_utils import pysnpe
 from pysnpe_utils.pysnpe_enums import *
