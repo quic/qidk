@@ -88,11 +88,11 @@ Contain end-to-end ready-to-run solutions
 
 Contain tools to simplify workflow
 
-|   Tool    | SDK   |   Details   |   Link |
-|  :---:    |    :---:   |    :---:  |   :---:  |
-|  PySNPE   | Neural Processing SDK  |  Python Interface to SDK tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
-|  snpe_qnn_docker    | Neural Processing SDK  |  Docker container for SDK | [ReadMe](./Tools/snpe_qnn_docker/README.md) |
-|  snpe-helper    | Neural Processing SDK  |  Python wrapper for C++ API | [ReadMe](./Tools/snpe-helper/README.md) |
+|   Tool    | SDK   | Version   |   Details   |   Link |
+|  :---:    |    :---:   |    :---:   |    :---:  |   :---:  |
+|  PySNPE   | Neural Processing SDK  | - |Python Interface to SDK tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
+|  snpe_qnn_docker    | Neural Processing SDK <br>&<br> AI Engine Direct  | 2.25.0+ | Docker container for SDK | [ReadMe](./Tools/snpe_qnn_docker/README.md) |
+|  snpe-helper    | Neural Processing SDK  |  - |Python wrapper for C++ API | [ReadMe](./Tools/snpe-helper/README.md) |
 
 ## Report Issues
 
