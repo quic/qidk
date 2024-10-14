@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 # get the onnx model from  wget https://github.com/isl-org/MiDaS/releases/download/v2_1/model-f6b98070.onnx
 
 from pysnpe_utils import pysnpe

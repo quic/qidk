@@ -1,6 +1,16 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 # Check if SNPE_ROOT is set ?
 [ -z "$SNPE_ROOT" ] && echo "SNPE_ROOT not set" && exit -1 || echo "SNPE Root = ${SNPE_ROOT}"
 
+
+#Copy SNPE header to App CPP include directory
+mkdir -p ./SentimentAnalysis/app/src/main/cpp/inc/zdl/
+cp -R $SNPE_ROOT/include/SNPE/* ./SentimentAnalysis/app/src/main/cpp/inc/zdl/
+ 
 # Add DLC to App asssets dir
 cp ./frozen_models/mobilebert_sst2_cached.dlc ./SentimentAnalysis/app/src/main/assets/
 # Validate if DLC is copied

@@ -1,21 +1,9 @@
-#!/bin/bash
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
 
-#-----------------------------------------------------------------------------
-# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. All rights reserved.
-# Confidential and Proprietary - Qualcomm Technologies, Inc. and/or its subsidiaries.
-#
-# All data and information contained in or disclosed by this document are
-# confidential and proprietary information of Qualcomm Technologies, Inc., and
-# all rights therein are expressly reserved. By accepting this material, the
-# recipient agrees that this material and the information contained therein
-# are held in confidence and in trust and will not be used, copied, reproduced
-# in whole or in part, nor its contents revealed in any manner to others
-# without the express written permission of Qualcomm Technologies, Inc.
-#
-# This software may be subject to U.S. and international export, re-export, or
-# transfer ("export") laws.  Diversion contrary to U.S. and international law
-# is strictly prohibited.
-#-----------------------------------------------------------------------------
+#!/bin/bash
 
 function downloadndk() {
 	wget https://dl.google.com/android/repository/android-ndk-r26c-linux.zip -O /usr/android-ndk-r26c-linux.zip

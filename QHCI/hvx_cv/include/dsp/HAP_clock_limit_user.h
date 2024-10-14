@@ -1,9 +1,8 @@
-	/*-----------------------------------------------------------------------
-	   Copyright (c) 2022 QUALCOMM Technologies, Incorporated.
-	   All Rights Reserved.
-	   QUALCOMM Proprietary.
-	-----------------------------------------------------------------------*/
-	 
+	//============================================================================
+	// Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+	// SPDX-License-Identifier: BSD-3-Clause-Clear
+	//============================================================================
+
 	/**
 	 *  @file HAP_clock_limit_user.h
 	 *  @brief Header file with APIs to set and get user clock limit

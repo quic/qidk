@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 #RESOLVING DEPENDENCIES
 
 # steps to copy opencv
@@ -7,6 +12,13 @@ rm download
 mkdir sdk
 mv OpenCV-android-sdk/sdk/* sdk
 rm -r OpenCV-android-sdk
+
+# Check if SNPE_ROOT is set ?
+[ -z "$SNPE_ROOT" ] && echo "SNPE_ROOT not set" && exit -1 || echo "SNPE Root = ${SNPE_ROOT}"
+
+#Copy SNPE header files to App CPP include directory
+mkdir -p ./app/src/main/cpp/inc/zdl/
+cp -R $SNPE_ROOT/include/SNPE/* ./app/src/main/cpp/inc/zdl/
 
 #Steps to paste files in JNI
 ##copying snpe-release.aar file
