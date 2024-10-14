@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 export QNN_SDK_ROOT=/opt/qnn
 export HEXAGON_SDK=/opt/hexagon/
 export HEXAGON_TOOLS_VERSION=8.6.05

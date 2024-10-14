@@ -1,0 +1,59 @@
+{
+  "extends": "https://raw.githubusercontent.com/quic/.github/main/repolint.json",
+  "rules": {
+    "source-license-headers-exist": {
+      "level": "error",
+      "rule": {
+        "type": "file-starts-with",
+        "options": {
+          "globsAll": [
+            "**/*.py",
+            "**/*.js",
+            "**/*.c",
+            "**/*.cc",
+            "**/*.cpp",
+            "**/*.h",
+            "**/*.hpp",
+            "**/*.ts",
+            "**/*.sh",
+            "**/*.rs",
+            "**/*.java",
+            "**/*.go",
+            "**/*.bbclass",
+            "**/*.S"
+          ],
+          "skip-paths-matching": {
+            "patterns": [
+              "babel.config.js",
+              "build\/",
+              "jest.config.js",
+              "node_modules\/",
+              "types\/",
+              "uthash.h",
+              "Solutions\/NLPSolution3-AutomaticSpeechRecognition-Whisper\/Android_App_Whisper\/app\/src\/main\/cpp\/",
+              "Solutions\/VisionSolution1-ObjectDetection\/app\/src\/main\/java\/com\/qc\/objectdetection\/",
+              "Solutions\/VisionSolution1-ObjectDetection-DETR\/app\/src\/main\/java\/com\/qc\/DETR\/",
+              "Solutions\/VisionSolution4-PoseEstimation\/app\/src\/main\/java\/com\/qc\/posedetectionYoloNAS\/",
+              "Solutions\/NLPSolution1-QuestionAnswering\/QuestionAnswering\/bert\/src\/main\/java\/com\/qualcomm\/qti\/qa",
+              "Solutions\/NLPSolution2-SentimentAnalysis\/SentimentAnalysis\/app\/src\/main\/java\/com\/qualcomm\/qti\/sentimentanalysis\/tokenization\/",
+              "Solutions\/VisionSolution1-ObjectDetection-DETR\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/VisionSolution4-PoseEstimation\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Examples\/Python-ASR-wav2vec2\/automatic_speech_recognition_android_app\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/NLPSolution1-QuestionAnswering\/QuestionAnswering\/bert\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/NLPSolution2-SentimentAnalysis\/SentimentAnalysis\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/NLPSolution3-AutomaticSpeechRecognition-Whisper\/Android_App_Whisper\/app\/src\/main\/cpp\/inc\/hpp\/",
+              "Solutions\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qc\/objectdetectionYoloNas\/"
+            ]
+          },
+          "lineCount": 60,
+          "patterns": [
+            "(Copyright|©).*Qualcomm Innovation Center, Inc|Copyright (\\(c\\)|©) (20(1[2-9]|2[0-2])(-|,|\\s)*)+ The Linux Foundation",
+            "SPDX-License-Identifier|Redistribution and use in source and binary forms, with or without"
+          ],
+          "flags": "i"
+        }
+      }
+    }
+  }
+}

@@ -109,7 +109,7 @@ std::unique_ptr<zdl::SNPE::SNPE> setBuilderOptions(std::unique_ptr<zdl::DlContai
             .setUseUserSuppliedBuffers(useUserSuppliedBuffers)
             .setPlatformConfig(platformConfig)
             .setInitCacheMode(useCaching)
-            .setCPUFallbackMode(true)
+            //.setCPUFallbackMode(true)
             .setUnconsumedTensorsAsOutputs(true)
             .build();
 

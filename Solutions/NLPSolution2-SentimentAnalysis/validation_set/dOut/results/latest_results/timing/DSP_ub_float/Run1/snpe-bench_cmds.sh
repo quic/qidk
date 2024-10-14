@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 #!/system/bin/sh
 export LD_LIBRARY_PATH=/data/local/tmp/8550snpeSA/artifacts/aarch64-android-clang8.0/lib:$LD_LIBRARY_PATH
 export ADSP_LIBRARY_PATH="/data/local/tmp/8550snpeSA/artifacts/aarch64-android-clang8.0/lib;/system/lib/rfsa/adsp;/usr/lib/rfsa/adsp;/system/vendor/lib/rfsa/adsp;/dsp;/etc/images/dsp;"

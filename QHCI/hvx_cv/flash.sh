@@ -1,3 +1,8 @@
+#============================================================================
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#============================================================================
+
 adb -s ae25c132 shell mkdir -p /data/local/tmp/qing/qhci_test/
 adb -s ae25c132 push android_Release_aarch64/ship/qhci_test /data/local/tmp/qing/qhci_test/
 adb -s ae25c132 push android_Release_aarch64/ship/libqhci.so /data/local/tmp/qing/qhci_test/

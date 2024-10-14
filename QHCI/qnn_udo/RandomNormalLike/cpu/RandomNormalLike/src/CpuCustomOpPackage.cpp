@@ -1,10 +1,7 @@
-//=============================================================================
-//
-//  Copyright (c) 2020-2022 Qualcomm Technologies, Inc.
-//  All Rights Reserved.
-//  Confidential and Proprietary - Qualcomm Technologies, Inc.
-//
-//=============================================================================
+//============================================================================
+// Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+// SPDX-License-Identifier: BSD-3-Clause-Clear
+//============================================================================
 
 #include "CPU/QnnCpuOpPackage.h"
 #include "CustomBEMacros.hpp"

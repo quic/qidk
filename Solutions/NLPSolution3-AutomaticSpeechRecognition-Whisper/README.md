@@ -75,6 +75,8 @@ snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.tx
 ## Build and run with Android Studio
 
 #### Add AI SDK libs and generated DLC into app assets, jniLibs and cmakeLibs directory:
+- Create "zdl" directory to store all the SNPE header files in andorid app include path Android_App_Whisper/app/src/main/cpp/inc/ 
+- Copy all SNPE header files from location $SNPE_ROOT/include/SNPE/* to ./Android_App_Whisper/app/src/main/cpp/inc/zdl/
 - Take SNPE_ROOT/lib/android/snpe-release.aar file, unzip it
 - Then create **app/src/main/jniLibs** folder and paste everything from **jni/arm64-v8a** which is extracted from **snpe-release.aar** to this **app/src/main/jniLibs/arm64-v8a** folder.
 - Take SNPE_ROOT/lib/hexagon-v75 if you want to run it on Snapdragon 8th gen 3 device  <sm8650>
