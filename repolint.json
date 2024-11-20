@@ -43,7 +43,11 @@
               "Solutions\/NLPSolution1-QuestionAnswering\/QuestionAnswering\/bert\/src\/main\/cpp\/inc\/hpp\/",
               "Solutions\/NLPSolution2-SentimentAnalysis\/SentimentAnalysis\/app\/src\/main\/cpp\/inc\/hpp\/",
               "Solutions\/NLPSolution3-AutomaticSpeechRecognition-Whisper\/Android_App_Whisper\/app\/src\/main\/cpp\/inc\/hpp\/",
-              "Solutions\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qc\/objectdetectionYoloNas\/"
+              "Solutions\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qc\/objectdetectionYoloNas\/",
+              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/src\/QnnSampleApp.cpp",
+              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/include\/SampleApp.hpp",
+              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/include\/QnnSampleApp.hpp",
+              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qcom\/aistack_objdetect\/CameraFragment.java"
             ]
           },
           "lineCount": 60,
