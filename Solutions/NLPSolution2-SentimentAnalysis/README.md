@@ -63,7 +63,7 @@ This command converts Tensorflow frozen graph into DLC format, which DSP, GPU An
 
 #### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading/INIT time on DSP accelerator)
 ```
-snpe-dlc-graph-prepare --input_dlc frozen_models/mobilebert_sst2.dlc --use_float_io --htp_archs v75
+snpe-dlc-graph-prepare --input_dlc frozen_models/mobilebert_sst2.dlc --use_float_io --htp_archs v79
 ```
 A new DLC will get save at `frozen_models` directory with name `mobilebert_sst2_cached.dlc`. <br>
 

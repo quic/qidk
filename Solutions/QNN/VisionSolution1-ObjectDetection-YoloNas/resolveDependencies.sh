@@ -32,4 +32,5 @@ cp $QNN_SDK_ROOT/examples/QNN/SampleApp/src/WrapperUtils/QnnWrapperUtils.cpp  ap
 ##writing jniLibs
 cp $QNN_SDK_ROOT/lib/hexagon-v73/unsigned/*.so app/src/main/jniLibs/arm64-v8a/
 cp $QNN_SDK_ROOT/lib/hexagon-v75/unsigned/*.so app/src/main/jniLibs/arm64-v8a/
+cp $QNN_SDK_ROOT/lib/hexagon-v79/unsigned/*.so app/src/main/jniLibs/arm64-v8a/
 cp $QNN_SDK_ROOT/lib/aarch64-android/*.so app/src/main/jniLibs/arm64-v8a/
