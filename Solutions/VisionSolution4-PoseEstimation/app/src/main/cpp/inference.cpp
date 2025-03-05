@@ -268,8 +268,8 @@ float*** execcomb(cv::Mat &img, int orig_width, int orig_height, int &numberofhu
         return nullptr;
     }
 
-    std::string name_out_boxes = "885";
-    std::string name_out_classes = "877";
+    std::string name_out_boxes = "893";
+    std::string name_out_classes = "885";
 
     bool execStatus = snpe_BB->execute(inputMap, outputMap);
     if(execStatus== true){

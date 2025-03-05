@@ -40,12 +40,12 @@ onnxsim enlighten.onnx enlighten_opt.onnx
 snpe-onnx-to-dlc -i enlighten_opt.onnx -d input 1,3,240,320 -o enlighten_fixed.dlc
 ```
 
-- For better performance on Snapdragon SM8650 model quantization is recommended. For quantization please keep the dlc, data and list.txt in one directory. 
+- For better performance on Snapdragon SM8750 model quantization is recommended. For quantization please keep the dlc, data and list.txt in one directory. 
 "data" has some raw input for model quantization.
 "list.txt" has names of all files in data directory
 
 ```python
-snpe-dlc-quantize --input_dlc enlighten_fixed.dlc --input_list list.txt --use_enhanced_quantizer --use_adjusted_weights_quantizer --axis_quant --output_dlc enlight_axisQ_cached.dlc --enable_htp --htp_socs sm8650
+snpe-dlc-quantize --input_dlc enlighten_fixed.dlc --input_list list.txt --use_enhanced_quantizer --use_adjusted_weights_quantizer --axis_quant --output_dlc enlight_axisQ_cached.dlc --enable_htp --htp_socs sm8750
 ```
 
 # Source Overview

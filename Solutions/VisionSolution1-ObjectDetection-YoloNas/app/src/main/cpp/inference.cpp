@@ -207,8 +207,8 @@ bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj,
         return false;
     }
 
-    std::string name_out_boxes = "885";
-    std::string name_out_classes =  "877";
+    std::string name_out_boxes = "893";
+    std::string name_out_classes =  "885";
 
     ATrace_endSection();
     gettimeofday(&start_time, NULL);
