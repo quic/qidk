@@ -60,7 +60,7 @@ This command converts Tensorflow frozen graph into DLC format, which DSP, GPU An
 
 #### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading time on DSP accelerator)
 ```
-snpe-dlc-graph-prepare --input_dlc frozen_models/electra_small_squad2.dlc --use_float_io --htp_archs v75 --set_output_tensors Identity:0,Identity_1:0
+snpe-dlc-graph-prepare --input_dlc frozen_models/electra_small_squad2.dlc --use_float_io --htp_archs v79 --set_output_tensors Identity:0,Identity_1:0
 ```
 A new DLC will get saved at `frozen_models` directory with name `electra_small_squad2_cached.dlc`. <br>
 

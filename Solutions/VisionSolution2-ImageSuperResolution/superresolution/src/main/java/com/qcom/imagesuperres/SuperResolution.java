@@ -29,14 +29,14 @@ import java.util.Set;
 
 public class SuperResolution {
     // Defining few model constants like input/output height widths.
-    static final Map<String, ModelConstants> modelConstants = new LinkedHashMap<String, ModelConstants>() {{
-        put("SuperResolution_sesr", new ModelConstants("Quant_SuperResolution_sesr",
-                128, 128, 256, 256, true, true));
-    }};
 //    static final Map<String, ModelConstants> modelConstants = new LinkedHashMap<String, ModelConstants>() {{
-//        put("SuperResolution_sesr", new ModelConstants("sesr_w8a8",
-//                128, 128, 512, 512, true, true));
+//        put("SuperResolution_sesr", new ModelConstants("Quant_SuperResolution_sesr",
+//                128, 128, 256, 256, true, true));
 //    }};
+    static final Map<String, ModelConstants> modelConstants = new LinkedHashMap<String, ModelConstants>() {{
+        put("SuperResolution_sesr", new ModelConstants("sesr_w8a8",
+                128, 128, 512, 512, true, true));
+    }};
     private ModelConstants model;
     private NeuralNetwork nNetwork;
     private String inputNameRGB;
