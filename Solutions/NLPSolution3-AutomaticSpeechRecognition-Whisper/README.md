@@ -102,6 +102,8 @@ cp -R snpe-release/jni/arm64-v8a Android_App_Whisper/app/src/main/jniLibs/
 mkdir -p Android_App_Whisper/app/src/main/assets
 cp Generate_Assets/*.dlc Android_App_Whisper/app/src/main/assets/
 cp Generate_Assets/*.dlc Android_App_Whisper/app/src/main/ml/
+cp Generate_Assets/openai-whisper/models/whisper-decoder-tiny.tflite Android_App_Whisper/app/src/main/ml/
+cp Generate_Assets/openai-whisper/models/whisper-decoder-tiny.tflite Android_App_Whisper/app/src/main/assets/
 ```
 
 6. Copy all snpe libraries to ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
@@ -109,18 +111,18 @@ cp Generate_Assets/*.dlc Android_App_Whisper/app/src/main/ml/
 	- Take SNPE_ROOT/lib/hexagon-v75 if you want to run it on Snapdragon 8th gen 3 device  <sm8650>
 	- Take SNPE_ROOT/lib/hexagon-v73 if you want to run it on Snapdragon 8th gen 2 device. <sm8550>
 ```java
-mkdir -p ./app/src/main/cmakeLibs/arm64-v8a
-cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so            ./app/src/main/cmakeLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so            ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpPrepare.so  ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV69Stub.so  ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV73Stub.so  ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV75Stub.so  ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV79Stub.so  ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/hexagon-v69/unsigned/libSnpeHtpV69Skel.so ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/hexagon-v73/unsigned/libSnpeHtpV73Skel.so ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/hexagon-v75/unsigned/libSnpeHtpV75Skel.so ./app/src/main/jniLibs/arm64-v8a/.
-cp $SNPE_ROOT/lib/hexagon-v79/unsigned/libSnpeHtpV79Skel.so ./app/src/main/jniLibs/arm64-v8a/.
+mkdir -p ./Android_App_Whisper/app/src/main/cmakeLibs/arm64-v8a
+cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so            ./Android_App_Whisper/app/src/main/cmakeLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so            ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpPrepare.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV69Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV73Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV75Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV79Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/hexagon-v69/unsigned/libSnpeHtpV69Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/hexagon-v73/unsigned/libSnpeHtpV73Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/hexagon-v75/unsigned/libSnpeHtpV75Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/hexagon-v79/unsigned/libSnpeHtpV79Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 ```
 
 * If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `src/main/cpp/CMakeList.txt` under `target_link_libraries` section and delete `libSnpe.so` from "jniLibs" directory.

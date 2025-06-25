@@ -131,6 +131,7 @@ you need to release the model after you are done with it.<br/>
 1. Clone QIDK repo. 
 2. Generate DLC using the steps mentioned above (enlight_axisQ_cached.dlc)
 3. Copy "snpe-release.aar" file from android folder in "Qualcomm Neural Processing SDK for AI" release from Qualcomm Developer Network into this folder : VisionSolution3-ImageEnhancement\snpe-release\
+   Command: cp $SNPE_ROOT/lib/android/snpe-release.aar snpe-release
 4. Copy DLC generated in step-2 at : VisionSolution3-ImageEnhancement\enhancement\src\main\assets\ (enlight_axisQ_cached.dlc)
 5. Import folder VisionSolution3-ImageEnhancement as a project in Android Studio 
 6. Compile the project. 

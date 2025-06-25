@@ -30,7 +30,14 @@ Question Answering (QA) is one of the common and challenging Natural Language Pr
 * Android Studio to import and build the project
 
 * [Qualcomm® Neural Processing Engine for AI SDK] v2.x.x and its [dependencies](https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412) to integrate and accelerate the network on Snapdragon<br>
-  
+
+* Ensure the following dependencies are included to download and use the model
+```
+pip install --upgrade pip setuptools
+pip install tensorflow==2.10.1
+pip install transformers==4.35.2 tokenizers==0.14.1 regex==2023.10.3
+pip install sacrebleu==2.3.1 colorama
+```
 
 ## Quick Start
 
