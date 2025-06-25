@@ -21,6 +21,10 @@ rm -r OpenCV-android-sdk
 mkdir -p ./app/src/main/cpp/inc/zdl/
 cp -R $SNPE_ROOT/include/SNPE/* ./app/src/main/cpp/inc/zdl/
 
+#Copy Model binaries 
+mkdir -p ./app/src/main/assets
+cp -R models/*.dlc ./app/src/main/assets/
+
 #Steps to paste files in JNI
 ##copying snpe-release.aar file
 mkdir snpe-release

@@ -13,21 +13,25 @@ mkdir sdk
 mv OpenCV-android-sdk/sdk/* sdk
 rm -r OpenCV-android-sdk
 
-mkdir -p app/src/main/jniLibs/arm64-v8a
+# Copy Model binaries
 mkdir -p app/src/main/assets
-
+mkdir -p app/src/main/jniLibs/arm64-v8a
+cp output_cpu/aarch64-android/libyolo_nas_w8a8.so app/src/main/assets
+cp output_dsp/aarch64-android/libyolo_nas_w8a8_dsp.so app/src/main/assets
+cp output_cpu/aarch64-android/libyolo_nas_w8a8.so app/src/main/jniLibs/arm64-v8a
+cp output_dsp/aarch64-android/libyolo_nas_w8a8_dsp.so app/src/main/jniLibs/arm64-v8a
 
 # Check if QNN_SDK_ROOT is set ?
 [ -z "$QNN_SDK_ROOT" ] && echo "QNN_SDK_ROOT not set" && exit -1 || echo "QNN_SDK_ROOT Root = ${QNN_SDK_ROOT}"
 
-cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/src/Log   app/src/main/cpp/
-cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/src/Utils app/src/main/cpp/
-cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/src/PAL   app/src/main/cpp/
+cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/Log   app/src/main/cpp/
+cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/Utils app/src/main/cpp/
+cp -R $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/PAL   app/src/main/cpp/
 cp -R $QNN_SDK_ROOT/include/QNN                      app/src/main/cpp/
-cp $QNN_SDK_ROOT/examples/QNN/SampleApp/src/QnnTypeMacros.hpp  app/src/main/cpp/include/
-cp $QNN_SDK_ROOT/examples/QNN/SampleApp/src/WrapperUtils/QnnWrapperUtils.hpp  app/src/main/cpp/include/
+cp $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/QnnTypeMacros.hpp  app/src/main/cpp/include/
+cp $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/WrapperUtils/QnnWrapperUtils.hpp  app/src/main/cpp/include/
 mv app/src/main/cpp/QNN/*.h app/src/main/cpp/include/
-cp $QNN_SDK_ROOT/examples/QNN/SampleApp/src/WrapperUtils/QnnWrapperUtils.cpp  app/src/main/cpp/src/
+cp $QNN_SDK_ROOT/examples/QNN/SampleApp/SampleApp/src/WrapperUtils/QnnWrapperUtils.cpp  app/src/main/cpp/src/
 
 ##writing jniLibs
 cp $QNN_SDK_ROOT/lib/hexagon-v73/unsigned/*.so app/src/main/jniLibs/arm64-v8a/

@@ -5,7 +5,7 @@
 - Current project is an sample Android application for AI-based Image Super Resolution using <b>Qualcomm® Neural Processing SDK for AI </b> framework. 
 - Model used in this sample is : **Collapsible Linear Blocks for Super-Efficient Super Resolution** (*https://arxiv.org/abs/2103.09404*)
 - SESR model is also part of AIMET Model Zoo (*https://github.com/quic/aimet-model-zoo/#pytorch-model-zoo*)
-- This sample enhances input image resolution by 2x along width, and height. If input resolution is wxh, output resolution will be 2*w x 2*h
+- This sample enhances input image resolution by 4x along width, and height. If input resolution is wxh, output resolution will be 4*w x 4*h
 - DLC models take only fixed input size. 
 - If users intend to modify the input size and/or scale factor of the above model, they need to regenerate model DLC using AI SDK (steps given below)
 - If users intend to use a different model in this demo framework, **image pre/post processing will be needed**. 
@@ -41,7 +41,9 @@ Source : *https://arxiv.org/pdf/2103.09404.pdf*
 
 ### How to change the model? 
 
-- As mentioned above, current sample is packaged with 128x128 input resolution, and 2x upscale. i.e., output is 256x256 
+- As mentioned above, current sample is packaged with 128x128 input resolution, and 4x upscale. i.e., output is 512x512
+  1. Input Dimensions and Resolution: WidthxHeight = 128x128 Format = RGB
+  2. Output Dimensions and Resolution: WidthxHeight = 512x512 Format = RGB 
 - If user wants to try with other resolution/upscale factor they need to download respective pre-trained weights from AIMET and generate DLC using above steps. 
 - If user wants to try with a different model, then user needs to ensure if the pre-post processing done for SESR is applicable for the new model and modify accordingly. 
 
@@ -132,7 +134,9 @@ you need to release the model after you are done with it.<br/>
 1. Clone QIDK repo. 
 2. Generate DLC using the steps mentioned above (super_resolution_sesr_opt.dlc)
 3. Copy "snpe-release.aar" file from android folder in "Qualcomm Neural Processing SDK for AI" release from Qualcomm Developer Network into this folder : VisionSolution2-ImageSuperResolution\snpe-release\
+   Command: cp $SNPE_ROOT/lib/android/snpe-release.aar snpe-release
 4. Copy DLC generated from the notebook at : VisionSolution2-ImageSuperResolution\superresolution\src\main\assets\ (super_resolution_sesr_opt.dlc)
+   Command: cp -R Genarate_Model/models/*.dlc ./superresolution/src/main/assets/
 5. Import folder VisionSolution2-ImageSuperResolution as a project in Android Studio 
 6. Compile the project. 
 7. Output APK file should get generated : superresolution-debug.apk

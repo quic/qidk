@@ -207,8 +207,8 @@ bool executeDLC(cv::Mat &img, int orig_width, int orig_height, int &numberofobj,
     }
 
     //TODO Need to take from model, Output value might change.
-    std::string name_out_boxes = "5842";
-    std::string name_out_classes =  "5850";
+    std::string name_out_boxes = "5860";
+    std::string name_out_classes =  "5867";
 
     ATrace_endSection();
     gettimeofday(&start_time, NULL);

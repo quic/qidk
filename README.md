@@ -12,6 +12,8 @@ This repository contains sample android applications, which are designed to use 
    Also referred to as QNN
 3. [AI Model Efficiency Tool Kit (AIMET)](https://github.com/quic/aimet)
 4. [AIMET Model Zoo](https://github.com/quic/aimet-model-zoo)
+5. [Android Studio]: (Download link: https://developer.android.com/studio/archive)
+   The recommended version of Android Studio for compiling QIDK Android application is Android Studio Dolphin Version 2021.3.1 Beta 1
 
 Contents of this repository are verified on Snapdragon 8 Gen2, and Snapdragon 8 Gen3 platforms. 
 If users want to try this content on other Qualcomm platforms - please do check with the support e-mail mentioned below. 
@@ -32,7 +34,7 @@ All QIDK deliverables are covered in this course in detail with hands-on lab ses
 
 Please note the change in steps to download AI SDK (Steps in QWA course will be modified later)
 Users need to follow below procedure do download AI SDK. 
-1. Download sdk from this link https://softwarecenter.qualcomm.com/api/download/software/qualcomm_neural_processing_sdk/v2.25.0.240728.zip
+1. Download sdk from this link https://softwarecenter.qualcomm.com/api/download/software/sdks/Qualcomm_AI_Runtime_Community/All/2.35.0.250530/v2.35.0.250530.zip
 
 Or
 
@@ -74,15 +76,15 @@ Contain end-to-end ready-to-run solutions
 
 |   Type     | Solution   |   SDK   |sdk version|   API   | Model   |   ReadMe |  Demo   |
 |  :---:     |    :---:   |    :---:  |    :---:  |    :---:  |    :---:  |   :---:  |  :---:  |
-|  NLP       | Question Answering       |  Neural Processing SDK | v2.25.0 |Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
-|  NLP       | Sentiment Analysis       |  Neural Processing SDK | v2.25.0 | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
-|  NLP       | ASR  | Neural Processing SDK | v2.25.0 | Native API | Whisper | [ReadMe](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md) | [Demo](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md#Result) |                   
+|  NLP       | Question Answering       |  Neural Processing SDK | v2.35.0 |Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
+|  NLP       | Sentiment Analysis       |  Neural Processing SDK | v2.35.0 | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
+|  NLP       | ASR  | Neural Processing SDK | v2.35.0 | Native API | Whisper | [ReadMe](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md) | [Demo](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md#Result) |                   
 |  Vision    | Object Detection       |  Neural Processing SDK | v2.10.0 |   Java API  | Mobilenet SSD V2    | [ReadMe](./Solutions/VisionSolution1-ObjectDetection/README.md) |   [Demo](./Solutions/VisionSolution1-ObjectDetection/demo/ObjectDetection-Demo.gif)   |
-|  Vision    | Object Detection YoloNAS | Neural Processing SDK | v2.25.0 | Native API | YoloNAS| [ReadMe](./Solutions/VisionSolution1-ObjectDetection-YoloNas/README.md)| [Demo](./Solutions/VisionSolution1-ObjectDetection-YoloNas/demo/ObjectDetectYoloNAS.gif)|
-|  Vision    | Image Super Resolution       |Neural Processing SDK | v2.25.0 |   Java API | SESR XL    | [ReadMe](./Solutions/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./Solutions/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
-|  Vision    | Image Enhancement       |Neural Processing SDK | v2.25.0 |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
-|  Vision    | Pose Estimation |Neural Processing SDK| v2.25.0 | Native API|YoloNAS + HRNet| [ReadMe](./Solutions/VisionSolution4-PoseEstimation/README.md)|[Demo](./Solutions/VisionSolution4-PoseEstimation/demo/PoseDetectionYoloNas.gif)|
-|  Vision    | Detection Transformer | Neural Processing SDK | v2.25.0 | Native API | DETR | [ReadMe](./Solutions/VisionSolution1-ObjectDetection-DETR/README.md) | [Demo](./Solutions/VisionSolution1-ObjectDetection-DETR/demo/ObjectDetectDETR.avi)|
+|  Vision    | Object Detection YoloNAS | Neural Processing SDK | v2.35.0 | Native API | YoloNAS| [ReadMe](./Solutions/VisionSolution1-ObjectDetection-YoloNas/README.md)| [Demo](./Solutions/VisionSolution1-ObjectDetection-YoloNas/demo/ObjectDetectYoloNAS.gif)|
+|  Vision    | Image Super Resolution       |Neural Processing SDK | v2.35.0 |   Java API | SESR XL    | [ReadMe](./Solutions/VisionSolution2-ImageSuperResolution/README.md) |   [Demo](./Solutions/VisionSolution2-ImageSuperResolution/demo/VisionSolution2-ImageSuperResolution.gif)   |
+|  Vision    | Image Enhancement       |Neural Processing SDK | v2.35.0 |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
+|  Vision    | Pose Estimation |Neural Processing SDK| v2.35.0 | Native API|YoloNAS + HRNet| [ReadMe](./Solutions/VisionSolution4-PoseEstimation/README.md)|[Demo](./Solutions/VisionSolution4-PoseEstimation/demo/PoseDetectionYoloNas.gif)|
+|  Vision    | Detection Transformer | Neural Processing SDK | v2.35.0 | Native API | DETR | [ReadMe](./Solutions/VisionSolution1-ObjectDetection-DETR/README.md) | [Demo](./Solutions/VisionSolution1-ObjectDetection-DETR/demo/ObjectDetectDETR.avi)|
 
 ## Tools
 
@@ -91,7 +93,7 @@ Contain tools to simplify workflow
 |   Tool    | SDK   | Version   |   Details   |   Link |
 |  :---:    |    :---:   |    :---:   |    :---:  |   :---:  |
 |  PySNPE   | Neural Processing SDK  | - |Python Interface to SDK tools | [ReadMe](./Tools/pysnpe_utils/README.md) |
-|  snpe_qnn_docker    | Neural Processing SDK <br>&<br> AI Engine Direct  | 2.25.0+ | Docker container for SDK | [ReadMe](./Tools/snpe_qnn_docker/README.md) |
+|  snpe_qnn_docker    | Neural Processing SDK <br>&<br> AI Engine Direct  | 2.35.0+ | Docker container for SDK | [ReadMe](./Tools/snpe_qnn_docker/README.md) |
 |  snpe-helper    | Neural Processing SDK  |  - |Python wrapper for C++ API | [ReadMe](./Tools/snpe-helper/README.md) |
 
 ## Report Issues

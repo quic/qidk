@@ -30,10 +30,16 @@ Sentiment Analysis(SA) is a [natural language processing](https://en.wikipedia.o
 
 ## Prerequisites
 * Android Studio to import and build the project
-* Python 3.6, PyTorch 1.10.1, Tensorflow 2.6.2, Transformers 4.18.0, Datasets 2.4.0 to prepare and validate the model<br>
 
 * Qualcomm® Neural Processing Engine for AI SDK v2.x.x and its [dependencies](https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-2/setup.html?product=1601111740010412) to integrate and accelerate the network on Snapdragon<br>
- 
+
+* Ensure the following dependencies to prepare and validate the model
+```
+pip install --upgrade pip setuptools
+pip install tensorflow==2.10.1
+pip install transformers==4.35.2 tokenizers==0.14.1 regex==2023.10.3
+pip install sacrebleu==2.3.1 colorama
+```
 
 ## Quick Start
 
