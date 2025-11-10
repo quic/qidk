@@ -30,6 +30,7 @@ public class QNNHelper {
     public native String queryRuntimes(String backend);
     public native String initQNN(AssetManager assetManager, String backend, String model_name,String nativeDirPath);
     public native int inferQNN(long inputmataddress, int width,int height, float[][]boxcoords, String[] classname);
+    public native int deinitQNN();
 
 
     /**
@@ -106,6 +107,12 @@ public class QNNHelper {
                 e.printStackTrace();
         }
 
+        return result;
+    }
+
+    public int unloadQNN() {
+        int result = 0;
+        result = deinitQNN();
         return result;
     }
 

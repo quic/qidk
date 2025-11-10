@@ -59,13 +59,21 @@ sample_app::QnnSampleApp::QnnSampleApp(QnnFunctionPointers qnnFunctionPointers,
 
 sample_app::QnnSampleApp::~QnnSampleApp() {
   // Free Profiling object if it was created
+  if (m_graphsInfo) {
+    m_qnnFunctionPointers.freeGraphInfoFnHandle(&m_graphsInfo, m_graphsCount);
+    m_graphsInfo = nullptr;
+    m_graphsCount = 0;
+  }
+
   if (nullptr != m_profileBackendHandle) {
 //    LOGI("Freeing backend profile object.");
     if (QNN_PROFILE_NO_ERROR !=
         m_qnnFunctionPointers.qnnInterface.profileFree(m_profileBackendHandle)) {
 //      LOGE("Could not free backend profile handle.");
     }
+    m_profileBackendHandle = nullptr;
   }
+
   // Free context if not already done
   if (m_isContextCreated) {
 //    LOGI("Freeing context");
@@ -74,6 +82,7 @@ sample_app::QnnSampleApp::~QnnSampleApp() {
 //      LOGE("Could not free context");
     }
   }
+
   m_isContextCreated = false;
   // Terminate backend
   if (m_isBackendInitialized && nullptr != m_qnnFunctionPointers.qnnInterface.backendFree) {
@@ -725,16 +734,19 @@ sample_app::StatusCode sample_app::QnnSampleApp::executeGraphs(float32_t* input_
           float32_t* floatBuffer = nullptr;
           size_t elementCount = datautil::calculateElementCount(output_dims[outputIdx]);
           float32_t** buffer = &floatBuffer;
-              *buffer = (float32_t*)malloc(elementCount * sizeof(float32_t));
-              if (nullptr == *buffer) {
-                __android_log_print(ANDROID_LOG_ERROR, "QNN ", "mem alloc failed for *buffer\n");
-                  return StatusCode::FAILURE;
-              }
+
+          *buffer = (float32_t*)malloc(elementCount * sizeof(float32_t));
+          if (nullptr == *buffer) {
+              __android_log_print(ANDROID_LOG_ERROR, "QNN ", "mem alloc failed for *buffer\n");
+              return StatusCode::FAILURE;
+          }
+
           if (StatusCode::SUCCESS != returnStatus) {
               __android_log_print(ANDROID_LOG_ERROR, "QNN ", "failure in allocateBuffer<float>\n");
               return StatusCode::FAILURE;
           }
-            Qnn_Tensor_t* tensor = output;
+
+          Qnn_Tensor_t* tensor = output;
           float32_t** out = &floatBuffer;
             switch (QNN_TENSOR_GET_DATA_TYPE(tensor)) {
               case QNN_DATATYPE_UFIXED_POINT_8:
@@ -893,8 +905,21 @@ sample_app::StatusCode sample_app::QnnSampleApp::executeGraphs(float32_t* input_
               outputFilePrefix = std::string(QNN_TENSOR_GET_NAME(outputs[outputIdx]));
             }
 
-            output_buffer[outputIdx]  = cv::Mat(output_dims[outputIdx][1], output_dims[outputIdx][2], CV_32FC1, reinterpret_cast<uchar*>(bufferToWrite));
-          }
+            //output_buffer[outputIdx]  = cv::Mat(output_dims[outputIdx][1], output_dims[outputIdx][2], CV_32FC1, reinterpret_cast<uchar*>(bufferToWrite));
+            output_buffer[outputIdx] = cv::Mat(output_dims[outputIdx][1], output_dims[outputIdx][2], CV_32FC1);
+            if (bufferToWrite != nullptr) {
+                if (output_buffer[outputIdx].data == nullptr) {
+                    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "mat.data is NULL\n");
+                    break;
+                }
+
+                std::memcpy(output_buffer[outputIdx].ptr<float32_t>(), static_cast<float32_t*>(bufferToWrite),
+                            output_dims[outputIdx][1] * output_dims[outputIdx][2] * sizeof(float32_t));
+
+                free(bufferToWrite);
+            }
+
+      }
           //////////////////
 
           }
@@ -911,6 +936,70 @@ sample_app::StatusCode sample_app::QnnSampleApp::executeGraphs(float32_t* input_
     }
   }
     __android_log_print(ANDROID_LOG_ERROR, "QNN ", "executegraph done returnstatus %d\n", returnStatus);
+  return returnStatus;
+}
+
+
+sample_app::StatusCode sample_app::QnnSampleApp::deinitialize() {
+  auto returnStatus = StatusCode::SUCCESS;
+  // Free Profiling object if it was created
+  __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug deinitialize --- start\n");
+  if (m_graphsInfo) {
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug freeGraphInfoFnHandle\n");
+    m_qnnFunctionPointers.freeGraphInfoFnHandle(&m_graphsInfo, m_graphsCount);
+    m_graphsInfo = nullptr;
+    m_graphsCount = 0;
+  }
+
+  if (nullptr != m_profileBackendHandle) {
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug Freeing backend profile object\n");
+    if (QNN_PROFILE_NO_ERROR !=
+       m_qnnFunctionPointers.qnnInterface.profileFree(m_profileBackendHandle)) {
+       //LOGE("Could not free backend profile handle.");
+    }
+    m_profileBackendHandle = nullptr;
+  }
+  // Free context if not already done
+
+  if (m_isContextCreated) {
+    //  LOGI("Freeing context");
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug Freeing context\n");
+    if (QNN_CONTEXT_NO_ERROR !=
+        m_qnnFunctionPointers.qnnInterface.contextFree(m_context, nullptr)) {
+       //LOGE("Could not free context");
+       }
+  }
+
+  m_isContextCreated = false;
+  // Terminate backend
+  if (m_isBackendInitialized && nullptr != m_qnnFunctionPointers.qnnInterface.backendFree) {
+    //  LOGI("Freeing backend");
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug backendFree\n");
+
+    if (QNN_BACKEND_NO_ERROR != m_qnnFunctionPointers.qnnInterface.backendFree(m_backendHandle)) {
+      //LOGE("Could not free backend");
+    }
+  }
+  m_isBackendInitialized = false;
+
+  // Terminate logging in the backend
+  if (nullptr != m_qnnFunctionPointers.qnnInterface.logFree && nullptr != m_logHandle) {
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug logFree\n");
+    if (QNN_SUCCESS != m_qnnFunctionPointers.qnnInterface.logFree(m_logHandle)) {
+       //LOGW("Unable to terminate logging in the backend.");
+    }
+  }
+
+  if (nullptr != m_qnnFunctionPointers.qnnInterface.deviceFree) {
+    auto qnnStatus = m_qnnFunctionPointers.qnnInterface.deviceFree(m_deviceHandle);
+    if (QNN_SUCCESS != qnnStatus && QNN_DEVICE_ERROR_UNSUPPORTED_FEATURE != qnnStatus) {
+     //  LOGE("Failed to free device");
+     return verifyFailReturnStatus(qnnStatus);
+    }
+  }
+
+  __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug deinitialize --- end\n");
+
   return returnStatus;
 }
 
