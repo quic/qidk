@@ -63,6 +63,8 @@ class QnnSampleApp {
 
   StatusCode freeContext();
 
+  StatusCode deinitialize();
+
   StatusCode terminateBackend();
 
   StatusCode freeGraphs();

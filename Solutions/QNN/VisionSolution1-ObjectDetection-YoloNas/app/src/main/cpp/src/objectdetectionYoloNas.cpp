@@ -150,6 +150,9 @@ Java_com_qcom_aistack_1objdetect_QNNHelper_initQNN(JNIEnv *env, jobject thiz, jo
     result += "\n\nBuilding Models Network:\n";
     result += build_network(model_string.c_str(),backend_string.c_str(), bin_buffer, bin_size);
     result += " success ";
+    if (bin_buffer != nullptr) {
+       free(bin_buffer);
+    }
 
     return env->NewStringUTF(result.c_str());
 }
@@ -201,3 +204,13 @@ Java_com_qcom_aistack_1objdetect_QNNHelper_inferQNN(JNIEnv *env, jobject thiz, j
     return numberofobj;
 
 }
+
+//inference
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_qcom_aistack_1objdetect_QNNHelper_deinitQNN() {
+    int result = 0;
+    result = deinitQNN();
+    return result;
+}
+
