@@ -77,6 +77,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 
@@ -103,6 +104,7 @@ public class CameraFragment extends Fragment
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
+    private boolean hasResumedOnce = false;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -210,12 +212,14 @@ public class CameraFragment extends Fragment
         public void onDisconnected(@NonNull CameraDevice cameraDevice) {
             mCameraOpenCloseLock.release();
             cameraDevice.close();
+            System.out.println("vdebug ==>onDisconnected cameraDevice.close()");
             mCameraDevice = null;
         }
 
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int error) {
             mCameraOpenCloseLock.release();
+            System.out.println("vdebug ==>onError cameraDevice.close()");
             cameraDevice.close();
             mCameraDevice = null;
             Activity activity = getActivity();
@@ -245,6 +249,13 @@ public class CameraFragment extends Fragment
      */
     private Handler mBackgroundHandler;
 
+    /**
+     * Inference thread (separate from Camera2 background thread)
+     */
+    private HandlerThread mInferenceThread;         
+    private Handler mInferenceHandler;              
+    private final AtomicBoolean mInferenceRunning = new AtomicBoolean(false);
+    private volatile boolean mInferenceStop = false;
     /**
      * An {@link ImageReader} that handles still image capture.
      */
@@ -456,25 +467,28 @@ public class CameraFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("onResume camerafragment");
+        if (!hasResumedOnce) {
+            startBackgroundThread();
 
-        startBackgroundThread();
-
-        // When the screen is turned off and turned back on, the SurfaceTexture is already
-        // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
-        // a camera and start preview from here (otherwise, we wait until the surface is ready in
-        // the SurfaceTextureListener).
-        if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
-        } else {
-            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+            // When the screen is turned off and turned back on, the SurfaceTexture is already
+            // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
+            // a camera and start preview from here (otherwise, we wait until the surface is ready in
+            // the SurfaceTextureListener).
+            if (mTextureView.isAvailable()) {
+                openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            } else {
+                mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+            }
+            ensureNetCreated();
+            startInferenceThread();
         }
-
-        ensureNetCreated();
-
     }
 
     @Override
     public void onPause() {
+        System.out.println("onPause");
+        stopInferenceThread();  
         closeCamera();
         stopBackgroundThread();
         super.onPause();
@@ -482,6 +496,8 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onDestroy() {
+        System.out.println("onDestroy");
+        stopInferenceThread();  
         stopBackgroundThread();
         closeCamera();
         super.onDestroy();
@@ -646,14 +662,21 @@ public class CameraFragment extends Fragment
         try {
             mCameraOpenCloseLock.acquire();
             if (null != mCaptureSession) {
-                mCaptureSession.close();
-                mCaptureSession = null;
+                System.out.println("vdebug mCaptureSession.close");
+                try {
+                    mCaptureSession.stopRepeating();
+                    mCaptureSession.abortCaptures();
+                    mCaptureSession.close();
+                    mCaptureSession = null;
+                } catch (CameraAccessException e) { e.printStackTrace(); }
             }
             if (null != mCameraDevice) {
+                System.out.println("vdebug mCameraDevice.close");
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
             if (null != mImageReader) {
+                System.out.println("vdebug mImageReader.close");
                 mImageReader.close();
                 mImageReader = null;
             }
@@ -668,23 +691,52 @@ public class CameraFragment extends Fragment
      * Starts a background thread and its {@link Handler}.
      */
     private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        System.out.println("vdebug startBackgroundThread");
+        stopBackgroundThread();
+        if (mBackgroundThread == null && mBackgroundHandler == null) {
+            mBackgroundThread = new HandlerThread("CameraBackground");
+            mBackgroundThread.start();
+            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        }
     }
 
     /**
      * Stops the background thread and its {@link Handler}.
      */
     private void stopBackgroundThread() {
-
-        if (mBackgroundThread!=null) {
-
+        if (mBackgroundThread != null) {
+            System.out.println("vdebug stopBackgroundThread start");
+            mNetworkLoaded = false;
             mBackgroundThread.quitSafely();
+            try {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+                if (mQnnHelper != null) { mQnnHelper.unloadQNN(); }
+            } catch (InterruptedException e) { e.printStackTrace(); }
+            System.out.println("vdebug stopBackgroundThread end");
+        }
+    }
 
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
+    // ---------- Inference thread lifecycle ----------
+    private void startInferenceThread() {
+        if (mInferenceThread == null) {
+            mInferenceStop = false;
+            mInferenceThread = new HandlerThread("QNNInference", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            mInferenceThread.start();
+            mInferenceHandler = new Handler(mInferenceThread.getLooper());
+        }
+    }
 
+    private void stopInferenceThread() {
+        if (mInferenceThread != null) {
+            mInferenceStop = true;
+            if (mInferenceHandler != null) { mInferenceHandler.removeCallbacksAndMessages(null); }
+            mInferenceThread.quitSafely();
+            try { mInferenceThread.join(); } catch (InterruptedException ignored) {}
+            mInferenceThread = null;
+            mInferenceHandler = null;
+            mInferenceRunning.set(false);
         }
     }
 
@@ -693,6 +745,7 @@ public class CameraFragment extends Fragment
      */
     private void createCameraPreviewSession() {
         try {
+            System.out.println("vdebug createCameraPreviewSession");
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
             assert texture != null;
 
@@ -707,7 +760,6 @@ public class CameraFragment extends Fragment
                     = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
 
-            //Shubham
             try {
                 mCameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCapture(),
                         null);
@@ -1006,6 +1058,7 @@ public class CameraFragment extends Fragment
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                 // Flash is automatically enabled when necessary.
+                System.out.println("vdebug onConfigured cameraCaptureSession ");
                 setAutoFlash(mPreviewRequestBuilder);
                 // Finally, we start displaying the camera preview.
                 mPreviewRequest = mPreviewRequestBuilder.build();
@@ -1026,78 +1079,72 @@ public class CameraFragment extends Fragment
     private class CameraSession extends android.hardware.camera2.CameraCaptureSession.CaptureCallback {
 
         @Override
-        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull
-                CaptureRequest request, @NonNull TotalCaptureResult result) {
-
-            super.onCaptureCompleted(session, request, result);
-//            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-            frame_count+=1;
-
-            try {
-                if (frame_count == 0) {
-                    tic = System.currentTimeMillis();
-                } else {
-                    tic2 = System.currentTimeMillis();
-                    fps = (int) (1000 / (tic2 - tic));
-                    tic = System.currentTimeMillis();
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            System.out.println("mNetworkLoaded: "+mNetworkLoaded +" runtime_var: "+runtime_var+"  dlc_name_var: "+dlc_name_var);
-
-            if (mNetworkLoaded == true ) {
-
-                Bitmap mBitmap = mTextureView.getBitmap(mTextureView.getWidth(),mTextureView.getHeight());
-
-//                //TODO remove following as data is static right now
-//                InputStream originalFile;
-//                try{
-//                    originalFile = getActivity().getApplicationContext().getAssets().open("Sample1.jpg");
-//                    mBitmap = BitmapFactory.decodeStream(originalFile);
-//                    System.out.println("doing from image");
-//                } catch(IOException e) {
-//                    e.printStackTrace();
-//                }
-
-                ArrayList<RectangleBox> BBlist = new ArrayList<>();
-                System.out.println("calling inference");
-
-                int infer_result = mQnnHelper.qnnInference(mBitmap, fps, BBlist);
-
-                //sanjeev - added temp dialogue info box to graceful exit if model not loaded properly
-                if (infer_result == -1)
-                {
-                    if (dialog_model_error==null) {
-
-                        dialog_model_error = new ProgressDialog(getActivity());
-
-                        getActivity().runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                if (dialog_model_error!=null) {
-                                    try {
-                                        dialog_model_error.setMessage(getString(R.string.model_loading_error));
-                                        dialog_model_error.show();
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                        Toast.makeText(getContext(),getString(R.string.model_loading_error), Toast.LENGTH_SHORT).show();
+        public void onCaptureCompleted(@NonNull CameraCaptureSession session,
+                                       @NonNull CaptureRequest request,
+                                       @NonNull TotalCaptureResult result) {
+            long frameNo = result.getFrameNumber();
+            System.out.println("vdebug framenumber : " + frameNo);
+            frame_count += 1;
+            if (mNetworkLoaded) {
+                try {
+                    if (frame_count == 0) { tic = System.currentTimeMillis(); }
+                    else {
+                        tic2 = System.currentTimeMillis();
+                        fps = (int) (1000 / (tic2 - tic));
+                        tic = System.currentTimeMillis();
+                    }
+                } catch (Exception e) { e.printStackTrace(); }
+                // Offload heavy work to the inference thread; allow only one in flight
+                if (!mInferenceStop && mInferenceHandler != null && mInferenceRunning.compareAndSet(false, true)) {
+                    final int currentFps = fps;
+                    mInferenceHandler.post(new Runnable() {
+                        @Override public void run() {
+                            if (mInferenceStop) { mInferenceRunning.set(false); return; }
+                            Bitmap mBitmap = null;
+                            try {
+                                System.out.println("calling inference (async) for frameno: " +frameNo);
+                                mBitmap = mTextureView.getBitmap(mTextureView.getWidth(), mTextureView.getHeight());
+                                ArrayList<RectangleBox> BBlist = new ArrayList<>();
+                                int infer_result = mQnnHelper.qnnInference(mBitmap, currentFps, BBlist);
+                                if (infer_result == -1) {
+                                    if (dialog_model_error == null && getActivity() != null) {
+                                        dialog_model_error = new ProgressDialog(getActivity());
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override public void run() {
+                                                if (dialog_model_error != null) {
+                                                    try {
+                                                        dialog_model_error.setMessage(getString(R.string.model_loading_error));
+                                                        dialog_model_error.show();
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(getContext(), getString(R.string.model_loading_error), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                        });
                                     }
                                 }
+                                final ArrayList<RectangleBox> resultList = BBlist;
+                                final Activity activity = getActivity();
+                                if (activity != null) {
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override public void run() { mFragmentRender.setCoordsList(resultList); }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                if (mBitmap != null && !mBitmap.isRecycled()) {
+                                    //mBitmap.recycle();
+                                    System.out.println("bitmap freeed frameNo: "+frameNo);
+                                }
+                                mInferenceRunning.set(false);
                             }
-                        });
-
-                    }
-
+                        }
+                    });
                 }
-
-                mFragmentRender.setCoordsList(BBlist);
             }
+            System.out.println("vdebug framenumber : " + frameNo + "ended");
         }
 
         @Override

@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     static final char[] runtimeoptions = {'C', 'D'};
 
+    private boolean hasResumedOnce = false;
+
     Map<String, String> model_name = new HashMap<String, String>() {{
         put("libyolo_nas_w8a8.so", modeloptions[0]);
         //put("libyolo_nas_w8a8.so", modeloptions[0]);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate MainActivity");
         setContentView(R.layout.main_activity);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         OpenCVLoader.initDebug();
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         tv2_val.setText(runtime_name.get(runtime_char));
         tv3_val.setText(class_count.get(dlc_name));
 
-        overToCamera(runtime_var, dlc_name);
+        //overToCamera(runtime_var, dlc_name);
 
     }
 
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void overToCamera(String runtime_value, String selected_dlc_name) {
         Boolean passToFragment;
+        System.out.println("overToCamera MainActivity");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             passToFragment = MainActivity.this.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         }
@@ -158,7 +162,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        overToCamera(runtime_var, dlc_name);
+        System.out.println("onResume MainActivity");
+        if (!hasResumedOnce) {
+            hasResumedOnce = true;
+            overToCamera(runtime_var, dlc_name);
+        }
     }
 
     @Override

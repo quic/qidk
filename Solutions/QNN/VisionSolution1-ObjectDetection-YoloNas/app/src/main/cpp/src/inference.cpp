@@ -267,3 +267,9 @@ bool executeModel(cv::Mat &img, int orig_width, int orig_height, int &numberofob
     return true;
 }
 
+bool deinitQNN() {
+    __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug deinitqnn\n");
+    app->deinitialize();
+    return true;
+}
+

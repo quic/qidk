@@ -14,5 +14,6 @@
 std::string build_network(const char * modelPath, const char * backEndPath, char* buffer, long bufferSize);
 bool SetAdspLibraryPath(std::string nativeLibPath);
 bool executeModel(cv::Mat &img, int orig_width, int orig_height, int &numberofobj, std::vector<std::vector<float>> &BB_coords, std::vector<std::string> &BB_names, Model *modelobj);
+bool deinitQNN();
 
 #endif //OBJECTDETECTION_INFERENCE_H
