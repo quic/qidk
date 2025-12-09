@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Adding a gradient background for a more dynamic look -->
+    <gradient
+        android:startColor="@color/light_blue"
+        android:endColor="@color/dark_blue"
+        android:angle="45"/>
+
+    <!-- Adding rounded corners for a smoother appearance -->
+    <corners android:radius="15dp"/>
+
+    <!-- Keeping the stroke for a defined border -->
+    <stroke android:width="3dp" android:color="@color/dark_blue"/>
+
+    <!-- Adding padding for better spacing -->
+    <padding
+        android:left="5dp"
+        android:top="5dp"
+        android:right="5dp"
+        android:bottom="5dp"/>
+</shape>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple_light">#8E38B9</color>
+    <color name="purple_dark">#6715B9</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white_transparent">#40FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="settings_description_color">#CCFFFFFF</color>
+    <color name="blue">#3253DC</color>
+    <color name="light_blue">#7BA0FF</color>
+    <color name="dark_blue">#2842B0</color>
+    <color name="nickel">#E9EBEE</color>
+    <color name="gunmetal">#4A5A75</color>
+    <color name="gunmetal_light">#8393AA</color>
+    <color name="teal">#8BD1DD</color>
+    <color name="navigation_menu_color">#333333</color>
+    <color name="reset_button_color">#070F2C</color>
+    <color name="light_gray">#CCCCCC</color>
+    <color name="light_teal">#8BD1DD</color>
+    <color name="history_subtitle_color">#D9666666</color>
+    <color name="input_divider_color">#e0e0e0</color>
+    <color name="background_color">#2A2A2B</color>
+    <color name="listening_view_background">#1B1B1D</color>
+    <color name="dark_gray">#333333</color>
+    <color name="red">#E71324</color>
+</resources>

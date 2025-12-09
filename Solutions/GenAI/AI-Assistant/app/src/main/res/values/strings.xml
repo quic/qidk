@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AI_Assistant</string>
+    <string name="assistant_chat_title">AI Assistant</string>
+    <string name="ttft_title">TTFT: </string>
+    <string name="model_status">Model Status</string>
+    <string-array name="model_array">
+        <item>llama_v3_0_HTP</item>
+        <item>llama_v3_1_HTP</item>
+        <item>llama_v2_CPU</item>
+        <item>llama_v3_2_HTP</item>
+        <item>llama_v3_3_HTP</item>
+    </string-array>
+</resources>

@@ -1,0 +1,76 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/input_divider_color"
+    tools:context=".MainActivity">
+
+    <!-- Add Spinner for Model Selection -->
+    <Spinner
+        android:id="@+id/model_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:entries="@array/model_array"
+        android:spinnerMode="dropdown"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        android:backgroundTint="@color/dark_blue"
+        android:textColor="@color/white"
+        android:padding="8dp"
+        android:dropDownWidth="match_parent"
+        android:dropDownVerticalOffset="8dp"
+        android:dropDownHorizontalOffset="8dp"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/modelStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/model_status"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="@+id/model_spinner"
+        app:layout_constraintStart_toStartOf="@+id/model_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/model_spinner" />
+
+    <ProgressBar
+        android:id="@+id/model_loading_bar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/dark_blue"
+        android:paddingTop="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="@+id/modelStatusTextView"
+        app:layout_constraintStart_toStartOf="@+id/modelStatusTextView"
+        app:layout_constraintTop_toBottomOf="@+id/modelStatusTextView" />
+
+    <!-- Floating Action Button -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:enabled="false"
+        android:src="@drawable/round_add_box_24"
+
+        android:tint="@color/white"
+
+        app:backgroundTint="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/model_spinner"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/model_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/model_spinner" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,11 @@
               "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/src\/QnnSampleApp.cpp",
               "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/include\/SampleApp.hpp",
               "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/cpp\/include\/QnnSampleApp.hpp",
-              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qcom\/aistack_objdetect\/CameraFragment.java"
+              "Solutions\/QNN\/VisionSolution1-ObjectDetection-YoloNas\/app\/src\/main\/java\/com\/qcom\/aistack_objdetect\/CameraFragment.java",
+			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/main\/cpp\/genie\/GenieCommon.h",
+			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/main\/cpp\/genie\/GenieDialog.h",
+			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/test\/java\/com\/example\/ai_assistant_v1\/ExampleUnitTest.java",
+			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/androidTest\/java\/com\/example\/ai_assistant_v1\/ExampleInstrumentedTest.java",
             ]
           },
           "lineCount": 60,

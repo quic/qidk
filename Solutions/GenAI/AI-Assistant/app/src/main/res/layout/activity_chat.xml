@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ChatActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#94B9EC"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@null"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            >
+            <LinearLayout
+                android:id="@+id/chat_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/chat_back"
+                    android:background="@null"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="10dp"
+
+                    />
+                <ImageView
+                    android:id="@+id/chat_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/assistant_chat_icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="14"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chat_title_display"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/assistant_chat_title"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/kpi_data_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/time_display"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:text="N/A"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/clearcache_button"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clear_cache"
+                    android:background="@null"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/loading_animation_image"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/loading_animation"
+        android:visibility="invisible"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        app:layout_constrainedHeight="true"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+        app:layout_constraintBottom_toTopOf="@id/input_divider"/>
+
+    <View
+        android:id="@+id/input_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+       android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@id/layout_inputs" />
+
+
+    <RelativeLayout
+        android:id="@+id/layout_inputs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <LinearLayout
+            android:id="@+id/layout_input_query_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/text_input_assistant_background"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="9"
+                android:padding="1.5dp">
+
+                <EditText
+                    android:id="@+id/layout_input_query"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="7"
+                    android:background="@null"
+                    android:hint="Enter your prompt here"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/input_divider_color" />
+
+                <TextView
+                    android:id="@+id/char_count_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="0/256"
+                    android:textColor="@color/light_gray"
+                    android:paddingTop="2dp"
+                    android:layout_marginEnd="10dp"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/button_input_query"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1.3"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:padding="1dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/send_button" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
