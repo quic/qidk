@@ -56,15 +56,16 @@ torch.onnx.export(tiny_model.encoder,torch.randn(1,80,3000).to(device), "./whisp
 ```
 #### 1.4 Convert ONNX model to DLC(Deep Learning Container):
 ```
+cd Generate_Assets
 snpe-onnx-to-dlc -i whisper_encoder.onnx -d x.1 1,80,3000 -o whisper_tiny_encoder_fp32.dlc
 ```
 
 ###### <i>(you can add outputTensor name in the above command, please check SNPE Document for more information. Please check once by visualizing graph using Netron viewer or any other visualization tools )</i> <br>
 
 
-#### 1.4 Quantization with caching of DLC (for optimizing model loading time on DSP accelerator)
+#### 1.4 Quantization with caching of DLC (for optimizing model loading time on DSP accelerator: for 8750 --htp_socs sm8750, for 8850 --htp_socs sm8850)
 ```
-snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.txt  --optimizations cle --axis_quant --output_dlc whisper_tiny_encoder_w8a16.dlc --weights_bitwidth 8 --act_bitwidth 16 --enable_htp --htp_socs sm8650
+snpe-dlc-quantize --input_dlc whisper_tiny_encoder_fp32.dlc --input_list list.txt  --optimizations cle --axis_quant --output_dlc whisper_tiny_encoder_w8a16.dlc --weights_bitwidth 8 --act_bitwidth 16 --enable_htp --htp_socs sm8850
 
 ```
 #### 1.5 Getting the Decoder TFLite Model
@@ -106,10 +107,11 @@ cp Generate_Assets/openai-whisper/models/whisper-decoder-tiny.tflite Android_App
 cp Generate_Assets/openai-whisper/models/whisper-decoder-tiny.tflite Android_App_Whisper/app/src/main/assets/
 ```
 
-6. Copy all snpe libraries to ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
-	- Take SNPE_ROOT/lib/hexagon-v79 if you want to run it on Snapdragon 8th gen 4 device  <sm8750>
+6. Copy all snpe libraries to ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/ 
+	- Take SNPE_ROOT/lib/hexagon-v81 if you want to run it on Snapdragon 8 Elite gen 5 device  <sm8850> 
+	- Take SNPE_ROOT/lib/hexagon-v79 if you want to run it on Snapdragon 8 Elite gen 4 device  <sm8750>
 	- Take SNPE_ROOT/lib/hexagon-v75 if you want to run it on Snapdragon 8th gen 3 device  <sm8650>
-	- Take SNPE_ROOT/lib/hexagon-v73 if you want to run it on Snapdragon 8th gen 2 device. <sm8550>
+    - Take SNPE_ROOT/lib/hexagon-v73 if you want to run it on Snapdragon 8th gen 2 device. <sm8550>
 ```java
 mkdir -p ./Android_App_Whisper/app/src/main/cmakeLibs/arm64-v8a
 cp $SNPE_ROOT/lib/aarch64-android/libSNPE.so            ./Android_App_Whisper/app/src/main/cmakeLibs/arm64-v8a/
@@ -119,10 +121,12 @@ cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV69Stub.so  ./Android_App_Whisper/ap
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV73Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV75Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV79Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/aarch64-android/libSnpeHtpV81Stub.so  ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/hexagon-v69/unsigned/libSnpeHtpV69Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/hexagon-v73/unsigned/libSnpeHtpV73Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/hexagon-v75/unsigned/libSnpeHtpV75Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 cp $SNPE_ROOT/lib/hexagon-v79/unsigned/libSnpeHtpV79Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
+cp $SNPE_ROOT/lib/hexagon-v81/unsigned/libSnpeHtpV81Skel.so ./Android_App_Whisper/app/src/main/jniLibs/arm64-v8a/
 ```
 
 * If build process fails with `libSNPE.so` duplication error, then please change its path from "jniLibs" to "cmakeLibs" as follows : `${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/arm64-v8a/libSNPE.so` in `src/main/cpp/CMakeList.txt` under `target_link_libraries` section and delete `libSnpe.so` from "jniLibs" directory.

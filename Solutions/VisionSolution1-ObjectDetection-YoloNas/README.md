@@ -9,7 +9,10 @@ The project is designed to utilize the Qualcomm® Neural Processing SDK for AI, 
 
 ## List of Supported Devices
 
-- Snapdragon® SM8550
+- Snapdragon® 8 Elite Gen 5 <sm8850>
+- Snapdragon® 8 Elite <sm8750>
+- Snapdragon® 8 Gen 3 <sm8650>
+- Snapdragon® 8 Gen 2 <sm8550>
 
 The above targets supports the application with CPU, GPU and DSP. For more information on the supported devices, please follow this link 
 

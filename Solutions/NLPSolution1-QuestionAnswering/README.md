@@ -65,7 +65,7 @@ This command converts Tensorflow frozen graph into DLC format, which DSP, GPU An
 ###### <i>(If you are using a different Tensorflow version to generate PB file, it may be a case that Output Layer names gets changed. Please check once by visualizing graph using Netron viewer or any other visualization tools )</i> <br>
 
 
-#### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading time on DSP accelerator)
+#### 1.4 Offline Preparation (caching) of DLC (for optimizing model loading time on DSP accelerator, for 8750 use --htp_archs v79, for 8850 use --htp_archs v81)
 ```
 snpe-dlc-graph-prepare --input_dlc frozen_models/electra_small_squad2.dlc --use_float_io --htp_archs v79 --set_output_tensors Identity:0,Identity_1:0
 ```

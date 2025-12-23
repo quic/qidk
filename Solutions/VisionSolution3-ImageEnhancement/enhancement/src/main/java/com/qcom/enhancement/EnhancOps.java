@@ -74,9 +74,9 @@ public class EnhancOps {
                     .setModel(modelData, modelSize)
                     .setCpuFallbackEnabled(true)
                     .setUseUserSuppliedBuffers(false)
-                    .setExecutionPriorityHint(NeuralNetwork.ExecutionPriorityHint.HIGH)
-                    .setInitCacheEnabled(true, "v73",context)
-                    .setPerformanceProfile(NeuralNetwork.PerformanceProfile.BURST);
+                    .setExecutionPriorityHint(NeuralNetwork.ExecutionPriorityHint.HIGH);
+                    //.setInitCacheEnabled(true, "v73",context)
+                    //.setPerformanceProfile(NeuralNetwork.PerformanceProfile.BURST);
             nNetwork = builder.build();
             System.out.println("Network built successfully.");
             modelData.close();

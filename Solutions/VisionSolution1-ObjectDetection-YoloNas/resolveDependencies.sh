@@ -38,3 +38,5 @@ cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV75Skel.so app/src/main/jni
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV75Stub.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV79Skel.so app/src/main/jniLibs/arm64-v8a/
 cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV79Stub.so app/src/main/jniLibs/arm64-v8a/
+cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV81Skel.so app/src/main/jniLibs/arm64-v8a/
+cp snpe-release/snpe-release/jni/arm64-v8a/libSnpeHtpV81Stub.so app/src/main/jniLibs/arm64-v8a/
