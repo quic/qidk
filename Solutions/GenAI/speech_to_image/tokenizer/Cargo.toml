@@ -1,0 +1,13 @@
+[package]
+name = "tokenizer"
+version = "0.1.0"
+edition = "2024"
+
+[target.aarch64-linux-android]
+linker = "aarch64-linux-android21-clang"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+tokenizers = "0.15"

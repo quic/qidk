@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">speech_to_image</string>
+    <string name="type_image_prompt">Type image prompt:</string>
+    <string name="send_button">send_button</string>
+    <string name="images_generator">Images generator</string>
+    <string name="generated_image_description">image generated from prompt</string>
+</resources>

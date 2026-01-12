@@ -52,6 +52,7 @@
 			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/main\/cpp\/genie\/GenieDialog.h",
 			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/test\/java\/com\/example\/ai_assistant_v1\/ExampleUnitTest.java",
 			  "Solutions\/GenAI\/AI-Assistant\/app\/src\/androidTest\/java\/com\/example\/ai_assistant_v1\/ExampleInstrumentedTest.java",
+			  "Solutions\/GenAI\/speech_to_image\/speech_to_image\/app\/src\/main\/cpp\/speech_to_image\/src\/Utils"
             ]
           },
           "lineCount": 60,

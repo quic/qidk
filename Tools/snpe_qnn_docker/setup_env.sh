@@ -31,15 +31,22 @@ function predownloadedndk() {
 }
 
 function setupenv() {
-	. /usr/venv/bin/activate
-	${QNN_SDK_ROOT}/bin/check-python-dependency
+	source /usr/venv/bin/activate
+    source ${QNN_SDK_ROOT}/bin/envsetup.sh
+    
+    echo "\n Checking Linux dependency \n"
+	sudo ${QNN_SDK_ROOT}/bin/check-linux-dependency.sh
+
+    ${QNN_SDK_ROOT}/bin/envcheck -c
+    
+    echo "\n Checking Python dependency \n"
+	python ${QNN_SDK_ROOT}/bin/check-python-dependency
 	pip3 install onnxruntime==1.16.1
-	. ${QNN_SDK_ROOT}/bin/check-linux-dependency.sh
-	. ${QNN_SDK_ROOT}/bin/envsetup.sh
-	${QNN_SDK_ROOT}/bin/envcheck -c
+	
 	export PATH=/usr/venv/lib/python3.10/site-packages/tensorflow:${PATH}
 	export PATH=/usr/venv/lib/python3.10/site-packages/onnx:${PATH}
 	export TENSORFLOW_HOME=/usr/venv/lib/python3.10/site-packages/tensorflow
+    echo "\n Setting up Android NDK \n"
 	if [[ -z "${ANDROID_NDK_ROOT}" ]]; then
 		read -p "Do you wish to download Android NDK (android-ndk-r26c-linux.zip)? Select [Y]es or [N]o " ndk
 		case $ndk in
@@ -98,34 +105,35 @@ function setupoptionalenv() {
 }
 
 
-if [[ -z "${QNN_SDK_ROOT}" ]]; then 
+# if [[ -z "${QNN_SDK_ROOT}" ]]; then 
 	
-	read -p "Enter the path of qnn sdk:" sdk_path #check if it is unziped or zipped
-
-	if [[ ! -d "$sdk_path" ]] && [[ ! -e "$sdk_path" ]]; then
-		echo "The entered path for QNN SDK does not exist"
-		read -p "Enter the path of qnn sdk:" sdk_path
-	fi
+read -p "Enter the path of qnn sdk:" sdk_path #check if it is unziped or zipped
+export QNN_SDK_ROOT=${sdk_path}
+    
+	# if [[ ! -d "$sdk_path" ]] && [[ ! -e "$sdk_path" ]]; then
+	# 	echo "The entered path for QNN SDK does not exist"
+	# 	read -p "Enter the path of qnn sdk:" sdk_path
+	# fi
 	
-	if (file ${sdk_path} | grep -o "Zip archive data" ) ; then
-		echo "unzipping the file"
-		unzip ${sdk_path} -d /usr/qnn_sdk
-		export QNN_SDK_ROOT=$(ls -d /usr/qnn_sdk/*)
-	else
-		export QNN_SDK_ROOT=${sdk_path}
-		# export SNPE_ROOT=${sdk_path}  #not_required sdk scripts are doing it already
-	fi
-	
-	setupenv
+	# if (file ${sdk_path} | grep -o "Zip archive data" ) ; then
+	# 	echo "unzipping the file"
+	# 	unzip ${sdk_path} -d /usr/qnn_sdk
+	# 	export QNN_SDK_ROOT=$(ls -d /usr/qnn_sdk/*)
+	# else
+	# 	export QNN_SDK_ROOT=${sdk_path}
+	# 	# export SNPE_ROOT=${sdk_path}  #not_required sdk scripts are doing it already
+	# fi
+echo "\n Calling function to setup SDK and NDK \n\n"
+setupenv
 	# setupoptionalenv
 	
-	echo "SDK path is set to $QNN_SDK_ROOT"
-	sed -i '/[. /setup_env.sh]/d' ~/.bashrc
-	echo "export QNN_SDK_ROOT=${QNN_SDK_ROOT}" >> ~/.bashrc
-	echo "export ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT}" >> ~/.bashrc
-	if [[ "${HEXAGON_SDK_ROOT}" ]]; then
-		echo "export HEXAGON_SDK_ROOT=${HEXAGON_SDK_ROOT}" >> ~/.bashrc
-	fi
+echo "SDK path is set to $QNN_SDK_ROOT"
+sed -i '/[. /setup_env.sh]/d' ~/.bashrc
+echo "export QNN_SDK_ROOT=${QNN_SDK_ROOT}" >> ~/.bashrc
+echo "export ANDROID_NDK_ROOT=${ANDROID_NDK_ROOT}" >> ~/.bashrc
+if [[ "${HEXAGON_SDK_ROOT}" ]]; then
+    echo "export HEXAGON_SDK_ROOT=${HEXAGON_SDK_ROOT}" >> ~/.bashrc
+fi
 	# if [[ "${QNX_HOST}" ]]; then
 	# 	echo "export QNX_HOST=${QNX_HOST}" >> ~/.bashrc
 	# 	echo "export QNX_TARGET=${QNX_TARGET}" >> ~/.bashrc
@@ -133,9 +141,9 @@ if [[ -z "${QNN_SDK_ROOT}" ]]; then
 	# if [[ "${QNN_AARCH64_LINUX_OE_GCC_93}" ]]; then
 	# 	echo "export QNN_AARCH64_LINUX_OE_GCC_93=${QNN_AARCH64_LINUX_OE_GCC_93}" >> ~/.bashrc
 	# fi
-	echo ". /setup_env.sh" >> ~/.bashrc
-else 
-	echo "SDK path is already set to $QNN_SDK_ROOT"
-	setupenv
-fi
-
+echo ". /setup_env.sh" >> ~/.bashrc
+# else 
+   
+# 	echo "SDK path is already set to $QNN_SDK_ROOT"
+# 	setupenv
+# fi
