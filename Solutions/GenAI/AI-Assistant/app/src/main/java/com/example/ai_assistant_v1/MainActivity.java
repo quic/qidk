@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        nativeDirPath = this.getApplication().getApplicationInfo().nativeLibraryDir;
+        //nativeDirPath = this.getApplication().getApplicationInfo().nativeLibraryDir;
+        nativeDirPath = "/data/local/tmp";
         Log.d(TAG,"native Dir Path: "+nativeDirPath);
         model_status=findViewById(R.id.modelStatusTextView);
         statusProgressBar=findViewById(R.id.model_loading_bar);
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modelSpinner.setAdapter(adapter);
+        //llama_v3_2_3b set as default
+        int defaultPos = adapter.getPosition("llama_v3_3_HTP");
+        modelSpinner.setSelection(defaultPos);
 
 
         // Disable the FAB

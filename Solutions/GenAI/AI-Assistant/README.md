@@ -21,7 +21,9 @@ accelerate LLMs using the Snapdragon NPU.
 
 ### Download LLM Model from AI HUB
 
-- Follow steps in this [LLM On-Device Deployment] (https://github.com/quic/ai-hub-apps/tree/main/tutorials/llm_on_genie) to setting up a Python environment with Qualcomm AI Hub Models.
+- Follow steps in this [LLM On-Device Deployment] (https://github.com/quic/ai-hub-apps/tree/main/tutorials/llm_on_genie) to "Setting up a Python environment with Qualcomm AI Hub Models".
+
+- Exporting the model requires approximately 40–80GB of space. You can specify the HOME and TMPDIR paths in the export command to store the intermediate data.
 
 - Run export script to get context binaries for Llama variants.
 
@@ -35,6 +37,8 @@ accelerate LLMs using the Snapdragon NPU.
 		
 		  ![genie_bundle files](assets/files_in_genie_bundle.jpg)
 	
+- Upon successful execution of the export command, the generated model artifacts will be stored in the genie_bundle directory.
+
 - Download and extract QAIRT SDK compatible with AI HUB based LLM model:
 
 	We recommend using same QAIRT SDK (also "QNN SDK" for older versions) version as the one used by AI Hub for generating QNN context binaries.
@@ -47,7 +51,6 @@ accelerate LLMs using the Snapdragon NPU.
 	Follow these steps to configure QAIRT SDKs for ChatApp
 	
 	Download and extract [Qualcomm® AI Runtime SDK](https://qpm.qualcomm.com/#/main/tools/details/Qualcomm_AI_Runtime_SDK) (see [QNN SDK](https://qpm.qualcomm.com/#/main/tools/details/qualcomm_ai_engine_direct) for older versions) for Linux.
-
 
 ## Build App
 
@@ -64,14 +67,14 @@ accelerate LLMs using the Snapdragon NPU.
 	export QAIRT_SDK_ROOT=<path to QAIRT version recommended for AI Hub LLM model>
 	```
 
-	### For Snapdragon 8 Gen 3
-	```
-	cp $QAIRT_SDK_ROOT/lib/hexagon-v75/unsigned/* genie_bundle
-	```
-
 	### For Snapdragon 8 Elite
 	```
 	cp $QAIRT_SDK_ROOT/lib/hexagon-v79/unsigned/* genie_bundle
+	```
+	
+	### For Snapdragon 8 Elite
+	```
+	cp $QAIRT_SDK_ROOT/lib/hexagon-v81/unsigned/* genie_bundle
 	```
 
 	### For all devices
@@ -82,10 +85,19 @@ accelerate LLMs using the Snapdragon NPU.
 
 3. Copy the json from genie_bundle to assets folder **GenAI\AI-Assistant\app\src\main\assets**
 	```
-	cp <path to exported genie_bundle>\genie_bundle\genie_config.json app\src\main\assets\<name according to llm model>.json
+	mkdir -p app/src/main/assets
+	mkdir -p app/src/main/jniLibs/arm64-v8a/
+	```	
+	copy model artifacts
+	```
+	cp <path to exported genie_bundle>\genie_bundle\genie_config.json app\src\main\assets\<name according to llm model>.json #example llama_v3_2_3b_chat_quantized.json
 	cp <path to exported genie_bundle>\genie_bundle\htp_backend_ext_config.json app\src\main\assets\
 	cp <path to exported genie_bundle>\genie_bundle\tokenizer.json app\src\main\assets\
 	```
+	copy QAIRT artifacts
+	```
+	source scritps/resolveDependencies.sh 
+	```	
 
 4. Now push all the artifacts to this folder   **./data/local/tmp/**
 	```
