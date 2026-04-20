@@ -70,4 +70,3 @@ Finally, Whisper models contain below bin:
 
     SM8850: V81  
     SM8750: V79
-    ```

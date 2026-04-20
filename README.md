@@ -76,7 +76,6 @@ Contain end-to-end ready-to-run solutions
 
 |   Type     | Solution   |   SDK   |sdk version|   API   | Model   |   ReadMe |  Demo   |
 |  :---:     |    :---:   |    :---:  |    :---:  |    :---:  |    :---:  |   :---:  |  :---:  |
-|  GenAI     | AI-Assistant       |  Qualcomm AI Runtime (QAIRT) | v2.40.0 |Native API | llama     |  [ReadMe](./Solutions/GenAI/AI-Assistant/README.md) |   [Demo](./Solutions/GenAI/AI-Assistant/demo/AI-Assistant.gif)   |
 |  NLP       | Question Answering       |  Qualcomm AI Runtime (QAIRT) | v2.40.0 |Native API | Electra-small     |  [ReadMe](./Solutions/NLPSolution1-QuestionAnswering/README.md) |   [Demo](./Solutions/NLPSolution1-QuestionAnswering/README.md#qa-app-workflow)   |
 |  NLP       | Sentiment Analysis       |  Qualcomm AI Runtime (QAIRT) | v2.40.0 | Native API | MobileBERT     |  [ReadMe](./Solutions/NLPSolution2-SentimentAnalysis/README.md)  |   [Demo](./Solutions/NLPSolution2-SentimentAnalysis/README.md#sa-app-workflow)   |
 |  NLP       | ASR  | Qualcomm AI Runtime (QAIRT) | v2.40.0 | Native API | Whisper | [ReadMe](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md) | [Demo](./Solutions/NLPSolution3-AutomaticSpeechRecognition-Whisper/README.md#Result) |                   
@@ -87,6 +86,16 @@ Contain end-to-end ready-to-run solutions
 |  Vision    | Image Enhancement       |Qualcomm AI Runtime (QAIRT) | v2.40.0 |  Java API | EnhancedGAN    | [ReadMe](./Solutions/VisionSolution3-ImageEnhancement/README.md)  |   [Demo](./Solutions/VisionSolution3-ImageEnhancement/demo/VisionSolution3-ImageEnhancement.gif)   |
 |  Vision    | Pose Estimation |Qualcomm AI Runtime (QAIRT)| v2.40.0 | Native API|YoloNAS + HRNet| [ReadMe](./Solutions/VisionSolution4-PoseEstimation/README.md)|[Demo](./Solutions/VisionSolution4-PoseEstimation/demo/PoseDetectionYoloNas.gif)|
 |  Vision    | Detection Transformer | Qualcomm AI Runtime (QAIRT) | v2.40.0 | Native API | DETR | [ReadMe](./Solutions/VisionSolution1-ObjectDetection-DETR/README.md) | [Demo](./Solutions/VisionSolution1-ObjectDetection-DETR/demo/ObjectDetectDETR.avi)|
+
+## GenAI-Solutions
+
+Contain end-to-end ready-to-run solutions
+
+|   Type     | Solution   |   SDK   |sdk version|   API   | Model   |   ReadMe |  Demo   |
+|  :---:     |    :---:   |    :---:  |    :---:  |    :---:  |    :---:  |   :---:  |  :---:  |
+|  GenAI     | AI-Assistant       |  Qualcomm AI Runtime (QAIRT) | v2.40.0 |Native API | llama     |  [ReadMe](./GenAI-Solutions/AI-Assistant/README.md) |   [Demo](./GenAI-Solutions/AI-Assistant/demo/AI-Assistant.gif)   |
+|  GenAI     | speech_to_image       |  Qualcomm AI Runtime (QAIRT) | v2.40.0 |Native API | ASR, SD-1.5     |  [ReadMe](./GenAI-Solutions/speech_to_image/README.md) |   [Demo](./GenAI-Solutions/speech_to_image/images/demo_app.gif)   |
+|  GenAI     | ASR-LLM-TTS       |  Qualcomm AI Runtime (QAIRT) | v2.43.0 |Native API | ASR, LLM, TTS     |  [ReadMe](./GenAI-Solutions/ASR-LLM-TTS/README.md) |   [Demo](./GenAI-Solutions/ASR-LLM-TTS/demo_video/asr_llm_tts_demo_video.mov)   |
 
 ## Tools
 
