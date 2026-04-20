@@ -1,0 +1,25 @@
+
+sequenceDiagram
+    autonumber
+    actor U as User
+    participant UI as App/UI
+    participant WH as Whisper (ASR)
+    participant LLM as LLM Service
+    participant TTS as Melo-TTS
+    participant SPK as Speaker/Audio Output
+
+    U->>UI: Provide input (Text OR Voice)
+
+    alt Text input
+        UI->>LLM: Send text prompt
+    else Voice input
+        UI->>WH: Send audio stream/file
+        WH-->>UI: Return transcribed text
+        UI->>LLM: Send transcribed text prompt
+    end
+
+    LLM-->>UI: Return response text
+    UI->>TTS: Send response text for synthesis
+    TTS-->>UI: Return generated audio
+    UI->>SPK: Play audio to user
+    SPK-->>U: Spoken response

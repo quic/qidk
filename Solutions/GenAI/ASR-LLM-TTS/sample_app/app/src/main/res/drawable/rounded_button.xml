@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+  ~ All rights reserved.
+  ~ Confidential and Proprietary - Qualcomm Technologies, Inc.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="30dp"/>
+    <solid android:color="@color/text_hint"/>
+</shape>

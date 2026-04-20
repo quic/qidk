@@ -1,0 +1,27 @@
+<!--
+  ~ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+  ~ All rights reserved.
+  ~ Confidential and Proprietary - Qualcomm Technologies, Inc.
+  -->
+
+<resources>
+    <string name="app_name" />
+    <string name="speech_rate_str">Speech rate:</string>
+    <string name="pitch_str">Pitch:</string>
+    <string name="volume_gain_str">Volume gain:</string>
+    <string name="sample_rate_str">Sample rate:</string>
+    <string name="audio_encoding_str">Audio encoding:</string>
+    <string name="speech_default_value">1.0</string>
+    <string name="pitch_default_value">0</string>
+    <string name="sample_rate_default">44100</string>
+    <string name="audio_encoding_default">LINEAR16</string>
+    <string name="volume_gain_default">0</string>
+    <string name="editor_tips">Type or paste content to summarize…</string>
+    <string name="fab_summarize">Ask Assistant</string>
+    <string name="fab_more">More</string>
+    <string name="fab_reset">Reset</string>
+    <string name="fab_record">Record</string>
+    <string name="fab_reload">load Model</string>
+
+
+</resources>

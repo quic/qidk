@@ -1,0 +1,15 @@
+<!--
+  ~ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+  ~ All rights reserved.
+  ~ Confidential and Proprietary - Qualcomm Technologies, Inc.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Tts" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

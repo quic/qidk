@@ -1,0 +1,53 @@
+
+flowchart TD
+    A([Start]):::start --> P0
+
+    %% Prerequisite
+    subgraph P0["Prerequisite"]
+      P1["LLM model: llama3.2-3B (tested)"]:::step
+      P2["QAIRT: 2.40"]:::step
+      P1 --> P2
+    end
+
+    P2 --> S{Model generation path?}:::decision
+
+    %% Case 1: AI Hub
+    S -->|Case 1: AI Hub| H1["Follow AI Hub tutorial to generate optimized LLM<br/>llama-3.2-3B (llm_on_genie)"]:::step
+    H1 --> G0["Artifacts ready<br/>• optimized model files<br/>• tokenizer files<br/>• runtime configs"]:::ok
+
+    %% Case 2: QPM Notebook
+    S -->|Case 2: QPM Notebook| N1["Generate llama-3.2-3B-SSD<br/>(Self Speculative Decoded)"]:::step
+    N1 --> N2["qpm-cli --login <username><br/>qpm-cli --license-activate Tutorial_for_Llama3p2_3B_Instruct_IoT<br/>qpm-cli --extract Tutorial_for_Llama3p2_3B_Instruct_IoT<br/>(or) qpm-cli --extract <full path to .qik>"]:::code
+    N2 --> G0
+
+    %% Android setup
+    subgraph A0["Android app setup"]
+      A1["Create folder<br/>./sample_app/app/src/main/jniLibs/arm64-v8a"]:::build
+      A2["Copy Genie runtime lib<br/><QNN_SDK_ROOT>/libs/aarch64-android/libGenie.so<br/>→ ./sample_app/app/src/main/jniLibs/"]:::build
+      A1 --> A2
+    end
+
+    G0 --> A1
+
+    %% Device setup
+    subgraph D0["Device setup - adb push"]
+      D1["Create folder: LLAMA_3P2_3B_DIR<br/>Put inside:<br/>• models<br/>• tokenizers<br/>• htp_backend_ext_config.json"]:::deploy
+      D2["Add QNN libs into same folder:<br/>• libQnnSystem.so<br/>• libQnnHtpVXX.so (SoC dependent)"]:::deploy
+      D3["Push to device<br/>adb push LLAMA_3P2_3B_DIR<br/>/storage/emulated/0/Android/data/com.example.tts/files"]:::code
+      D1 --> D2 --> D3
+    end
+
+    A2 --> D1
+
+    D3  --> Z([Ready: On-device LLM via Genie + QNN/HTP]):::done
+
+    %% Styles
+    classDef start fill:#111827,stroke:#111827,color:#FFFFFF,rx:18,ry:18;
+    classDef done fill:#16A34A,stroke:#0F766E,color:#FFFFFF,rx:18,ry:18;
+    classDef decision fill:#FFF7ED,stroke:#F97316,color:#7C2D12,stroke-width:2px,rx:10,ry:10;
+    classDef step fill:#EEF2FF,stroke:#4F46E5,color:#0F172A,rx:12,ry:12;
+    classDef ok fill:#ECFDF5,stroke:#10B981,color:#064E3B,stroke-width:2px,rx:12,ry:12;
+    classDef build fill:#F1F5F9,stroke:#64748B,color:#0F172A,rx:12,ry:12;
+    classDef deploy fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E,rx:12,ry:12;
+    classDef note fill:#F8FAFC,stroke:#94A3B8,color:#0F172A,rx:12,ry:12;
+    classDef code fill:#0B1220,stroke:#334155,color:#E2E8F0,rx:12,ry:12;

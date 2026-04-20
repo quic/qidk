@@ -1,0 +1,212 @@
+
+<!--
+  ~ Copyright ...
+  ~ All rights reserved.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color"
+    tools:context=".MainActivity">
+
+    <!-- Top AppBar (no action icons now) -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar_background_color"
+        app:elevation="1dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Material3.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:contentInsetStartWithNavigation="10dp"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            app:titleTextColor="@color/activity_background_color"
+            app:navigationIconTint="@color/toolbar_icon_tint"
+            android:title="@string/app_name"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content area -->
+    <RelativeLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_above="@+id/fab_anchor">
+
+            <LinearLayout
+                android:id="@+id/content_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="0dp">
+                <!-- Scrollable EditText inside TextInputLayout -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:padding="10dp"
+                    android:background="@drawable/rounded_background_edittext"
+                    app:boxStrokeColor="@color/white">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="true"
+                        android:fillViewport="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tts_input_editor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:gravity="start|top"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="16sp"
+                            android:scrollbars="vertical"
+                            android:overScrollMode="always"
+                            android:importantForAutofill="no"
+                            tools:hint="Type or record text" />
+                    </ScrollView>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <!-- Output TextView -->
+                <TextView
+                    android:id="@+id/llm_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="16sp"
+                    android:gravity="start|top"
+                    android:background="@drawable/rounded_background"
+                    android:visibility="visible"
+                    tools:hint="LLM output will appear here…" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            app:indicatorSize="70dp"
+            android:visibility="gone"
+            app:trackThickness="4dp"
+            app:indicatorColor="@color/text_primary"
+            app:trackColor="@color/fab_main_bg" />
+
+        <!-- Anchor to keep FABs above bottom -->
+        <View
+            android:id="@+id/fab_anchor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"/>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/clear_all_btn"
+            style="@style/Widget.Material3.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fab_secondary_1"
+            android:layout_marginEnd="0dp"
+            android:layout_alignEnd="@id/fab_secondary_1"
+            android:contentDescription="Start Recoding"
+            android:enabled="false"
+            app:backgroundTint="#016F9D"
+            android:text="@string/fab_record"
+            app:icon="@drawable/ic_mic"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_secondary_1"
+            style="@style/Widget.Material3.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/load_mdl_btn"
+            android:layout_marginEnd="0dp"
+            android:layout_alignEnd="@id/load_mdl_btn"
+            android:contentDescription="@string/fab_reset"
+            android:enabled="false"
+            app:backgroundTint="#016F9D"
+            android:text="@string/fab_reset"
+            app:icon="@drawable/reload"
+            app:tint="@color/white" />
+
+        <!-- FAB cluster -->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/load_mdl_btn"
+            style="@style/Widget.Material3.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/summariser_btn"
+            android:layout_alignEnd="@id/summariser_btn"
+            android:contentDescription="@string/fab_reload"
+            android:enabled="true"
+            app:backgroundTint="#016F9D"
+            app:icon="@drawable/loading"
+            android:text="@string/fab_reload"
+            app:tint="@color/white" />
+
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/summariser_btn"
+            style="@style/Widget.Material3.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fab_main"
+            android:layout_marginEnd="0dp"
+            android:enabled="false"
+            android:layout_alignEnd="@id/fab_main"
+            android:contentDescription="@string/fab_reset"
+            app:backgroundTint="#016F9D"
+            android:text="@string/fab_summarize"
+            app:icon="@drawable/ai"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_main"
+            style="@style/Widget.Material3.ExtendedFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="50dp"
+
+            android:contentDescription="@string/fab_summarize"
+            app:icon="@drawable/ic_cross"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/fab_main_bg"
+            app:collapsedSize="56dp"
+
+            />
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

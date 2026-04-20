@@ -1,0 +1,48 @@
+
+flowchart TD
+    A([Start]):::start --> P1
+
+    subgraph PR[Prerequisite]
+      direction TB
+      P1["Download Melo‑TTS from QPM<br/>qpm-cli --login <username><br/>qpm-cli --install VoiceAI_TTS"]:::step
+      P2["Generate Melo‑TTS model via Notebook"]:::step
+      P3["Download & extract QNN SDK (example: 2.37.0.250724)<br/>qpm-cli --catalog-refresh<br/>qpm-cli --license-activate Qualcomm_AI_Runtime_SDK<br/>qpm-cli --extract Qualcomm_AI_Runtime_SDK...qik<br/>Copy extracted folder to working_dir"]:::step
+      P1 --> P2 --> P3
+    end
+
+    P3 --> AP1
+
+    subgraph APP[Android App Preparation]
+      direction TB
+      AP1["Create ./sample_app/app/libs"]:::step
+      AP2["Copy tts-sdk.jar<br/>melo_sdk/.../android/  →  sample_app/app/libs/"]:::step
+      AP3["Copy JNI libs (arm64-v8a)<br/>libtts_jni.so, libtts.so  →<br/>app/src/main/jniLibs/arm64-v8a/"]:::step
+      AP4["Update languages.xml to match generated models<br/>app/src/main/res/values/languages.xml"]:::step
+      AP1 --> AP2 --> AP3 --> AP4
+    end
+
+    AP4 --> D1
+
+    subgraph DEV[Setup Device - adb push]
+      direction TB
+      D1["Push TTS model(s) to:<br/>/storage/emulated/0/Android/data/com.example.tts/files/tts/"]:::deploy
+      D2["Example:<br/>adb push melo_en.64_bit.qnn_v2.33.0.qnn  →  .../files/tts/"]:::deploy
+      D3["Push skel lib:<br/>adb push libtts_impl_skel.so  →  .../files/tts/"]:::deploy
+      D4["Push QNN libs to same folder:<br/>libQnnSystem.so<br/>libQnnHtpVXX.so (SoC dependent)"]:::deploy
+      D5["Final folder contains:<br/>melo_xx.64_bit.qnn_v2.33.0.qnn<br/>libtts_impl_skel.so<br/>libQnnSystem.so<br/>libQnnHtpVXX.so"]:::result
+      D1 --> D2 --> D3 --> D4 --> D5
+    end
+
+    D5 --> M1
+
+  
+
+    M1 --> Z([Ready: On-device Melo‑TTS via QNN/HTP]):::done
+
+
+    classDef start fill:#111827,stroke:#111827,color:#FFFFFF,rx:16,ry:16;
+    classDef done fill:#16A34A,stroke:#0F766E,color:#FFFFFF,rx:16,ry:16;
+    classDef step fill:#E8F0FE,stroke:#3B82F6,color:#0B1F3A,rx:10,ry:10;
+    classDef deploy fill:#ECFDF5,stroke:#10B981,color:#064E3B,rx:10,ry:10;
+    classDef result fill:#FFF7ED,stroke:#F97316,color:#7C2D12,rx:10,ry:10;
+    classDef note fill:#F1F5F9,stroke:#94A3B8,color:#0F172A,rx:10,ry:10;

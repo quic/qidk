@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+  ~ All rights reserved.
+  ~ Confidential and Proprietary - Qualcomm Technologies, Inc.
+  -->
+
+
+<resources>
+    <color name="activity_background_color">#FAFAFA</color>
+    <color name="toolbar_background_color">#1E293B</color> <!-- Slate 800 -->
+    <color name="toolbar_title_color">#FFFFFF</color>
+    <color name="toolbar_icon_tint">#FFFFFF</color>
+
+    <color name="text_primary">#111827</color>   <!-- Gray 900 -->
+    <color name="text_secondary">#374151</color> <!-- Gray 700 -->
+    <color name="text_hint">#6B7280</color>      <!-- Gray 500 -->
+    <color name="text_field_stroke">#94A3B8</color>
+    <color name="text_field_hint">#94A3B8</color>
+
+    <color name="fab_main_bg">#2563EB</color>     <!-- Blue 600 -->
+    <color name="fab_secondary_bg">#0EA5E9</color> <!-- Sky 500 -->
+
+    <color name="white">#FFFFFF</color>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+  ~ All rights reserved.
+  ~ Confidential and Proprietary - Qualcomm Technologies, Inc.
+  -->
+
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Chinese</item>
+        <item>Spanish</item>
+    </string-array>
+
+    <string-array name="language_models">
+        <item>melo_en.64_bit.qnn_v2.33.0.qnn</item>
+        <item>melo_zh.64_bit.qnn_v2.33.0.qnn</item>
+        <item>melo_es.64_bit.qnn_v2.33.0.qnn</item>
+    </string-array>
+</resources>

@@ -1,0 +1,47 @@
+
+%%{init: {
+  "theme": "base",
+  "flowchart": { "curve": "basis", "nodeSpacing": 40, "rankSpacing": 55 },
+  "themeVariables": {
+    "fontFamily": "Segoe UI, Inter, Arial",
+    "primaryColor": "#EEF2FF",
+    "primaryTextColor": "#0F172A",
+    "primaryBorderColor": "#4F46E5",
+    "lineColor": "#64748B",
+    "tertiaryColor": "#ECFDF5"
+  }
+} }%%
+
+flowchart TD
+  A([Start]):::start --> P["Prereq: qpm-cli login & install VoiceAI_ASR"]:::step
+
+  P --> S{Whisper model source?}:::decision
+
+  S -->|Case 1: Notebook| N1["Generate Whisper via Notebook"]:::step
+  N1 --> Q1["Download + extract matching QNN SDK<br/>via qpm-cli"]:::step
+
+  S -->|Case 2: AI-Hub| H1["AI-Hub: Download Encoder + Decoder<br/>(Qualcomm AI Runtime, target device)"]:::step
+  H1 --> H2["Rename:<br/>encoder_model_htp.bin<br/>decoder_model_htp.bin"]:::step
+  H2 --> H3["From AI-Hub metrics:<br/>get QNN (QAIRT) version"]:::step
+  H3 --> Q2["Download + extract matching QNN SDK<br/>via qpm-cli"]:::step
+  Q2 --> V["Generate vocab.bin<br/>via Notebook tool"]:::step
+
+  Q1 --> M["Whisper model pack ready:<br/>encoder_model_htp.bin<br/>decoder_model_htp.bin<br/>vocab.bin"]:::ok
+  V --> M
+
+  M --> B["Build Android app<br/>1) whisper-sdk.jar → app/libs<br/>2) arm64-v8a libs →<br/>app/src/main/jniLibs/arm64-v8a"]:::build
+
+  B --> D["adb push models →<br/>/storage/emulated/0/Android/data/YOUR_APP_PACKAGE/files/whisper_small/"]:::deploy
+  D --> L["adb push QNN HTP skel → same folder<br/>libQnnHtpVxxSkel.so<br/>(Vxx depends on SoC)"]:::deploy
+  L --> W["adb push VAD model →<br/>/vendor/etc/whisper/<br/>speech_float.eai"]:::deploy
+
+  W --> Z([Done: On-device Whisper ASR via QNN/HTP]):::done
+
+  %% Styling
+  classDef start fill:#111827,stroke:#111827,color:#FFFFFF,rx:18,ry:18;
+  classDef done  fill:#16A34A,stroke:#0F766E,color:#FFFFFF,rx:18,ry:18;
+  classDef decision fill:#FFF7ED,stroke:#F97316,color:#7C2D12,stroke-width:2px,rx:10,ry:10;
+  classDef step  fill:#EEF2FF,stroke:#4F46E5,color:#0F172A,rx:12,ry:12;
+  classDef ok    fill:#ECFDF5,stroke:#10B981,color:#064E3B,stroke-width:2px,rx:12,ry:12;
+  classDef build fill:#F1F5F9,stroke:#64748B,color:#0F172A,rx:12,ry:12;
+  classDef deploy fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E,rx:12,ry:12;
