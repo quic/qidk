@@ -36,6 +36,10 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "QnnDevice.h" // added for performance profile
+#include "HTP/QnnHtpDevice.h"
+#include "HTP/QnnHtpPerfInfrastructure.h"
+//----------------------------------------------
 using namespace  qnn::tools;
 using namespace  qnn::tools::sample_app;
 using namespace  qnn::tools::dynamicloadutil;
@@ -43,7 +47,7 @@ using namespace  qnn::tools::iotensor;
 
 // Set to true, we will get more layers' outputs
 bool graphDebug = false;
-std::string perfLevel = "low_power_saver";
+std::string GlobalperfLevel = "default"; // added for performance profile
 sample_app::ProfilingLevel parsedProfilingLevel = sample_app::ProfilingLevel::OFF;
 uint32_t debugLevel = 5;
 bool signedPD = false;
@@ -54,9 +58,186 @@ std::unique_ptr<sample_app::QnnSampleApp> app;
 static void* sg_backendHandle{nullptr};
 static void* sg_modelHandle{nullptr};
 
+// added for performance profile
+static uint32_t sg_powerConfigId = 1;
+static QnnHtpDevice_PerfInfrastructure_t*  sg_perfInfra = nullptr;
+static QnnHtpDevice_Infrastructure_t*      sg_htpInfra  = nullptr; //added
+//-----------------------------------------
 sample_app::StatusCode execStatus_thread;
 
-std::string build_network(const char * modelPath_cstr, const char* backEndPath_cstr, char* buffer, long bufferSize)
+// added for performance profile
+sample_app::StatusCode setPerfConfig(const std::string& perfLevel) {
+    if (sg_perfInfra == nullptr) {
+        __android_log_print(ANDROID_LOG_ERROR, "QNN",
+            "setPerfConfig: PerfInfra not initialized");
+        return sample_app::StatusCode::FAILURE;
+    }
+
+    // -------------------------------------------------------------------------
+    // Config [0]: DCVS V3 — voltage corners, sleep latency, DCVS enable
+    // -------------------------------------------------------------------------
+    QnnHtpPerfInfrastructure_PowerConfig_t dcvsConfig;
+    memset(&dcvsConfig, 0, sizeof(dcvsConfig));
+    dcvsConfig.option                          = QNN_HTP_PERF_INFRASTRUCTURE_POWER_CONFIGOPTION_DCVS_V3;
+    dcvsConfig.dcvsV3Config.contextId          = sg_powerConfigId; //prev 0
+    dcvsConfig.dcvsV3Config.setSleepLatency    = 1;
+    dcvsConfig.dcvsV3Config.setSleepDisable    = 0;
+    dcvsConfig.dcvsV3Config.sleepDisable       = 0;
+    dcvsConfig.dcvsV3Config.setBusParams       = 1;
+    dcvsConfig.dcvsV3Config.setCoreParams      = 1;
+    dcvsConfig.dcvsV3Config.setDcvsEnable      = 1;
+    dcvsConfig.dcvsV3Config.powerMode          = QNN_HTP_PERF_INFRASTRUCTURE_POWERMODE_PERFORMANCE_MODE;
+
+    // -------------------------------------------------------------------------
+    // Config [1]: RPC Control Latency — fixed at 100 µs for all profiles
+    // -------------------------------------------------------------------------
+    QnnHtpPerfInfrastructure_PowerConfig_t rpcLatencyConfig;
+    memset(&rpcLatencyConfig, 0, sizeof(rpcLatencyConfig));
+    rpcLatencyConfig.option                    = QNN_HTP_PERF_INFRASTRUCTURE_POWER_CONFIGOPTION_RPC_CONTROL_LATENCY;
+    rpcLatencyConfig.rpcControlLatencyConfig   = 100;  // µs
+
+    // -------------------------------------------------------------------------
+    // Config [2]: RPC Polling Time — 9999 µs for high-perf, 0 for power-saver
+    // -------------------------------------------------------------------------
+    QnnHtpPerfInfrastructure_PowerConfig_t rpcPollingConfig;
+    memset(&rpcPollingConfig, 0, sizeof(rpcPollingConfig));
+    rpcPollingConfig.option                    = QNN_HTP_PERF_INFRASTRUCTURE_POWER_CONFIGOPTION_RPC_POLLING_TIME;
+    // rpcPollingTimeConfig value set per-profile below
+
+    // -------------------------------------------------------------------------
+    // Per-profile settings
+    // -------------------------------------------------------------------------
+    GlobalperfLevel = perfLevel;
+    
+    if (perfLevel == "burst") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 0;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 40;
+        dcvsConfig.dcvsV3Config.setSleepDisable         = 1;  // added
+        dcvsConfig.dcvsV3Config.sleepDisable            = 1;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_MAX_VOLTAGE_CORNER;
+        rpcPollingConfig.rpcPollingTimeConfig           = 9999;
+    }
+    else if (perfLevel == "sustained_high_perf") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 0;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 100;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_TURBO;
+        rpcPollingConfig.rpcPollingTimeConfig           = 9999;
+    }
+    else if (perfLevel == "high_perf") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 0;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 100;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_TURBO;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_TURBO;
+        rpcPollingConfig.rpcPollingTimeConfig           = 9999;
+    }
+    else if (perfLevel == "balanced" || perfLevel == "default") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_NOM_PLUS;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;
+    }
+    else if (perfLevel == "low_balanced") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_NOM;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_NOM;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_NOM;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_NOM;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_NOM;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_NOM;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;
+    }
+    else if (perfLevel == "high_power_saver") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_SVS_PLUS;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;
+    }
+    else if (perfLevel == "power_saver") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_SVS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_SVS;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_SVS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_SVS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_SVS;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_SVS;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;
+    }
+    else if (perfLevel == "low_power_saver") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_VCORNER_SVS2;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_VCORNER_SVS2;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_VCORNER_SVS2;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_VCORNER_SVS2;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_VCORNER_SVS2;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_VCORNER_SVS2;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;  // explicitly 0 per AISW-87351
+    }
+    else if (perfLevel == "extreme_power_saver") {
+        dcvsConfig.dcvsV3Config.dcvsEnable              = 1;
+        dcvsConfig.dcvsV3Config.sleepLatency            = 1000;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMin     = DCVS_VOLTAGE_CORNER_DISABLE;
+        dcvsConfig.dcvsV3Config.busVoltageCornerTarget  = DCVS_VOLTAGE_CORNER_DISABLE;
+        dcvsConfig.dcvsV3Config.busVoltageCornerMax     = DCVS_VOLTAGE_CORNER_DISABLE;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMin    = DCVS_VOLTAGE_CORNER_DISABLE;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerTarget = DCVS_VOLTAGE_CORNER_DISABLE;
+        dcvsConfig.dcvsV3Config.coreVoltageCornerMax    = DCVS_VOLTAGE_CORNER_DISABLE;
+        rpcPollingConfig.rpcPollingTimeConfig           = 0;
+    }
+    else {
+        __android_log_print(ANDROID_LOG_WARN, "QNN",
+            "setPerfConfig: Unknown perfLevel '%s'", perfLevel.c_str());
+        return sample_app::StatusCode::FAILURE;
+    }
+
+    // -------------------------------------------------------------------------
+    // Pass all 3 configs as a null-terminated array
+    // -------------------------------------------------------------------------
+    const QnnHtpPerfInfrastructure_PowerConfig_t* powerConfigs[] = {
+        &dcvsConfig,
+        &rpcLatencyConfig,
+        &rpcPollingConfig,
+        nullptr
+    };
+
+    auto ret = sg_perfInfra->setPowerConfig(sg_powerConfigId, powerConfigs);
+    if (ret != QNN_SUCCESS) {
+        __android_log_print(ANDROID_LOG_ERROR, "QNN","setPerfConfig: setPowerConfig FAILED for profile '%s', err=0x%x",perfLevel.c_str(), (unsigned)ret);
+        return sample_app::StatusCode::FAILURE;
+    }
+
+    __android_log_print(ANDROID_LOG_INFO, "QNN",
+        "setPerfConfig: SUCCESS — profile='%s'", perfLevel.c_str());
+    return sample_app::StatusCode::SUCCESS;
+}
+
+std::string build_network(const char * modelPath_cstr, const char* backEndPath_cstr, char* buffer, long bufferSize, const std::string& perfLevel)
 {
     std::string modelPath(modelPath_cstr);
     std::string backEndPath(backEndPath_cstr);
@@ -121,7 +302,7 @@ std::string build_network(const char * modelPath_cstr, const char* backEndPath_c
 //        LOGE(outputLogger);
         return outputLogger;
     }
-
+    
     auto devicePropertySupportStatus = app->isDevicePropertySupported();
     if (sample_app::StatusCode::FAILURE != devicePropertySupportStatus) {
         auto createDeviceStatus = app->createDevice();
@@ -132,6 +313,40 @@ std::string build_network(const char * modelPath_cstr, const char* backEndPath_c
         }
     }
 
+    // --------- added for setting performance profile ------------------
+    
+    bool isHtpBackend = (backEndPath.find("Htp") != std::string::npos ||
+                     backEndPath.find("Dsp") != std::string::npos);
+
+    if (isHtpBackend) {
+        QnnDevice_Infrastructure_t deviceInfra = nullptr;
+        auto devErr = qnnFunctionPointers.qnnInterface.deviceGetInfrastructure(&deviceInfra);
+        if (devErr != QNN_SUCCESS || deviceInfra == nullptr) {
+            __android_log_print(ANDROID_LOG_ERROR, "QNN",
+                "build_network: deviceGetInfrastructure failed");
+            return "deviceGetInfrastructure failed";
+        }
+    
+        sg_htpInfra = static_cast<QnnHtpDevice_Infrastructure_t*>(deviceInfra); //removed auto
+        sg_perfInfra   = &(sg_htpInfra->perfInfra);
+    
+        auto perfErr = sg_perfInfra->createPowerConfigId(0, 0, &sg_powerConfigId);
+        if (perfErr != QNN_SUCCESS) {
+            __android_log_print(ANDROID_LOG_ERROR, "QNN",
+                "build_network: createPowerConfigId failed");
+            return "createPowerConfigId failed";
+        }
+    
+        if (setPerfConfig(perfLevel) != sample_app::StatusCode::SUCCESS) {
+            __android_log_print(ANDROID_LOG_WARN, "QNN",
+                "build_network: setPerfConfig failed (non-fatal, continuing)");
+        }
+    } else {
+        __android_log_print(ANDROID_LOG_INFO, "QNN",
+            "build_network: Non-HTP backend detected — skipping perf infra setup");
+    }
+    //---------------------------------------------------------------------------
+    
     if (sample_app::StatusCode::SUCCESS != app->initializeProfiling()) {
         outputLogger = "Profiling Initialization failure";
 //        LOGE(outputLogger);
@@ -202,6 +417,12 @@ bool executeModel(cv::Mat &img, int orig_width, int orig_height, int &numberofob
     std::vector<size_t> dims[2];
     cv::Mat out[2];
 
+    // added for performance profile
+    if (setPerfConfig(GlobalperfLevel) != sample_app::StatusCode::SUCCESS) {
+    __android_log_print(ANDROID_LOG_WARN, "QNN",
+        "executeModel: setPerfConfig failed before inference");
+    }
+    
     execStatus_thread  = app->executeGraphs(reinterpret_cast<float32_t *>(img.data),out,dims);
     sample_app::StatusCode execStatus = execStatus_thread;
     ATrace_endSection();
@@ -268,8 +489,15 @@ bool executeModel(cv::Mat &img, int orig_width, int orig_height, int &numberofob
 }
 
 bool deinitQNN() {
+    // added for performance profile
+    if (sg_perfInfra != nullptr && sg_powerConfigId != 0) {
+    sg_perfInfra->destroyPowerConfigId(sg_powerConfigId);
+    sg_perfInfra    = nullptr;
+    sg_powerConfigId = 0;
+    sg_htpInfra      = nullptr;
+    }
+    //------------------------------
     __android_log_print(ANDROID_LOG_ERROR, "QNN ", "vdebug deinitqnn\n");
     app->deinitialize();
     return true;
 }
-

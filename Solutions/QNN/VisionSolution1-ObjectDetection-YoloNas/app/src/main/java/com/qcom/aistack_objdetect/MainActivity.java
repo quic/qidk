@@ -36,6 +36,7 @@ import org.opencv.android.OpenCVLoader;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * MainActivity class displays the info of Selected Model,Runtime, classes supported by the model on UI through main_activity.xml
  * It also passes the selected model and runtime info to the CameraFragment for making inference using selected Model and Runtime.
@@ -91,9 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static String dlc_name;
 
+    public static String perf_profile; // added for performance profile
+
+   
+
     TextView tv1_val;
     TextView tv2_val;
     TextView tv3_val;
+    
 
 
     @Override
@@ -113,19 +119,21 @@ public class MainActivity extends AppCompatActivity {
         runtime_var = backend.get(runtime_char);
         System.out.println("runtime_var: " + runtime_var);
         dlc_name = data.getString("selected_dlc_name");
+        perf_profile = data.getString("perf_profile"); //load perf_profile from HomeScreenActivity.java
+        System.out.println("Selected performance profile: " + perf_profile);
 
         tv1_val=findViewById(R.id.tv1_val);
         tv2_val=findViewById(R.id.tv2_val);
         tv3_val=findViewById(R.id.tv3_val);
+        
 
         tv1_val.setText(model_name.get(dlc_name));
         tv2_val.setText(runtime_name.get(runtime_char));
         tv3_val.setText(class_count.get(dlc_name));
 
-        //overToCamera(runtime_var, dlc_name);
 
     }
-
+ 
     /**
      * Method to request Camera permission
      */
@@ -152,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putCharSequence("key", runtime_value);
             args.putCharSequence("selected_dlc_name", selected_dlc_name);
+            args.putString("perf_profile", perf_profile); //added for performance profile
             transaction.add(R.id.main_content, CameraFragment.create(args));
             transaction.commit();
         } else {

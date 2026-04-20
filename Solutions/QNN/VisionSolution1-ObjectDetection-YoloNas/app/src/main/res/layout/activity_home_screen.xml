@@ -63,6 +63,26 @@
                 android:text="DSP" />
         </RadioGroup>
 
+        <!-- Performance profile: only shown when DSP is selected -->
+        <TextView
+            android:id="@+id/tv_dropdown_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:layout_alignParentLeft="true"
+            android:text="Select performance : "
+            android:textSize="18dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/options_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:layout_gravity="right"
+            android:layout_toRightOf="@+id/tv_dropdown_label"
+            android:visibility="gone"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

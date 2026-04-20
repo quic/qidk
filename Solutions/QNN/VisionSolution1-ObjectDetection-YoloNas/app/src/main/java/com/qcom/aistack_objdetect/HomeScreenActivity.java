@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class HomeScreenActivity extends AppCompatActivity{
 
     public static String dlc_name;
 
+    static String perf_profile = "default"; // added for performance profile
+
     RadioGroup rg;
 
     Spinner modelspin;
@@ -55,6 +58,8 @@ public class HomeScreenActivity extends AppCompatActivity{
         put(modeloptions[1] + "|" + backendname[1], "yolox_a8w8_2_15_1.serialized.bin");
     }};
 
+    Spinner optionsSpinner;  // added for performance profile
+    TextView tvPerfLabel; // added for performance profile
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,18 @@ public class HomeScreenActivity extends AppCompatActivity{
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        // added for performance profile ----------------------
+        
+
+        optionsSpinner = findViewById(R.id.options_spinner);
+        tvPerfLabel = findViewById(R.id.tv_dropdown_label);  // 
+        optionsSpinner.setVisibility(View.GONE);
+        tvPerfLabel.setVisibility(View.GONE);                // 
+        // perf_profile = "default";
+        setupSpinner();
+        //------------------------------------------------------
+
+        
         rg = (RadioGroup) findViewById(R.id.rg1);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -71,11 +88,16 @@ public class HomeScreenActivity extends AppCompatActivity{
                         runtime_var = 'C';
                         dlc_name = runtimeSpecificModels.get(modeloptions[modelspin.getSelectedItemPosition()] + "|libQnnCpu.so");
                         System.out.println("CPU instance selected dlc_name ="+dlc_name);
+                        optionsSpinner.setVisibility(View.GONE);    // hide on CPU ,added for performance profile
+                        tvPerfLabel.setVisibility(View.GONE);  // hide on CPU added for performance profile
+                        perf_profile = "default"; // added for performance profile
                         break;
                     case R.id.DSP:
                         runtime_var = 'D';
                         dlc_name = runtimeSpecificModels.get(modeloptions[modelspin.getSelectedItemPosition()] + "|libQnnHtp.so");
                         System.out.println("DSP instance selected dlc_name ="+dlc_name);
+                        optionsSpinner.setVisibility(View.VISIBLE); // show on DSP, added for performance profile
+                        tvPerfLabel.setVisibility(View.VISIBLE); // show on DSP, added for performance profile
                         break;
                     default:
                         runtime_var = 'N';
@@ -105,8 +127,31 @@ public class HomeScreenActivity extends AppCompatActivity{
                 System.out.println("Nothing");
             }
         });
-
     }
+    // added for performance profile ----------------------
+    private void setupSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.performance_profile,       // refers to perf.xml
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        optionsSpinner.setAdapter(adapter);
+
+        optionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                perf_profile = parent.getItemAtPosition(position).toString();  // stored here
+                System.out.println("selected Performance profile: " + perf_profile);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                perf_profile = "";
+            }
+        });
+    }
+    //-------------------------------------------------------
 
     public void startManinCameraActivity(View v)
     {
@@ -115,6 +160,7 @@ public class HomeScreenActivity extends AppCompatActivity{
         Bundle args = new Bundle();
         args.putChar("key", runtime_var);
         args.putCharSequence("selected_dlc_name", dlc_name);
+        args.putCharSequence("perf_profile", perf_profile);  // added for performance profile
         i.putExtras(args);
 
         startActivity(i);

@@ -1,0 +1,14 @@
+<resources>
+    <string-array name="performance_profile">
+        <item>balanced</item>
+        <item>low_balanced</item>
+        <item>default</item>
+        <item>high_perf</item>
+        <item>sustained_high_perf</item>
+        <item>burst</item>
+        <item>high_power_saver</item>
+        <item>low_power_saver</item>
+        <item>power_saver</item>
+        <item>extreme_power_saver</item>
+    </string-array>
+</resources>

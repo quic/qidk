@@ -100,6 +100,8 @@ public class CameraFragment extends Fragment
 
     public static String dlc_name_var;
 
+    public static String perf_profile_var; //added for performace profile
+
     private String mCameraId;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
@@ -235,8 +237,10 @@ public class CameraFragment extends Fragment
         final CameraFragment fragment = new CameraFragment();
         runtime_var = SavedInstanceState.getString("key");
         dlc_name_var = SavedInstanceState.getString("selected_dlc_name");
+        perf_profile_var = SavedInstanceState.getString("perf_profile","default"); // added for performnce profile
         System.out.println("CameraFragment class got data runtime_var="+runtime_var);
         System.out.println("CameraFragment class got data selected_dlc_name="+dlc_name_var);
+        System.out.println("CameraFragment class got data perf_profile="+perf_profile_var); // added for performnce profile
         return fragment;
     }
     /**
@@ -1183,7 +1187,7 @@ public class CameraFragment extends Fragment
             dialog.setMessage("Loading Model..");
             dialog.show();
 
-            mNetworkLoaded = mQnnHelper.loadingMODELS(runtime_var, dlc_name_var);
+            mNetworkLoaded = mQnnHelper.loadingMODELS(runtime_var, dlc_name_var,perf_profile_var); // added perf_profile_var
             System.out.println("Model loaded");
 
             //dismiss dialog when the model is loaded

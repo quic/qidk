@@ -94,9 +94,11 @@ Java_com_qcom_aistack_1objdetect_QNNHelper_queryRuntimes(
 
 
 //initializing network
+/* added jstring perf_profile for performance profile
+    */
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_qcom_aistack_1objdetect_QNNHelper_initQNN(JNIEnv *env, jobject thiz, jobject asset_manager, jstring backend, jstring jmodel_name,jstring nativeDirPath) {
+Java_com_qcom_aistack_1objdetect_QNNHelper_initQNN(JNIEnv *env, jobject thiz, jobject asset_manager, jstring backend, jstring jmodel_name,jstring nativeDirPath,jstring perf_profile) {
     LOGI("Reading QNN binary ...");
     std::string result;
 
@@ -109,6 +111,12 @@ Java_com_qcom_aistack_1objdetect_QNNHelper_initQNN(JNIEnv *env, jobject thiz, jo
     std::string nativeLibPath = std::string(cstr);
     __android_log_print(ANDROID_LOG_ERROR, "QNN ", "native_dir_path = %s\n",nativeLibPath.c_str());
 
+    /* added for performance profile
+    */
+    const char* perfProfile_cstr = env->GetStringUTFChars(perf_profile, nullptr); 
+    std::string perfLevelStr(perfProfile_cstr);
+    env->ReleaseStringUTFChars(perf_profile, perfProfile_cstr);
+    
     AAssetManager* mgr = AAssetManager_fromJava(env, asset_manager);
     AAsset* asset_model = AAssetManager_open(mgr, cstr, AASSET_MODE_UNKNOWN);
     AAsset* asset_lib = AAssetManager_open(mgr, cstr_backend, AASSET_MODE_UNKNOWN);
@@ -148,7 +156,7 @@ Java_com_qcom_aistack_1objdetect_QNNHelper_initQNN(JNIEnv *env, jobject thiz, jo
     AAsset_read(asset_model, bin_buffer, bin_size);
 
     result += "\n\nBuilding Models Network:\n";
-    result += build_network(model_string.c_str(),backend_string.c_str(), bin_buffer, bin_size);
+    result += build_network(model_string.c_str(),backend_string.c_str(), bin_buffer, bin_size, perfLevelStr); //passed performace level info
     result += " success ";
     if (bin_buffer != nullptr) {
        free(bin_buffer);

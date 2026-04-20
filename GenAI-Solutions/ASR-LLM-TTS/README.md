@@ -9,7 +9,7 @@
 
 | **Device Name**           | **QAIRT Version** | **OS**                          |
 |---------------------------|-------------------|---------------------------------|
-| Pakala (V79)   | 2.43.0          | Android 15        |
+| Snapdragon 8 Elite (V79)   | 2.43.0          | Android 15        |
 ---
 
 ## Prerequisite
